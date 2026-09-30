@@ -1,0 +1,34 @@
+{
+  "startedAt": "2026-09-30T09:10:00Z",
+  "finishedAt": "2026-09-30T13:30:00Z",
+  "runType": "setup",
+  "note": "Interactive setup session with the owner. Not a scheduled run. Summarized after the fact.",
+  "decisions": [
+    { "what": "Project 1 is Rewind, a time-travel debugger", "why": "Owner asked for 'wow' projects; Rewind plays to his frontend strength and is visual" },
+    { "what": "Cursor writes all code, Claude plans, reviews and conducts", "why": "Owner's explicit choice" },
+    { "what": "Tasks live in GitHub issues with milestones per week", "why": "Planning becomes public activity; Cursor can take an issue by @cursor comment" },
+    { "what": "One task per day, split into 4-6 parts, a fresh agent per part", "why": "Owner asked for small parts with their own prompts, checks and commits instead of one big session" },
+    { "what": "Test-first inside each part: test commit then implementation commit", "why": "Stops agents from fitting tests to their code; reviewer checks tests are not weakened" },
+    { "what": "Auto-merge in the evening after a day of review, owner can write 'hold'", "why": "Owner wants the chain to keep going on days he is away" },
+    { "what": "Rewrite commit authorship to the owner before merge, keep Cursor as co-author", "why": "Cursor commits as cursoragent, which does not count on the owner's profile" },
+    { "what": "Black-box QA in the same repo via GitHub Actions + Cursor CLI + Playwright MCP, no code checked out", "why": "Owner did not want a separate repo; sparse checkout keeps code out of reach" },
+    { "what": "Bug status labels: new, fixing, fixed, verified, not-a-bug", "why": "Owner asked for bug statuses beyond open/closed" },
+    { "what": "Process moved into .agentflow/ with a generic playbook and a project config", "why": "Owner wants one reusable process template for any new repo" },
+    { "what": "Log every action to agentflow-log and write weekly retros", "why": "Owner wants the full record to adapt the template after a week" }
+  ],
+  "problems": [
+    "Initial commits used an email tied to another GitHub account (qamalyannn). Fixed by using the SergeiKamalian noreply email everywhere.",
+    "Status label on issue #1 was not updated when the agent finished. Fixed with status-labels.yml.",
+    "Vercel previews required login, so QA could not open them. Owner turned off Vercel Authentication.",
+    "Main CI failed after adding .agentflow scripts because Biome also lints them. Fixed by formatting with Biome.",
+    "GraphQL is not available to the conductor; ready-for-review needs the ccr route. Noted in the playbook.",
+    "The session cannot delete branches; demo branch qa-demo/planted-bug is left for the owner to delete.",
+    "Playwright browser download is blocked in the conductor sandbox; a preinstalled Chromium works."
+  ],
+  "processNotes": [
+    "Day 01 ran as a pilot: one agent, no parts, no test-first. Parts start on Day 02.",
+    "QA demo on PR #10 proved the full bug loop: found (#11) -> fixing -> fixed -> verified and closed, about 35 minutes end to end.",
+    "Cursor finished Day 01 in about 30 minutes. A 'day' is a planning unit, not agent time.",
+    "Template still has Rewind-specific bits (pnpm commands in prompts, recorder rules). To extract after week 1."
+  ]
+}
