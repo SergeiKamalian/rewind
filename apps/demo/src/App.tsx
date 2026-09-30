@@ -37,9 +37,7 @@ export function App(): ReactElement {
   }
 
   function deleteTodo(id: string): void {
-    // QA demo: planted bug. Deletes the first todo instead of the clicked one.
-    void id;
-    setTodos((current) => current.slice(1));
+    setTodos((current) => current.filter((todo) => todo.id !== id));
   }
 
   return (
