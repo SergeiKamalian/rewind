@@ -1,0 +1,53 @@
+# Process kit settings for this repo.
+# Everything project-specific that the agent workflows need lives here,
+# so the same workflows can be copied to another repo unchanged.
+
+project:
+  name: Rewind
+  repo: SergeiKamalian/rewind
+  default_branch: main
+
+owner:
+  # Whose GitHub profile the work counts for. Commits are rewritten to this
+  # identity before merge, with the coding agent kept as co-author.
+  name: Sergei Kamalian
+  email: 106472907+SergeiKamalian@users.noreply.github.com
+  language: ru # language of reports for the owner
+  timezone: Asia/Yerevan
+
+journal:
+  # Claude artifact page where the conductor writes reports.
+  url: https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs
+
+agents:
+  coder: cursor # triggered with "@cursor" comments on issues and PRs
+  coder_commit_email: cursoragent@cursor.com
+  coder_name: Cursor Agent
+
+schedule:
+  # Local times of the conductor runs.
+  morning: "09:00" # review, planning, full report
+  evening: "21:00" # merge, start the next task
+  night: ["22:00", "23:00", "00:00", "01:00", "02:00", "03:00"] # move parts forward
+
+preview:
+  # Who builds a preview for every PR. The QA workflow reads the preview URL
+  # from GitHub deployments created by this provider.
+  provider: vercel
+  # Production URL for the weekly regression run. Leave empty to use the
+  # latest successful production deployment.
+  production_url: ""
+  # How long to wait for a preview to become ready, in minutes.
+  wait_minutes: 15
+
+qa:
+  # Bugs with these severities block the merge.
+  blocking_severities: [critical, major]
+  # After this many failed QA rounds on one PR the chain stops and a human decides.
+  max_rounds: 3
+  # Hard limit on bugs reported per run, so one broken page does not flood the tracker.
+  max_bugs_per_run: 10
+  # Viewports to test.
+  viewports:
+    - { name: desktop, width: 1280, height: 800 }
+    - { name: mobile, width: 390, height: 844 }

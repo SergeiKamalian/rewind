@@ -1,0 +1,149 @@
+name: QA
+
+# Black-box QA. A Cursor agent tests the deployed preview in a real browser,
+# using only the product description and the task's QA scenarios. It never
+# gets the source code or a GitHub token. A separate step turns its report
+# into bug issues with screenshots, a PR comment and a PR label.
+#
+# Runs when:
+#   - the label "qa: requested" is added to a PR (the reviewer does this
+#     after all parts of a task pass review, and again after bug fixes)
+#   - every Sunday: full regression on production
+#   - manually (Actions tab -> QA -> Run workflow)
+
+on:
+  pull_request_target:
+    types: [labeled]
+  schedule:
+    - cron: "0 6 * * 0" # Sunday 10:00 Asia/Yerevan
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "PR number. Empty = full regression on production."
+        required: false
+      url:
+        description: "Optional URL to test instead of the preview."
+        required: false
+
+permissions:
+  contents: write # push screenshots to the qa-assets branch
+  issues: write
+  pull-requests: write
+  deployments: read
+
+concurrency:
+  group: qa-${{ github.event.pull_request.number || github.event.inputs.pr || 'regression' }}
+  cancel-in-progress: false
+
+jobs:
+  qa:
+    if: "${{ github.event_name != 'pull_request_target' || github.event.label.name == 'qa: requested' }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      # Only the QA docs and the kit scripts. No application code is checked out.
+      - name: Check out QA docs only
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /.agentflow/
+            /qa/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Read kit config
+        run: yq -o=json .agentflow/config.yml > "$RUNNER_TEMP/config.json"
+
+      - name: Find what to test
+        id: target
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const config = require(`${process.env.RUNNER_TEMP}/config.json`);
+            const resolve = require(`${process.env.GITHUB_WORKSPACE}/.agentflow/scripts/qa-resolve.js`);
+            return await resolve({
+              github, context, core, config,
+              inputs: context.payload.inputs || {},
+              inputDir: `${process.env.GITHUB_WORKSPACE}/qa-run/input`,
+            });
+
+      - name: Prepare the QA workspace
+        if: steps.target.outputs.url != ''
+        env:
+          URL: ${{ steps.target.outputs.url }}
+          ORIGIN: ${{ steps.target.outputs.origin }}
+          MODE: ${{ steps.target.outputs.mode }}
+        run: |
+          mkdir -p qa-run/out
+          cp -r qa qa-run/qa
+          python3 - <<'PY'
+          import json, os
+          cfg = json.load(open(os.path.join(os.environ["RUNNER_TEMP"], "config.json")))
+          qa = cfg.get("qa", {})
+          vps = ", ".join(f'{v["name"]} {v["width"]}x{v["height"]}' for v in qa.get("viewports", [])) or "desktop 1280x800"
+          text = open(".agentflow/qa/agent-prompt.md").read()
+          for k, v in {
+              "{{URL}}": os.environ["URL"], "{{ORIGIN}}": os.environ["ORIGIN"], "{{MODE}}": os.environ["MODE"],
+              "{{VIEWPORTS}}": vps, "{{MAX_BUGS}}": str(qa.get("max_bugs_per_run", 10)),
+          }.items():
+              text = text.replace(k, v)
+          open("qa-run/prompt.md", "w").write(text)
+          PY
+          mkdir -p ~/.cursor
+          cat > ~/.cursor/mcp.json <<JSON
+          {
+            "mcpServers": {
+              "playwright": {
+                "command": "npx",
+                "args": ["-y", "@playwright/mcp@latest", "--headless", "--isolated",
+                         "--allowed-origins", "${ORIGIN}",
+                         "--output-dir", "${GITHUB_WORKSPACE}/qa-run/out",
+                         "--viewport-size", "1280,800"]
+              }
+            }
+          }
+          JSON
+
+      - name: Install Cursor CLI
+        if: steps.target.outputs.url != ''
+        run: |
+          curl https://cursor.com/install -fsS | bash
+          echo "$HOME/.cursor/bin" >> "$GITHUB_PATH"
+
+      - name: Run the QA agent
+        if: steps.target.outputs.url != ''
+        continue-on-error: true
+        timeout-minutes: 50
+        working-directory: qa-run
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+        run: |
+          if [ -z "$CURSOR_API_KEY" ]; then
+            echo "CURSOR_API_KEY secret is missing" | tee out/agent-log.txt
+            exit 1
+          fi
+          FLAGS="--force"
+          if agent --help 2>&1 | grep -q -- "--approve-mcps"; then FLAGS="$FLAGS --approve-mcps"; fi
+          agent -p "$(cat prompt.md)" $FLAGS --output-format text 2>&1 | tee out/agent-log.txt
+
+      - name: File bugs and report
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const config = require(`${process.env.RUNNER_TEMP}/config.json`);
+            const report = require(`${process.env.GITHUB_WORKSPACE}/.agentflow/scripts/qa-report.js`);
+            return await report({
+              github, context, core, config,
+              inputDir: `${process.env.GITHUB_WORKSPACE}/qa-run/input`,
+              outDir: `${process.env.GITHUB_WORKSPACE}/qa-run/out`,
+            });
+
+      - name: Keep the raw QA output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-output-${{ github.run_id }}
+          path: qa-run/out
+          if-no-files-found: ignore
+          retention-days: 30

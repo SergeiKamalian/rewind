@@ -40,6 +40,18 @@ When you are asked to do a part:
 - Part 1 creates the branch and opens the PR as a draft. Later parts push to the same branch. Never open a second PR for the same issue.
 - At the end, reply in the PR with a short note: what you did, which checks passed, anything left open.
 
+## QA and bug fixes
+
+- Every task is tested by a black-box QA agent after all its parts pass review. QA tests the deployed preview in a browser, using only `qa/product.md` and the issue's "QA scenarios" section. It never sees the code.
+- QA files each problem as its own issue with labels `bug`, `qa` and `severity: ...`, with steps, expected, actual and screenshots.
+- When you are asked to fix QA bugs:
+  - Fix only the listed bugs. Read each bug issue fully, including the screenshots.
+  - Reproduce the bug with a failing test first when it can be tested in unit tests. Commit it as `test(<scope>): reproduce <short bug title> (#<bug number>)`.
+  - Then fix it: `fix(<scope>): <short bug title> (#<bug number>)`. One bug per fix commit.
+  - Do not close bug issues yourself. QA re-tests and closes them.
+  - If a bug is not a bug (the behavior matches `qa/product.md` or the issue), do not change code. Explain why in a PR comment that starts with "Not a bug: #<number>".
+- If a task changes what a user can see or do, update `qa/product.md` in the same PR, in plain user language.
+
 ## Branches and PRs
 
 - Branch name: `day-XX/short-name`, for example `day-03/dom-snapshot`.
@@ -109,4 +121,5 @@ Do not create new top level folders without a reason written in the PR.
 - Do not add new dependencies without saying why in the PR. Prefer small, well known libraries.
 - Do not change CI to make a failing check pass.
 - Do not delete or skip tests to make them pass.
+- Do not change `.agentflow/`, `.github/workflows/qa.yml`, `.github/workflows/status-labels.yml` or `qa/scenarios/`. They run the process, not the product.
 - Do not commit secrets, `.env` files, or large binary files.
