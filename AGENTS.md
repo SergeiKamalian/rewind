@@ -21,6 +21,20 @@ See `docs/ARCHITECTURE.md` for the design and `docs/ROADMAP.md` for the plan.
 - If the issue is unclear or blocked, do the safe part and explain the rest in the PR description.
 - Never touch files outside the scope listed in the issue unless it is needed to make tests pass. If you do, say why in the PR.
 
+## Parts: how one issue is built
+
+Each issue is split into parts. The issue has a "Parts" section with one block per part.
+Each part is done by a fresh agent session. One part at a time.
+
+When you are asked to do a part:
+- Do ONLY that part. Do not start the next part, even if it looks easy.
+- Read the whole issue for context, then focus on your part's block.
+- Meet every item in the part's "Requirements".
+- Run every command in the part's "Checks" before you push. All must pass.
+- Commit with the exact commit message given in the part. Extra small commits inside the part are fine. Each commit must pass lint and typecheck on its own.
+- Part 1 creates the branch and opens the PR as a draft. Later parts push to the same branch. Never open a second PR for the same issue.
+- At the end, reply in the PR with a short note: what you did, which checks passed, anything left open.
+
 ## Branches and PRs
 
 - Branch name: `day-XX/short-name`, for example `day-03/dom-snapshot`.
@@ -34,8 +48,10 @@ See `docs/ARCHITECTURE.md` for the design and `docs/ROADMAP.md` for the plan.
 
 ## Commits
 
-- Conventional commits: `feat:`, `fix:`, `test:`, `docs:`, `chore:`, `refactor:`, `perf:`.
+- Conventional commits with the issue number: `feat(recorder): add mirror registry (#3)`.
+- One part = at least one commit. Never squash parts together.
 - Small commits with clear messages. No "wip" or "update" messages.
+- Write tests before or together with the code of each part, never "later".
 
 ## Stack
 

@@ -4,6 +4,7 @@ alwaysApply: true
 ---
 
 - Read `AGENTS.md` before starting. It is the source of truth for workflow, stack and code rules.
+- If you were asked to do "Part N" of an issue, do only that part. Follow its Requirements, run its Checks, use its commit message. Push to the existing PR branch. Never open a second PR.
 - Read the GitHub issue fully. Follow its "Scope" and "Definition of done" sections exactly.
 - Read `docs/ARCHITECTURE.md` before touching `packages/`.
 - One issue = one branch = one PR. Branch name `day-XX/short-name`. PR title `[Day XX] ...`. PR body has `Closes #N`.
