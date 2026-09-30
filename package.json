@@ -1,0 +1,25 @@
+{
+  "name": "rewind",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.6",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @rewind/shared build && pnpm --filter @rewind/demo dev",
+    "build": "pnpm --filter \"./packages/*\" --filter \"./apps/*\" build",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -b --pretty && tsc -p packages/shared/tsconfig.test.json --noEmit --pretty && tsc -p packages/recorder/tsconfig.test.json --noEmit --pretty && tsc -p packages/player/tsconfig.test.json --noEmit --pretty",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "@types/node": "catalog:",
+    "happy-dom": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
