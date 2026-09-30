@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T18:56:00Z",
+  "finishedAt": "2026-09-30T18:59:00Z",
+  "runType": "night",
+  "currentTask": 1,
+  "pr": 8,
+  "observed": [
+    "Local time 22:57 Asia/Yerevan: NIGHT run (22:00 slot, started late).",
+    "Issue #1 is status: ready-to-merge; PR #8 has qa: passed, CI green on 54aff0f, mergeable_state clean.",
+    "No new comments, reviews or commits on PR #8 or issue #1 since the evening run; no hold.",
+    "A 22:00 night journal entry (2026-09-30T2200-night) already exists from an earlier run for this slot.",
+    "Issues #2-#7 are status: queued."
+  ],
+  "decisions": [
+    { "what": "No merge", "why": "NIGHT runs never merge", "rule": "3 NIGHT" },
+    { "what": "Did not start Day 02", "why": "Current task is still #1 (open, not queued); Day 02 depends on Day 01 being on main", "rule": "1 current task" },
+    { "what": "Only bumped journal status updatedAt, no new journal entry or owner message", "why": "Nothing changed since the 22:00 night entry and the evening message; a duplicate entry would be noise", "rule": "3 NIGHT / 5" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "Updated updatedAt; state stays stuck waiting for owner merge of PR #8" }
+  ],
+  "agents": [],
+  "problems": [
+    "Two runs fired for the 22:00 night slot (18:00Z and 18:56Z). Playbook does not say how to handle duplicate runs for one slot.",
+    "Chain blocked since evening: conductor session cannot merge or force-push (see evening run)."
+  ],
+  "processNotes": [
+    "Add a rule: if a journal entry for the same slot already exists and nothing changed, only update status.",
+    "While stuck on an owner-only action, night runs add no value; consider skipping them until the blocker clears."
+  ]
+}
