@@ -26,6 +26,7 @@ Reports for the owner are in `config.owner.language`: clear plain words, short s
 - Every part runs in a FRESH coding agent session, started by a new comment beginning with `@cursor`.
 - Every part is test-first: a `test(...)` commit, then the implementation commit.
 - The coding agent commits as `config.agents.coder_name <config.agents.coder_commit_email>`. That is expected. Authorship is rewritten right before merge.
+- Ignore every issue and PR labeled `demo`, and bug issues whose marker points to a `demo` PR. They are demonstrations, not work.
 - Current task: the open `task` issue labeled `priority` with the lowest number, else the lowest-numbered open `task` issue that is not `status: queued`, else the lowest queued one.
 
 ## 2. The loop for one task
