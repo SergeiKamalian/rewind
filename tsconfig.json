@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/shared" },
+    { "path": "packages/recorder" },
+    { "path": "packages/player" },
+    { "path": "apps/demo" },
+    { "path": "tsconfig.tools.json" }
+  ]
+}
