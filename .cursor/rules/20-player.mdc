@@ -1,0 +1,11 @@
+---
+description: Rules for the replay player
+globs: packages/player/**
+alwaysApply: false
+---
+
+- Replay happens inside a sandboxed iframe. Never execute recorded scripts. Strip `<script>` and inline event handlers.
+- Seeking must be fast. Use keyframes (full snapshots) so seeking never replays the whole session from zero.
+- Keep rendering logic separate from React UI. The replay engine is plain TypeScript. React components only wrap it.
+- The timeline, console panel and network panel all read the same current time. One source of truth.
+- Large sessions (100k+ events) must stay smooth. Measure before optimizing and put numbers in the PR.

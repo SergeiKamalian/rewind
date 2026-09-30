@@ -1,0 +1,14 @@
+---
+description: Core rules for every task in the Rewind repo
+alwaysApply: true
+---
+
+- Read `AGENTS.md` before starting. It is the source of truth for workflow, stack and code rules.
+- Read the GitHub issue fully. Follow its "Scope" and "Definition of done" sections exactly.
+- Read `docs/ARCHITECTURE.md` before touching `packages/`.
+- One issue = one branch = one PR. Branch name `day-XX/short-name`. PR title `[Day XX] ...`. PR body has `Closes #N`.
+- Run `pnpm lint && pnpm typecheck && pnpm test` before opening the PR. All must pass.
+- Never skip or delete tests. Never weaken CI.
+- The recorder must never throw into the host app. Wrap risky code.
+- Mask sensitive input by default.
+- Explain every non-obvious decision in the PR description in plain English.

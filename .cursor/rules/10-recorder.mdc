@@ -1,0 +1,15 @@
+---
+description: Rules for the browser recorder SDK
+globs: packages/recorder/**
+alwaysApply: false
+---
+
+- The recorder runs inside apps we do not control. Treat it like a library that must be invisible.
+- No work in the hot path that can be deferred. Use `requestIdleCallback` or batching where possible.
+- Throttle mousemove and scroll. Default 50 ms. Make it configurable.
+- Keep a stable numeric id for every recorded DOM node. Ids never get reused in a session.
+- Patching globals (fetch, XHR, console): always keep a reference to the original and restore it on `stop()`.
+- Every patch is idempotent. Calling `start()` twice must not double-patch.
+- All events go through the single event bus. Never push to the buffer directly from observers.
+- Every event has `type`, `timestamp` (ms, from `performance.now()` offset to session start) and `data`.
+- Tests use happy-dom and fake timers.
