@@ -39,7 +39,9 @@ Generic (copy as is):
 | `.agentflow/scripts/qa-resolve.js` | Finds the preview URL, scenarios and known bugs. |
 | `.agentflow/scripts/qa-report.js` | Turns the QA report into bug issues, a PR comment and labels. |
 | `.github/workflows/qa.yml` | Runs QA on label `qa: requested`, weekly, or by hand. |
-| `.github/workflows/status-labels.yml` | Keeps task status labels in sync with events. |
+| `.github/workflows/status-labels.yml` | Keeps task and bug status labels in sync with events. |
+| `.github/workflows/agent-log.yml` | Logs every event (comments, labels, pushes, reviews, CI, QA, deploys) to the `agentflow-log` branch. |
+| `.agentflow/scripts/log-event.js` | Turns one GitHub event into one log file with the actor's role. |
 | `.github/ISSUE_TEMPLATE/day-task.md` | Task template with Parts and QA scenarios. |
 | `.github/pull_request_template.md` | PR template. |
 | `docs/decisions/0001-*.md`, `0002-*.md` | ADR practice and the agent workflow decision. |
@@ -58,11 +60,12 @@ Project-specific (write for each project):
 ## Setting it up on a new repo
 
 1. Copy the generic files. Write the project-specific ones.
-2. Labels: `task`, `priority`, `week-N`, `day-XX`, the five `status: ...` labels, `bug`, `qa`, `severity: critical|major|minor`, `qa: requested|passed|failed|error`, `regression`.
-3. Connect the repo to Cursor (GitHub app) so `@cursor` comments start agents.
-4. Connect the repo to a preview host (Vercel) so every PR gets a preview URL. Turn off login protection for previews, or QA cannot open them.
-5. Add the repository secret `CURSOR_API_KEY` (a Cursor API key) for the QA workflow.
-6. Protect the default branch: block force pushes, require CI.
-7. Create the journal page and put its URL in the config.
-8. Create the scheduled conductor task: "Read `.agentflow/conductor.md` and `.agentflow/config.yml` from the default branch of <repo> and follow them."
-9. Write the first week of task issues and milestones.
+2. Create an empty orphan branch `agentflow-log` for the agent log.
+3. Labels: `task`, `priority`, `week-N`, `day-XX`, the five `status: ...` labels, `bug`, `qa`, `bug: new|fixing|fixed|verified|not-a-bug`, `severity: critical|major|minor`, `qa: requested|passed|failed|error`, `regression`.
+4. Connect the repo to Cursor (GitHub app) so `@cursor` comments start agents.
+5. Connect the repo to a preview host (Vercel) so every PR gets a preview URL. Turn off login protection for previews, or QA cannot open them.
+6. Add the repository secret `CURSOR_API_KEY` (a Cursor API key) for the QA workflow.
+7. Protect the default branch: block force pushes, require CI.
+8. Create the journal page and put its URL in the config.
+9. Create the scheduled conductor task: "Read `.agentflow/conductor.md` and `.agentflow/config.yml` from the default branch of <repo> and follow them."
+10. Write the first week of task issues and milestones.

@@ -139,6 +139,44 @@ jobs:
               outDir: `${process.env.GITHUB_WORKSPACE}/qa-run/out`,
             });
 
+      - name: Save QA output to the agent log
+        if: always()
+        continue-on-error: true
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("node:fs");
+            const path = require("node:path");
+            const { owner, repo } = context.repo;
+            const base = `${process.env.GITHUB_WORKSPACE}/qa-run`;
+            const files = [
+              ["input/meta.json", 50_000],
+              ["input/scenarios.md", 50_000],
+              ["input/known-bugs.json", 100_000],
+              ["out/report.json", 200_000],
+              ["out/agent-log.txt", 400_000],
+            ];
+            for (const [rel, max] of files) {
+              const src = path.join(base, rel);
+              if (!fs.existsSync(src)) continue;
+              let text = fs.readFileSync(src, "utf8");
+              if (text.length > max) text = `${text.slice(0, max)}\n[truncated]\n`;
+              for (let attempt = 1; ; attempt++) {
+                try {
+                  await github.rest.repos.createOrUpdateFileContents({
+                    owner, repo, branch: "agentflow-log",
+                    path: `qa/${context.runId}/${path.basename(rel)}`,
+                    message: `log: qa run ${context.runId} ${path.basename(rel)}`,
+                    content: Buffer.from(text).toString("base64"),
+                  });
+                  break;
+                } catch (e) {
+                  if (attempt >= 6) throw e;
+                  await new Promise((r) => setTimeout(r, 800 * attempt));
+                }
+              }
+            }
+
       - name: Keep the raw QA output
         if: always()
         uses: actions/upload-artifact@v4
@@ -146,4 +184,4 @@ jobs:
           name: qa-output-${{ github.run_id }}
           path: qa-run/out
           if-no-files-found: ignore
-          retention-days: 30
+          retention-days: 90
