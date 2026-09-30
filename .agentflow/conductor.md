@@ -73,9 +73,10 @@ Read the full PR diff against the issue's Definition of done, `AGENTS.md` and `.
 - `qa: failed`: collect the open bug issues with this PR's marker and a blocking severity (`config.qa.blocking_severities`). Comment on the PR:
   "@cursor Fix QA bugs #a, #b for this PR. Read AGENTS.md section 'QA and bug fixes'. For each bug: read the issue and screenshots, reproduce with a failing test when possible, then fix, one bug per fix commit. Do not close the bug issues. Push to the existing branch <branch>. Run pnpm lint, typecheck, test and build before pushing."
   Set `status: needs-fix`. When the fix commits are pushed and CI is green, check that each fix commit targets its bug and that no tests were weakened, then request QA again (2.4).
-  If a fix agent says "Not a bug: #n" and you agree after reading `qa/product.md` and the issue, close #n with a short explanation and improve the QA scenarios or `qa/product.md` so it does not happen again.
+  If a fix agent says "Not a bug: #n" and you agree after reading `qa/product.md` and the issue, set `bug: not-a-bug`, close #n as not planned with a short explanation and improve the QA scenarios or `qa/product.md` so it does not happen again.
 - Count QA rounds by the "### QA failed" comments on the PR. After `config.qa.max_rounds` failed rounds, stop the chain and tell the owner.
 - `qa: error`: read the reason in the PR comment. If the preview is missing or failed, report it to the owner with the concrete fix. Retry QA once per run at most.
+- Bug issues have their own status labels, kept by `status-labels.yml` and `qa-report.js`: `bug: new` → `bug: fixing` (a fix agent was asked) → `bug: fixed` (a `fix(...)` commit with `(#bug)` was pushed) → `bug: verified` and closed (QA re-check passed), or back to `bug: new` (still reproduces). Mention bug numbers as `#n` in your `@cursor` fix comments so the labels move.
 - Non-blocking bugs (`severity: minor`) stay open. They do not block the merge. They are fixed in bugfix tasks (section 4).
 - The owner can write "skip qa" on a PR. Then QA is not required for that PR.
 

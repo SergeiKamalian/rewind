@@ -9,6 +9,35 @@ const { QA_MARKER } = require("./qa-resolve.js");
 
 const SEVERITIES = ["critical", "major", "minor"];
 const ASSETS_BRANCH = "qa-assets";
+const BUG_STATUS = [
+  "bug: new",
+  "bug: fixing",
+  "bug: fixed",
+  "bug: verified",
+  "bug: not-a-bug",
+];
+
+async function setBugStatus(github, owner, repo, number, next) {
+  const { data: issue } = await github.rest.issues.get({
+    owner,
+    repo,
+    issue_number: number,
+  });
+  for (const l of issue.labels) {
+    const name = typeof l === "string" ? l : l.name;
+    if (BUG_STATUS.includes(name) && name !== next)
+      await github.rest.issues
+        .removeLabel({ owner, repo, issue_number: number, name })
+        .catch(() => {});
+  }
+  await github.rest.issues.addLabels({
+    owner,
+    repo,
+    issue_number: number,
+    labels: [next],
+  });
+}
+
 const PR_LABELS = ["qa: requested", "qa: passed", "qa: failed", "qa: error"];
 
 function readReport(outDir) {
@@ -195,7 +224,7 @@ module.exports = async ({
       ).catch(() => null);
       if (u) shots.push(u);
     }
-    const labels = ["bug", "qa", `severity: ${severity}`];
+    const labels = ["bug", "qa", "bug: new", `severity: ${severity}`];
     if (meta.mode === "regression") labels.push("regression");
     const { data: issue } = await github.rest.issues.create({
       owner,
@@ -213,6 +242,7 @@ module.exports = async ({
     .map(Number)
     .filter((n) => knownNumbers.has(n));
   for (const n of fixed) {
+    await setBugStatus(github, owner, repo, n, "bug: verified");
     await github.rest.issues.createComment({
       owner,
       repo,
@@ -230,6 +260,23 @@ module.exports = async ({
   const stillOpen = known
     .filter((k) => !fixed.includes(k.number))
     .map((k) => k.number);
+  for (const n of stillOpen) {
+    const { data: i } = await github.rest.issues.get({
+      owner,
+      repo,
+      issue_number: n,
+    });
+    const names = i.labels.map((l) => (typeof l === "string" ? l : l.name));
+    if (names.includes("bug: fixed") || names.includes("bug: fixing")) {
+      await setBugStatus(github, owner, repo, n, "bug: new");
+      await github.rest.issues.createComment({
+        owner,
+        repo,
+        issue_number: n,
+        body: `QA re-checked: still reproduces. [Run](${runUrl})`,
+      });
+    }
+  }
 
   // Is anything blocking?
   let blockingOpen = created
@@ -296,3 +343,6 @@ module.exports = async ({
     blockingOpen,
   };
 };
+
+module.exports.setBugStatus = setBugStatus;
+module.exports.BUG_STATUS = BUG_STATUS;
