@@ -8,8 +8,10 @@ alwaysApply: true
 - Read the GitHub issue fully. Follow its "Scope" and "Definition of done" sections exactly.
 - Read `docs/ARCHITECTURE.md` before touching `packages/`.
 - One issue = one branch = one PR. Branch name `day-XX/short-name`. PR title `[Day XX] ...`. PR body has `Closes #N`.
-- Run `pnpm lint && pnpm typecheck && pnpm test` before opening the PR. All must pass.
+- Test-first inside every part: a `test(...)` commit with tests and stubs, then the implementation commit. Never weaken tests from the test commit.
+- Also read `.cursor/rules/90-lessons.mdc` before you start.
+- Run `pnpm lint && pnpm typecheck && pnpm test` before pushing. All must pass.
 - Never skip or delete tests. Never weaken CI.
 - The recorder must never throw into the host app. Wrap risky code.
 - Mask sensitive input by default.
-- Explain every non-obvious decision in the PR description in plain English.
+- Explain every non-obvious decision in the PR description in plain English. Important ones also get an ADR in `docs/decisions/`.

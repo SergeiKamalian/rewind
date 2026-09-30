@@ -29,9 +29,14 @@ Each part is done by a fresh agent session. One part at a time.
 When you are asked to do a part:
 - Do ONLY that part. Do not start the next part, even if it looks easy.
 - Read the whole issue for context, then focus on your part's block.
+- Also read `.cursor/rules/90-lessons.mdc`. It lists mistakes made before. Do not repeat them.
 - Meet every item in the part's "Requirements".
-- Run every command in the part's "Checks" before you push. All must pass.
-- Commit with the exact commit message given in the part. Extra small commits inside the part are fine. Each commit must pass lint and typecheck on its own.
+- Work test-first. Every part has two commits, in this order:
+  1. **Test commit**: the tests for this part, written from the spec, plus the smallest stubs needed so typecheck passes (for example functions that throw `new Error("not implemented")`). Tests are expected to fail here. Message: the part's commit message with `test` as the type, for example `test(recorder): add node id mirror (#3)`.
+  2. **Implementation commit**: code that makes the tests pass. Message: the exact commit message given in the part.
+- In the implementation commit you may ADD tests. You must not weaken, delete or skip tests from the test commit. If a test was wrong, fix it in a separate commit `test: fix <what> (#N)` and explain why in your PR note.
+- Run every command in the part's "Checks" before you push. All must pass on the final commit.
+- If the part asks you to explain a choice, or you make a decision that a reviewer might question, write an ADR in `docs/decisions/` (see `docs/decisions/README.md`) in the implementation commit.
 - Part 1 creates the branch and opens the PR as a draft. Later parts push to the same branch. Never open a second PR for the same issue.
 - At the end, reply in the PR with a short note: what you did, which checks passed, anything left open.
 
@@ -49,9 +54,9 @@ When you are asked to do a part:
 ## Commits
 
 - Conventional commits with the issue number: `feat(recorder): add mirror registry (#3)`.
-- One part = at least one commit. Never squash parts together.
+- One part = a test commit plus an implementation commit. Never squash parts together.
 - Small commits with clear messages. No "wip" or "update" messages.
-- Write tests before or together with the code of each part, never "later".
+- Every commit must pass lint and typecheck on its own.
 
 ## Stack
 
@@ -96,6 +101,7 @@ Do not create new top level folders without a reason written in the PR.
 ## Docs
 
 - If you change the design, update `docs/ARCHITECTURE.md` in the same PR.
+- Important decisions go to `docs/decisions/` as ADRs. One decision per file. Never edit an accepted ADR. To change a decision, add a new ADR that supersedes the old one.
 - If you add a package script or env var, update `README.md`.
 
 ## What not to do

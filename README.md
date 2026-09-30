@@ -36,7 +36,8 @@ Setup instructions will appear here after Day 01.
 
 Tasks are planned as GitHub issues, one per day.
 Code is written by AI agents in Cursor and reviewed before merge.
-Rules for agents live in [AGENTS.md](AGENTS.md).
+Each task is split into small parts. Each part runs in a fresh agent session, test-first, and is reviewed before the next one starts.
+Rules for agents live in [AGENTS.md](AGENTS.md). Decisions are recorded in [docs/decisions](docs/decisions).
 
 ## License
 
