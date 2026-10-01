@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-01T18:56:00Z", "finishedAt": "2026-10-01T19:00:00Z", "runType": "night",
+  "currentTask": 1, "pr": 8,
+  "observed": [
+    "Issue #1 is status: ready-to-merge; PR #8 has qa: passed, not draft, mergeable_state clean, head 54aff0f",
+    "No new comments on #1 or #8 since QA passed on 2026-09-30",
+    "Issues #2-#7 status: queued; no open regression bugs",
+    "Journal status already 'stuck' from the evening run: merge waits for the owner"
+  ],
+  "decisions": [
+    { "what": "No action on #1/#8", "why": "NIGHT run never merges; nothing else to advance while the current task waits for merge", "rule": "3 NIGHT" },
+    { "what": "Did not start Part 1 of #2", "why": "Next task starts only after the previous one is closed (merged)", "rule": "3 MORNING/EVENING" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "Refreshed updatedAt; state stays stuck (waiting for owner merge)" }
+  ],
+  "agents": [],
+  "problems": [
+    "add_repo tool was not available in this session; repo was already cloned and in scope, so work continued",
+    "The session's auto-mode classifier denied 'git reset --hard origin/main' on the clean local main and one read-only command batch; read files via 'git show origin/main:<path>' instead"
+  ],
+  "processNotes": [
+    "Night runs while a task is only waiting for merge do nothing useful; consider allowing the conductor to launch Part 1 of the next task on a separate branch, or skip night runs when state is ready/stuck on merge"
+  ]
+}
