@@ -1,0 +1,23 @@
+{
+  "startedAt": "2026-10-01T22:56:00Z", "finishedAt": "2026-10-01T22:59:00Z", "runType": "night",
+  "currentTask": 1, "pr": 8,
+  "observed": [
+    "Local time 02:56 Asia/Yerevan: NIGHT run.",
+    "Issue #1 status: ready-to-merge; PR #8 open, not draft, qa: passed, mergeable_state clean, CI green on head 54aff0f; no new commits, comments or reviews since 2026-09-30",
+    "Issues #2-#7 status: queued; nothing running"
+  ],
+  "decisions": [
+    { "what": "Did not merge PR #8", "why": "NIGHT runs never merge", "rule": "3 NIGHT" },
+    { "what": "Did not start Part 1 of #2", "why": "Current task #1 is not merged or closed", "rule": "1, 3" },
+    { "what": "Only refreshed status/current; no new journal entry or message", "why": "Stuck reason unchanged and already reported at 21:00 and 01:56 local", "rule": "3 NIGHT" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "Refreshed updatedAt; still stuck on owner merge of PR #8" }
+  ],
+  "agents": [],
+  "problems": [
+    "add_repo tool not available via ToolSearch; repo already cloned and in scope.",
+    "Chain blocked since 2026-09-30 on the merge permission (Merge Without Review)."
+  ],
+  "processNotes": []
+}
