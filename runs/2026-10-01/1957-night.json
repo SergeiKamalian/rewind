@@ -1,0 +1,10 @@
+{
+  "startedAt": "2026-10-01T19:56:00Z", "finishedAt": "2026-10-01T19:57:30Z", "runType": "night",
+  "currentTask": 1, "pr": 8,
+  "observed": ["Issue #1 is status: ready-to-merge since an earlier run", "PR #8 has qa: passed, mergeable_state clean, head 54aff0f, no new commits or comments since 2026-09-30", "Journal status was stuck: the evening run had no permission to merge", "Issues #2-#7 queued, nothing running"],
+  "decisions": [{ "what": "Did not merge PR #8", "why": "NIGHT runs never merge", "rule": "3 NIGHT" }, { "what": "Did not start Part 1 of #2", "why": "Next task starts only after the current one is merged/closed", "rule": "3 MORNING/EVENING" }],
+  "actions": [{ "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "stateText updated; added night entry because chain is stuck" }],
+  "agents": [],
+  "problems": ["add_repo tool not available in this session; repo was already cloned and in scope, used curl REST as the playbook says", "docs/decisions/README.md index lists only 0001 although 0002 and 0003 exist"],
+  "processNotes": ["The chain stalls a full day when the evening run cannot merge. Either let the owner grant merge permission to the scheduled task, or let a night/morning run merge an already-approved PR when the evening run failed only for lack of permission."]
+}
