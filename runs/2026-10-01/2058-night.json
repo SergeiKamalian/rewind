@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-01T20:57:00Z", "finishedAt": "2026-10-01T21:01:00Z", "runType": "night",
+  "currentTask": 1, "pr": 8,
+  "observed": [
+    "Local time 00:57 Asia/Yerevan: NIGHT run.",
+    "Issue #1 status: ready-to-merge; PR #8 open, not draft, qa: passed, mergeable_state clean, head 54aff0f, no new commits or comments since 2026-09-30",
+    "Issues #2-#7 status: queued, nothing running; no open bug or regression issues"
+  ],
+  "decisions": [
+    { "what": "Did not merge PR #8", "why": "NIGHT runs never merge", "rule": "3 NIGHT" },
+    { "what": "Did not start Part 1 of #2", "why": "Next task starts only after the current one is merged or closed, in MORNING/EVENING runs", "rule": "3 MORNING/EVENING" },
+    { "what": "Added a night journal entry and sent the owner a short message", "why": "Chain is stuck waiting for a merge", "rule": "3 NIGHT, 5" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current + reports/2026-10-02T0057-night", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "Still stuck: owner asked to merge PR #8" }
+  ],
+  "agents": [],
+  "problems": [
+    "add_repo tool not available via ToolSearch; repo was already cloned and in scope.",
+    "Chain blocked since 2026-09-30 on the merge permission; every night run repeats the same report."
+  ],
+  "processNotes": [
+    "When stuck on an owner action that is already reported, night runs could skip the journal entry and message, and only refresh updatedAt, to avoid noise."
+  ]
+}
