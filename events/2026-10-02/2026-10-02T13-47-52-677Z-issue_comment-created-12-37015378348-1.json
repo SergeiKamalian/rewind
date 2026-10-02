@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T13:47:52.677Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37015378348,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5953802993",
+  "text": "Part 1 of 5 is in. Base event shape, `EventType`, and the serialized DOM node types are exported from `@rewind/shared`, with TSDoc and `expectTypeOf` coverage in `packages/shared/src/types/types.test.ts`.\n\nChecks on `232a0d7`: `pnpm lint`, `pnpm typecheck`, and `pnpm test` all passed.\n\nLeft open: parts 2–5 (event payloads, `parseEvent`, factory and guards, session-format docs). This PR stays a draft. Definition of done for the whole issue is not met yet.",
+  "mentionsCursor": false
+}
