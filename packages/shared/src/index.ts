@@ -1,9 +1,11 @@
+import { FORMAT_VERSION } from "./create-event.js";
+
 /**
  * Returns the session format version.
  * Every recording starts with this version in its meta event.
  */
 export function version(): number {
-  return 1;
+  return FORMAT_VERSION;
 }
 
 export {

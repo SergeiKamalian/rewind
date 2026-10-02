@@ -10,23 +10,30 @@ export const FORMAT_VERSION = 1;
 /**
  * Time source for one recording.
  * Pass the same instance to every {@link createEvent} call in that recording.
+ * Sequence numbers are counted per instance, starting at 1.
  */
 export interface Clock {
   /** Milliseconds since session start. */
   now(): number;
 }
 
+const sequences = new WeakMap<Clock, number>();
+
 /**
  * Builds an event and fills `seq` and `timestamp` from `clock`.
+ * `seq` starts at 1 and increases by 1 for each call with the same clock,
+ * even when `now()` does not move.
  *
  * @typeParam T - Event kind.
  */
 export function createEvent<T extends EventType>(
-  _type: T,
-  _data: EventDataMap[T],
-  _clock: Clock,
+  type: T,
+  data: EventDataMap[T],
+  clock: Clock,
 ): BaseEvent<T, EventDataMap[T]> {
-  throw new Error("not implemented");
+  const timestamp = clock.now();
+  const seq = nextSeq(clock);
+  return { type, seq, timestamp, data };
 }
 
 /**
@@ -35,8 +42,14 @@ export function createEvent<T extends EventType>(
  * @typeParam T - Event kind to test for.
  */
 export function isEventOfType<T extends EventType>(
-  _event: RewindEvent,
-  _type: T,
-): _event is Extract<RewindEvent, { type: T }> {
-  throw new Error("not implemented");
+  event: RewindEvent,
+  type: T,
+): event is Extract<RewindEvent, { type: T }> {
+  return event.type === type;
+}
+
+function nextSeq(clock: Clock): number {
+  const seq = (sequences.get(clock) ?? 0) + 1;
+  sequences.set(clock, seq);
+  return seq;
 }
