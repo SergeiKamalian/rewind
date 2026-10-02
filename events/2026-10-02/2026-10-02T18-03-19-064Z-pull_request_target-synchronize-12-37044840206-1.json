@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-02T18:03:19.064Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37044840206,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12",
+  "branch": "day-02/session-format",
+  "head": "5dbd1322d23b61701e0af19b4dc4e8470487faa8",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 3411,
+  "deletions": 4,
+  "changedFiles": 19,
+  "commits": [
+    {
+      "sha": "a536d06",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(shared): add event factory, type guard and format version (#2)",
+      "date": "2026-10-02T18:02:15Z"
+    },
+    {
+      "sha": "5dbd132",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "feat(shared): add event factory, type guard and format version (#2)",
+      "date": "2026-10-02T18:02:52Z"
+    }
+  ],
+  "forced": false
+}
