@@ -45,3 +45,4 @@ What gets easier. What gets harder. What we will watch.
 | 0006 | [Validate events with hand-written guards](0006-hand-written-event-guards.md) | Accepted |
 | 0007 | [Return a path and a message from parseEvent](0007-parse-result-shape.md) | Accepted |
 | 0008 | [Count sequence numbers per clock](0008-sequence-per-clock.md) | Accepted |
+| 0009 | [Test the example session inside the architecture doc](0009-example-session-in-architecture.md) | Accepted |
