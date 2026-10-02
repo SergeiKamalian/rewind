@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T18:57:51.141Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37050945089,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5959323925",
+  "text": "@cursor Part 5 of 5 for issue #2: Docs.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #2, then do ONLY Part 5.\n\nWork test-first: first a test commit `test(shared): add example session test (#2)` with the test that loads the example session and runs every event through `parseEvent` (tests are expected to fail here), then the implementation commit.\n\nPrompt: Add a \"Session format\" section to `docs/ARCHITECTURE.md` with the event list and a short example session in JSON (meta, full_snapshot, a click, a mutation, a network event).\n\nRequirements:\n- Example JSON passes `parseEvent` (add a test that loads it)\n- Mark the PR as ready for review\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n\nImplementation commit message: `docs: describe the session format (#2)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`.\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nPush to the existing branch `day-02/session-format`. Do not open a new PR. Do not change earlier parts unless needed to pass checks; say why if you do. Update the PR description, then reply in the PR with a short not",
+  "mentionsCursor": true
+}
