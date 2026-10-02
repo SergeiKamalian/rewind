@@ -61,6 +61,11 @@ export interface ElementNode extends SerializedNodeBase<"Element"> {
   childNodes: SerializedNode[];
   /** Set when the element is in the SVG namespace. */
   isSVG?: boolean;
+  /**
+   * Set when this node is an open shadow root.
+   * The tag name is `shadow-root`.
+   */
+  isShadowRoot?: boolean;
 }
 
 /** A text node. */
