@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T14:29:41.245Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37020232092,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5954660793",
+  "text": "Fixed the red `pnpm build` on Part 1.\n\ntsup's declaration build roots only the package entry. With `composite: true`, TypeScript then errors (TS6307) on `src/types/dom.ts` and `src/types/event.ts` because those files are imported but are not roots. Widening `include` does not add them as roots. Declaration emit now sets `composite` and `incremental` to false in `@rewind/shared`, `@rewind/recorder`, and `@rewind/player`. `tsc -b` still uses the composite tsconfigs.\n\nChecks on `7fb8b73`: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` all passed. Tests were not changed. Parts 2–5 are still open.",
+  "mentionsCursor": false
+}
