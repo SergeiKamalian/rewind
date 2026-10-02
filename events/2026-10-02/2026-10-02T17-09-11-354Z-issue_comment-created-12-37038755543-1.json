@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T17:09:11.354Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37038755543,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5957436285",
+  "text": "Part 3 of 5 is in. `parseEvent` reads an unknown value and returns a `RewindEvent` or the first failure. It does not throw.\n\nThe guards are hand-written, recorded in ADR 0006. There is no new dependency. The shared ESM is 27.8 KB raw, 12.0 KB minified, and 3.1 KB minified and gzipped. The result shape (one path and one message) is ADR 0007.\n\nChecks on `1dc0dd8`: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` all passed. Parts 4–5 are still open, so this PR stays a draft.",
+  "mentionsCursor": false
+}
