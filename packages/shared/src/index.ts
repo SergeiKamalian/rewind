@@ -7,6 +7,11 @@ export function version(): number {
 }
 
 export {
+  type ParseIssue,
+  parseEvent,
+  type Result,
+} from "./parse/parse-event.js";
+export {
   type CDATANode,
   type CommentNode,
   type DoctypeNode,
