@@ -1,0 +1,5 @@
+QA run finished. Smoke check and day-01 regression passed on desktop (1280×800) and mobile (390×844).
+
+**Result:** no bugs found. `known-bugs.json` was empty, so `fixed` and `still_open` are both `[]`.
+
+Report written to `out/report.json`.
