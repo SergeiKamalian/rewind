@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T13:40:47.463Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37014579206,
+  "number": 2,
+  "kind": "issue",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/2#issuecomment-5953692796",
+  "text": "@cursor Part 1 of 5 for issue #2: Base types.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue, then do ONLY Part 1.\n\nWork test-first: first a test commit `test(shared): add base event and DOM node types (#2)` with tests and stubs, then the implementation commit.\n\nPrompt: Create the base event shape, the `EventType` union and the serialized DOM node types in `packages/shared/src/types/`.\n\nRequirements:\n- `BaseEvent<T, D>` with `type`, `seq`, `timestamp`, `data` exactly as in the issue\n- Node types: Document, Doctype, Element, Text, Comment, CDATA, each with `id: number`\n- Everything exported from `src/index.ts` with TSDoc\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test` pass\n- A type test file `types.test-d.ts` or `types.test.ts` with `expectTypeOf` exists\n\nImplementation commit message: `feat(shared): add base event and DOM node types (#2)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`\n\nDay 01 (PR #8) is finished but not merged yet. Create branch `day-02/session-format` from `day-01/monorepo-setup`, push, and open a DRAFT PR with base `day-01/monorepo-setup`, titled \"[Day 02] Session format and event types\", with \"Closes #2\" and the PR template filled. ",
+  "mentionsCursor": true
+}
