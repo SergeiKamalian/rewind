@@ -1,0 +1,12 @@
+{
+  "ts": "2026-10-02T13:48:10.750Z",
+  "event": "deployment_status",
+  "action": "created",
+  "actor": "vercel[bot]",
+  "role": "preview",
+  "run": 37015415417,
+  "environment": "Production",
+  "state": "failure",
+  "head": "64142f0",
+  "url": "https://rewind-igmfkcu0s-sergeikamalian.vercel.app"
+}
