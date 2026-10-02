@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T23:05:44.654Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37075889085,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5962856442",
+  "text": "Part 3 is in. Relative `src`, `href`, and `srcset` are absolute, including several `srcset` candidates. A readable same-origin stylesheet becomes a `style` element. A cross-origin link stays a link. SVG elements set `isSVG`. An open shadow root is a child marked `isShadowRoot`.\n\n`parseEvent` now accepts `isShadowRoot`. That field was not on the session node type, so `@rewind/shared` had to change. The reason is in ADR 0013 and ADR 0014.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: parts 4 and 5 (privacy, form state, `takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
