@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T21:58:27.458Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37069912791,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5962128053",
+  "text": "@cursor Part 2 of 5 for issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #3, then do ONLY Part 2.\n\nWork test-first: first a test commit `test(recorder): serialize DOM nodes with script stripping (#3)` with tests and stubs, then the implementation commit.\n\nPrompt: Implement `serializeNode` for Document, Doctype, Element, Text, Comment with attributes. Strip script content and `on*` attributes. Put the code in `packages/recorder/src/snapshot/`. Use the `Mirror` from Part 1 for node ids and the serialized node shape from `@rewind/shared` (see ADR 0004).\n\nRequirements:\n- Boolean attributes stored as `true`\n- `<script>` kept as an empty element\n- No `on*` attribute in output\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- happy-dom fixture tests for a simple and a nested page\n\nImplementation commit message: `feat(recorder): serialize DOM nodes with script stripping (#3)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" -m \"...\"`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and update docs/decisions/README.md.\n\nPush to the existing branch `day-03/do",
+  "mentionsCursor": true
+}
