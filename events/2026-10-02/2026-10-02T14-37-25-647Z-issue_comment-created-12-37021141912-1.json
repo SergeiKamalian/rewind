@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T14:37:25.647Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37021141912,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5954786844",
+  "text": "Part 2 of 5 is in. Every event kind has a payload, and `RewindEvent` narrows on `event.type`. Type tests cover `mutation`, `network`, and `input`, plus a switch that reads all 12 kinds. There is no `any`.\n\nThe payload shapes are recorded in `docs/decisions/0005-event-payload-shapes.md`: `null` for missing network, console, and error fields; a document root for a full snapshot; input split by `kind` into text and checked.\n\nChecks on `c1730e2`: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` all passed. Parts 3–5 are still open, so this PR stays a draft.",
+  "mentionsCursor": false
+}
