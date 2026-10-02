@@ -227,6 +227,9 @@ describe("event payloads", () => {
 
   it("lists mouse interactions in canonical order", () => {
     expect(MOUSE_INTERACTIONS).toEqual([...MOUSE_INTERACTION_KINDS]);
+    expectTypeOf(MOUSE_INTERACTIONS).toEqualTypeOf<
+      typeof MOUSE_INTERACTION_KINDS
+    >();
   });
 
   it("types each mouse interaction", () => {
@@ -295,6 +298,7 @@ describe("event payloads", () => {
 
   it("lists console levels in canonical order", () => {
     expect(CONSOLE_LEVELS).toEqual([...CONSOLE_LEVEL_KINDS]);
+    expectTypeOf(CONSOLE_LEVELS).toEqualTypeOf<typeof CONSOLE_LEVEL_KINDS>();
   });
 
   it("stores serialized console args and an optional stack", () => {
@@ -314,6 +318,7 @@ describe("event payloads", () => {
 
   it("lists error kinds in canonical order", () => {
     expect(ERROR_KINDS).toEqual([...ERROR_KIND_KINDS]);
+    expectTypeOf(ERROR_KINDS).toEqualTypeOf<typeof ERROR_KIND_KINDS>();
   });
 
   it("describes an error or an unhandled rejection", () => {

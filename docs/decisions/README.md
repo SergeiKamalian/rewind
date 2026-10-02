@@ -41,3 +41,4 @@ What gets easier. What gets harder. What we will watch.
 | 0002 | [Build with AI agents, one part per session, test-first](0002-agent-workflow.md) | Accepted |
 | 0003 | [Mask sensitive data by default](0003-privacy-by-default.md) | Accepted |
 | 0004 | [Serialize DOM nodes with string kinds](0004-serialized-node-shape.md) | Accepted |
+| 0005 | [Shape event payloads for a stable recording](0005-event-payload-shapes.md) | Accepted |

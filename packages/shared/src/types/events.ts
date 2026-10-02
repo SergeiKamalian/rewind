@@ -119,25 +119,26 @@ export interface MouseMoveEventData {
 }
 
 /**
- * Pointer and focus interactions recorded on a target node.
- * Focus and blur still carry x and y; use `0` when the browser
- * does not report a point.
- */
-export type MouseInteractionKind =
-  | "click"
-  | "dblclick"
-  | "mousedown"
-  | "mouseup"
-  | "focus"
-  | "blur";
-
-/**
  * Mouse interaction names, in canonical order.
- * Stubbed empty until the implementation fills the list.
+ * {@link MouseInteractionKind} is derived from this list.
  */
-export const MOUSE_INTERACTIONS: readonly MouseInteractionKind[] = [];
+export const MOUSE_INTERACTIONS = [
+  "click",
+  "dblclick",
+  "mousedown",
+  "mouseup",
+  "focus",
+  "blur",
+] as const;
 
 /** A click, double-click, button change, focus, or blur. */
+export type MouseInteractionKind = (typeof MOUSE_INTERACTIONS)[number];
+
+/**
+ * A click, double-click, button change, focus, or blur.
+ * Focus and blur still carry x and y. Use `0` when the browser
+ * does not report a point.
+ */
 export interface MouseInteractionEventData {
   /** Which interaction happened. */
   interaction: MouseInteractionKind;
@@ -225,14 +226,14 @@ export interface NetworkEventData {
   error: string | null;
 }
 
-/** Console method recorded for a call. */
-export type ConsoleLevel = "log" | "info" | "warn" | "error";
-
 /**
  * Console levels, in canonical order.
- * Stubbed empty until the implementation fills the list.
+ * {@link ConsoleLevel} is derived from this list.
  */
-export const CONSOLE_LEVELS: readonly ConsoleLevel[] = [];
+export const CONSOLE_LEVELS = ["log", "info", "warn", "error"] as const;
+
+/** Console method recorded for a call. */
+export type ConsoleLevel = (typeof CONSOLE_LEVELS)[number];
 
 /**
  * A console call.
@@ -248,14 +249,14 @@ export interface ConsoleEventData {
   stack: string | null;
 }
 
-/** Source of a recorded exception. */
-export type ErrorKind = "error" | "unhandledrejection";
-
 /**
  * Error kinds, in canonical order.
- * Stubbed empty until the implementation fills the list.
+ * {@link ErrorKind} is derived from this list.
  */
-export const ERROR_KINDS: readonly ErrorKind[] = [];
+export const ERROR_KINDS = ["error", "unhandledrejection"] as const;
+
+/** Source of a recorded exception. */
+export type ErrorKind = (typeof ERROR_KINDS)[number];
 
 /**
  * A window error or an unhandled promise rejection.
