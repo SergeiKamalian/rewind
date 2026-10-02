@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T22:03:31.046Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37070386202,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5962187432",
+  "text": "Part 2 is in. `serializeNode` writes Document, Doctype, Element, Text, and Comment nodes, using the mirror for ids. Boolean attributes with no value are `true`. A script element stays, with no children. Names that start with `on` are left out.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: parts 3–5 (URLs, styles, SVG, shadow DOM, privacy, `takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
