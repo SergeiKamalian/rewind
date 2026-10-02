@@ -7,6 +7,13 @@ export function version(): number {
 }
 
 export {
+  type Clock,
+  createEvent,
+  FORMAT_VERSION,
+  isEventOfType,
+} from "./create-event.js";
+
+export {
   type ParseIssue,
   parseEvent,
   type Result,
