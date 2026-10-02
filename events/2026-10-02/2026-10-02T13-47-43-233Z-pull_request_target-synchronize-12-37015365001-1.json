@@ -1,0 +1,30 @@
+{
+  "ts": "2026-10-02T13:47:43.233Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37015365001,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12",
+  "branch": "day-02/session-format",
+  "head": "232a0d7d40d52e2fcaf911a78f488d0168101f70",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 371,
+  "deletions": 0,
+  "changedFiles": 6,
+  "commits": [
+    {
+      "sha": "232a0d7",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "feat(shared): add base event and DOM node types (#2)",
+      "date": "2026-10-02T13:47:28Z"
+    }
+  ],
+  "forced": false
+}
