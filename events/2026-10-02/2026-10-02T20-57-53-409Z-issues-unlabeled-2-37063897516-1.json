@@ -1,0 +1,20 @@
+{
+  "ts": "2026-10-02T20:57:53.409Z",
+  "event": "issues",
+  "action": "unlabeled",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37063897516,
+  "number": 2,
+  "kind": "issue",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/2",
+  "label": "status: in-review",
+  "labels": [
+    "task",
+    "week-1",
+    "day-02"
+  ],
+  "state": "open",
+  "stateReason": null
+}
