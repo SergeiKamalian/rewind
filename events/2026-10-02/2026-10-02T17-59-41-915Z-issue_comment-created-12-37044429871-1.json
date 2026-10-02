@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T17:59:41.915Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37044429871,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5958252173",
+  "text": "@cursor Part 4 of 5 for issue #2: Factory and guards.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #2, then do ONLY Part 4.\n\nWork test-first: first a test commit `test(shared): add event factory, type guard and format version (#2)` with tests and stubs, then the implementation commit.\n\nPrompt: Add `FORMAT_VERSION`, `createEvent(type, data, clock)` and `isEventOfType(event, type)`. Keep `version()` from Day 01 working and make it return `FORMAT_VERSION`.\n\nRequirements:\n- `seq` strictly increases per clock instance\n- Clock is injectable, so tests use a fake one\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Test: 1000 events created in the same millisecond keep increasing `seq`\n\nImplementation commit message: `feat(shared): add event factory, type guard and format version (#2)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nPush to the existing branch `day-02/session-format`. Do not open a new PR. Do not change earlier parts unless needed to pass checks; say why if you do. Do not do any other part.\n\n\n\n\n---\n_G",
+  "mentionsCursor": true
+}
