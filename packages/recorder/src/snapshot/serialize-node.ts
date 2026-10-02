@@ -11,8 +11,11 @@ import {
   isEventHandlerAttribute,
   serializeAttributeValue,
 } from "./boolean-attributes.js";
+import { isUrlAttribute, resolveSrcset, resolveUrl } from "./resolve-url.js";
+import { cssTextNode, stylesheetText } from "./stylesheet.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
 /**
  * Options for serializing a DOM node into the session format.
@@ -28,7 +31,9 @@ export interface SerializeContext {
  * Returns `undefined` for node kinds that are not recorded.
  * Ids come from `ctx.mirror`. HTML tag names are lowercase. A `<script>`
  * element is kept, and its children are not. Attribute names that start
- * with `on` are omitted.
+ * with `on` are omitted. Relative `src`, `href`, and `srcset` become
+ * absolute. SVG elements set `isSVG`. An open shadow root is a child
+ * with `isShadowRoot`.
  */
 export function serializeNode(
   node: Node,
@@ -75,13 +80,30 @@ function serializeDoctype(
 }
 
 function serializeElement(node: Element, ctx: SerializeContext): ElementNode {
-  return {
+  const css = stylesheetText(node);
+  if (css !== undefined) {
+    const inlined: ElementNode = {
+      id: ctx.mirror.getId(node),
+      type: "Element",
+      tagName: "style",
+      attributes: withoutLinkIdentity(readAttributes(node)),
+      childNodes: [serializeText(cssTextNode(node, css), ctx)],
+    };
+    markSvg(inlined, node);
+    appendShadowRoot(inlined, node, ctx);
+    return inlined;
+  }
+
+  const element: ElementNode = {
     id: ctx.mirror.getId(node),
     type: "Element",
     tagName: tagName(node),
     attributes: readAttributes(node),
     childNodes: isScript(node) ? [] : serializeChildren(node, ctx),
   };
+  markSvg(element, node);
+  appendShadowRoot(element, node, ctx);
+  return element;
 }
 
 function serializeText(node: Text, ctx: SerializeContext): TextNode {
@@ -130,18 +152,75 @@ function isScript(element: Element): boolean {
   return element.localName.toLowerCase() === "script";
 }
 
+function serializeShadowRoot(
+  root: ShadowRoot,
+  ctx: SerializeContext,
+): ElementNode {
+  return {
+    id: ctx.mirror.getId(root),
+    type: "Element",
+    tagName: "shadow-root",
+    attributes: {},
+    isShadowRoot: true,
+    childNodes: serializeChildren(root, ctx),
+  };
+}
+
+function appendShadowRoot(
+  element: ElementNode,
+  node: Element,
+  ctx: SerializeContext,
+): void {
+  const shadow = node.shadowRoot;
+  if (shadow === null) {
+    return;
+  }
+  element.childNodes.push(serializeShadowRoot(shadow, ctx));
+}
+
+function markSvg(element: ElementNode, node: Element): void {
+  if (node.namespaceURI === SVG_NAMESPACE) {
+    element.isSVG = true;
+  }
+}
+
+function withoutLinkIdentity(
+  attributes: Record<string, string | true>,
+): Record<string, string | true> {
+  const kept: Record<string, string | true> = {};
+  for (const name of Object.keys(attributes)) {
+    if (name.toLowerCase() === "href" || name.toLowerCase() === "rel") {
+      continue;
+    }
+    const value = attributes[name];
+    if (value !== undefined) {
+      kept[name] = value;
+    }
+  }
+  return kept;
+}
+
 function readAttributes(element: Element): Record<string, string | true> {
   const attributes: Record<string, string | true> = {};
   const { attributes: source } = element;
+  const base = element.baseURI;
   for (let index = 0; index < source.length; index += 1) {
     const attribute = source.item(index);
     if (attribute === null || isEventHandlerAttribute(attribute.name)) {
       continue;
     }
-    attributes[attribute.name] = serializeAttributeValue(
-      attribute.name,
-      attribute.value,
-    );
+    attributes[attribute.name] = attributeValue(attribute, base);
   }
   return attributes;
+}
+
+function attributeValue(attribute: Attr, base: string): string | true {
+  const stored = serializeAttributeValue(attribute.name, attribute.value);
+  if (stored === true || !isUrlAttribute(attribute.localName)) {
+    return stored;
+  }
+  if (attribute.localName.toLowerCase() === "srcset") {
+    return resolveSrcset(stored, base);
+  }
+  return resolveUrl(stored, base);
 }

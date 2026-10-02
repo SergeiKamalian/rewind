@@ -87,7 +87,7 @@ The first event is `meta`. `data.version` is the format version (`FORMAT_VERSION
 | `error` | Message, stack, source location, and kind (`error` or `unhandledrejection`) |
 | `custom` | A tag and a JSON payload from the host app |
 
-Node kinds are Document, Doctype, Element, Text, Comment, and CDATA. Each node has a numeric `id`. HTML tag names are lowercase. Other namespaces keep the DOM's case. An element attribute is a string, or `true` for a boolean attribute with no value. A `script` element has no children. Attribute names that start with `on` are omitted.
+Node kinds are Document, Doctype, Element, Text, Comment, and CDATA. Each node has a numeric `id`. HTML tag names are lowercase. Other namespaces keep the DOM's case. An element attribute is a string, or `true` for a boolean attribute with no value. A `script` element has no children. Attribute names that start with `on` are omitted. SVG elements set `isSVG`. An open shadow root is the host's last child, with tag name `shadow-root` and `isShadowRoot`. Relative `src`, `href`, and `srcset` are absolute against the document base. A same-document fragment stays as written. A readable same-origin stylesheet link is stored as a `style` element.
 
 This checkout is the example. It is meta, a snapshot, a click, a text change, and a payment request. `parseEvent` accepts every event. The test in `packages/shared/src/example-session.test.ts` loads the JSON fence below.
 

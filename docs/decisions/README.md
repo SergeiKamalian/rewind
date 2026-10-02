@@ -49,3 +49,5 @@ What gets easier. What gets harder. What we will watch.
 | 0010 | [Look up node ids with WeakRef](0010-mirror-id-lookup.md) | Accepted |
 | 0011 | [Lowercase HTML tag names in snapshots](0011-html-tag-name-case.md) | Accepted |
 | 0012 | [Store canonical boolean attributes as true](0012-boolean-attribute-values.md) | Accepted |
+| 0013 | [Represent an open shadow root as an element](0013-shadow-root-element.md) | Accepted |
+| 0014 | [Freeze relative URLs and readable stylesheets](0014-inline-stylesheets-and-urls.md) | Accepted |
