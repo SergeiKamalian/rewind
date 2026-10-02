@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-02T14:29:54.946Z",
+  "event": "workflow_run",
+  "action": "completed",
+  "actor": "cursor[bot]",
+  "role": "automation",
+  "run": 37020262285,
+  "workflow": "CI",
+  "status": "completed",
+  "conclusion": "success",
+  "branch": "day-02/session-format",
+  "head": "7fb8b73",
+  "url": "https://github.com/SergeiKamalian/rewind/actions/runs/37020217793",
+  "trigger": "pull_request",
+  "startedAt": "2026-10-02T14:29:22Z",
+  "finishedAt": "2026-10-02T14:29:44Z",
+  "seconds": 22,
+  "prs": [
+    12
+  ]
+}
