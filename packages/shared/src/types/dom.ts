@@ -1,14 +1,22 @@
 /**
+ * Every serialized node kind, in canonical order.
+ * `SerializedNodeType` is derived from this list so the runtime values
+ * and the type stay the same.
+ */
+export const SERIALIZED_NODE_TYPES = [
+  "Document",
+  "Doctype",
+  "Element",
+  "Text",
+  "Comment",
+  "CDATA",
+] as const;
+
+/**
  * Kind of a serialized DOM node.
  * String kinds stay readable in recordings, tests, and logs.
  */
-export type SerializedNodeType =
-  | "Document"
-  | "Doctype"
-  | "Element"
-  | "Text"
-  | "Comment"
-  | "CDATA";
+export type SerializedNodeType = (typeof SERIALIZED_NODE_TYPES)[number];
 
 interface SerializedNodeBase<T extends SerializedNodeType> {
   /** Stable numeric id for this node within the session. */
@@ -63,7 +71,7 @@ export interface TextNode extends SerializedNodeBase<"Text"> {
 
 /** An HTML or XML comment. */
 export interface CommentNode extends SerializedNodeBase<"Comment"> {
-  /** Comment text, without the `<!--` `-->` delimiters. */
+  /** Comment text, without the comment delimiters. */
   textContent: string;
 }
 
@@ -84,9 +92,3 @@ export type SerializedNode =
   | TextNode
   | CommentNode
   | CDATANode;
-
-/**
- * Every serialized node kind, in canonical order.
- * Stubbed empty until the implementation commit fills it.
- */
-export const SERIALIZED_NODE_TYPES: readonly SerializedNodeType[] = [];

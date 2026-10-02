@@ -40,3 +40,4 @@ What gets easier. What gets harder. What we will watch.
 | 0001 | [Record decisions as ADRs](0001-record-decisions.md) | Accepted |
 | 0002 | [Build with AI agents, one part per session, test-first](0002-agent-workflow.md) | Accepted |
 | 0003 | [Mask sensitive data by default](0003-privacy-by-default.md) | Accepted |
+| 0004 | [Serialize DOM nodes with string kinds](0004-serialized-node-shape.md) | Accepted |

@@ -40,6 +40,7 @@ const NODE_KINDS = [
 describe("EventType", () => {
   it("lists every session event kind in canonical order", () => {
     expect(EVENT_TYPES).toEqual([...EVENT_KINDS]);
+    expectTypeOf(EVENT_TYPES).toEqualTypeOf<typeof EVENT_KINDS>();
   });
 
   it("matches the canonical event kind union", () => {
@@ -90,6 +91,7 @@ describe("BaseEvent", () => {
 describe("serialized DOM nodes", () => {
   it("lists every node kind in canonical order", () => {
     expect(SERIALIZED_NODE_TYPES).toEqual([...NODE_KINDS]);
+    expectTypeOf(SERIALIZED_NODE_TYPES).toEqualTypeOf<typeof NODE_KINDS>();
   });
 
   it("is a union of the six node interfaces", () => {

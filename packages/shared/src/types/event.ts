@@ -1,20 +1,28 @@
 /**
+ * Every event kind, in canonical order.
+ * `EventType` is derived from this list so the runtime values and the
+ * type stay the same.
+ */
+export const EVENT_TYPES = [
+  "meta",
+  "full_snapshot",
+  "mutation",
+  "mouse_move",
+  "mouse_interaction",
+  "scroll",
+  "input",
+  "viewport_resize",
+  "network",
+  "console",
+  "error",
+  "custom",
+] as const;
+
+/**
  * Event kinds the session format can record.
  * The payload for each kind is attached through {@link BaseEvent}.
  */
-export type EventType =
-  | "meta"
-  | "full_snapshot"
-  | "mutation"
-  | "mouse_move"
-  | "mouse_interaction"
-  | "scroll"
-  | "input"
-  | "viewport_resize"
-  | "network"
-  | "console"
-  | "error"
-  | "custom";
+export type EventType = (typeof EVENT_TYPES)[number];
 
 /**
  * Envelope shared by every event in a session.
@@ -33,12 +41,6 @@ export interface BaseEvent<T extends EventType, D> {
   seq: number;
   /** Milliseconds since session start. */
   timestamp: number;
-  /** Payload for {@link type}. */
+  /** Payload for this event kind. */
   data: D;
 }
-
-/**
- * Every event kind, in canonical order.
- * Stubbed empty until the implementation commit fills it.
- */
-export const EVENT_TYPES: readonly EventType[] = [];
