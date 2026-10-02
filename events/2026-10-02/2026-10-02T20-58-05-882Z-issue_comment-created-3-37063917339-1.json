@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T20:58:05.882Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37063917339,
+  "number": 3,
+  "kind": "issue",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/3#issuecomment-5961366212",
+  "text": "@cursor Part 1 of 5 for issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #3, then do ONLY Part 1.\n\nWork test-first: first a test commit `test(recorder): add node id mirror (#3)` with tests and stubs, then the implementation commit.\n\nPrompt: Create the node id registry in `packages/recorder/src/mirror.ts` as described in Steps 1.\n\nRequirements:\n- Ids start at 1 and are never reused\n- `WeakMap` for node to id\n- Explain the id to node storage choice in the PR note\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Tests: same node same id, removed node id not reused, getNode after remove\n\nImplementation commit message: `feat(recorder): add node id mirror (#3)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nThis task is stacked: Day 02 (PR #12) is finished but not merged yet. Create branch `day-03/dom-snapshot` from `day-02/session-format` (not from `main`), push, and open a DRAFT PR with base `day-02/session-format`, titled \"[Day 03] Full DOM snapshot with ",
+  "mentionsCursor": true
+}
