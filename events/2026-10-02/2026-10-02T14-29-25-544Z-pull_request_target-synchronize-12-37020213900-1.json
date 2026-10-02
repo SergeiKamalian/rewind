@@ -1,0 +1,30 @@
+{
+  "ts": "2026-10-02T14:29:25.544Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37020213900,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12",
+  "branch": "day-02/session-format",
+  "head": "7fb8b738a61c57f055ecaa1f1b3961da3bc4d301",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 396,
+  "deletions": 3,
+  "changedFiles": 9,
+  "commits": [
+    {
+      "sha": "7fb8b73",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "fix(shared): include nested source files in the DTS build (#2)",
+      "date": "2026-10-02T14:29:11Z"
+    }
+  ],
+  "forced": false
+}
