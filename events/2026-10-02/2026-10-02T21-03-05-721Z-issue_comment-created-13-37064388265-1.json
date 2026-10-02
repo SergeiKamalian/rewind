@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T21:03:05.721Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37064388265,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5961424363",
+  "text": "Part 1 is in. `Mirror` assigns ids from 1 and never reuses them. Node to id is a `WeakMap`. Id to node is a `WeakRef`, with the choice written up in ADR 0010.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: parts 2–5 (serializer, assets and shadow DOM, privacy, `takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
