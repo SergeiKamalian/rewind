@@ -1,0 +1,56 @@
+name: Auto-merge
+
+# Merges finished task PRs when every gate in .agentflow/scripts/auto-merge.js passes:
+# QA passed, CI green, ready for the grace period, no "hold", no protected files touched.
+# Runs every evening before the conductor's evening run, and can be started by hand.
+# Turn it off with `auto_merge.enabled: false` in .agentflow/config.yml,
+# or stop one PR with the label "hold" or a comment "hold".
+
+on:
+  schedule:
+    - cron: "40 16 * * *" # 20:40 Asia/Yerevan
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Only report what would be merged"
+        type: boolean
+        default: true
+      pr:
+        description: "Only this PR number (optional)"
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: read
+
+concurrency:
+  group: auto-merge
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: /.agentflow/
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Read kit config
+        run: yq -o=json .agentflow/config.yml > "$RUNNER_TEMP/config.json"
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const config = require(`${process.env.RUNNER_TEMP}/config.json`);
+            const run = require(`${process.env.GITHUB_WORKSPACE}/.agentflow/scripts/auto-merge.js`);
+            const inputs = context.payload.inputs || {};
+            const results = await run({
+              github, context, core, config,
+              dryRun: context.eventName === "workflow_dispatch" ? String(inputs.dry_run) !== "false" : false,
+              only: inputs.pr || null,
+            });
+            const lines = results.map((r) => `- #${r.pr}: ${r.merged ? "merged" : r.why.join("; ")}`);
+            await core.summary.addRaw(lines.join("\n") || "No task PRs to consider.").write();

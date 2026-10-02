@@ -24,6 +24,16 @@ agents:
   coder_commit_email: cursoragent@cursor.com
   coder_name: Cursor Agent
 
+auto_merge:
+  # Merges finished task PRs from GitHub Actions when every gate passes
+  # (see .agentflow/scripts/auto-merge.js). Set to false to merge by hand.
+  enabled: true
+  # How long a task must sit in "status: ready-to-merge" before it can merge,
+  # so the owner has time to look or add the "hold" label.
+  grace_hours: 6
+  # A PR that touches any of these needs a human merge.
+  protected_paths: [".github/", ".agentflow/", ".cursor/", "AGENTS.md", "qa/scenarios/", "vercel.json"]
+
 flow:
   # How many finished tasks may wait for the owner's merge before new work pauses.
   max_unmerged: 2

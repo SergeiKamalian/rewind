@@ -84,14 +84,17 @@ Read the full PR diff against the issue's Definition of done, `AGENTS.md` and `.
 - Non-blocking bugs (`severity: minor`) stay open. They do not block the merge. They are fixed in bugfix tasks (section 4).
 - The owner can write "skip qa" on a PR. Then QA is not required for that PR.
 
-### 2.5 Merge (done by the owner)
-You do not merge. When a task is `status: ready-to-merge` (QA passed or "skip qa", CI green, no "hold"), make sure the owner knows:
-- Keep "Смержи PR #N: <link>" in the journal's `needFromYou` until it is merged.
-- In the EVENING run, send the owner a short message with the link if a PR is waiting. Once per evening, not more.
+### 2.5 Merge (done by the Auto-merge workflow or the owner)
+You never merge. The workflow `.github/workflows/auto-merge.yml` runs every evening at 20:40 local time and merges a task PR only when all its gates pass: `qa: passed`, linked issue in `status: ready-to-merge` for at least `config.auto_merge.grace_hours`, CI green, no `hold` label or hold comment, no protected paths touched, no open blocking QA bug, base is the default branch. It also closes the task issue and moves stacked PRs onto the default branch.
+Your part:
+- Set `status: ready-to-merge` only after the final review and QA pass. That starts the grace period.
+- If a ready PR cannot auto-merge (the latest Auto-merge run summary or your own check shows why, for example protected paths), put "Смержи PR #N руками: <link>, причина: <reason>" in the journal's `needFromYou` and send the owner one short message in the EVENING run.
+- If `config.auto_merge.enabled` is false, the owner merges every PR by hand; remind the same way.
 
-After the owner merges (detected in any run):
+After a merge (detected in any run):
 1. Copy the issue's "QA scenarios" section into `qa/scenarios/day-XX.md` in a docs commit on the default branch, so the weekly regression covers it.
-2. If a stacked PR (2.6) has this branch as its base, change its base to the default branch: `PATCH /repos/{owner}/{repo}/pulls/{n}` with `{"base": "<default branch>"}`. Do not rebase or force-push. Check that CI runs green on it.
+2. If a stacked PR still has the merged branch as its base, change its base to the default branch: `PATCH /repos/{owner}/{repo}/pulls/{n}` with `{"base": "<default branch>"}`. Do not rebase or force-push. Check that CI runs green on it.
+3. Make sure the task issue is closed and its status label removed.
 
 ### 2.6 Stacking (so work does not wait for merges)
 If the current task is `status: ready-to-merge` and not merged yet, you may start the next task on top of it:
@@ -108,9 +111,9 @@ MORNING:
 - Write the MORNING journal entry. On Sundays add the LinkedIn draft.
 - On Sundays, and on the day a milestone closes, write the weekly retro (section 6).
 EVENING:
-- Handle merges the owner made (2.5). Start the next task if nothing is running, stacked if needed (2.6).
+- Handle merges done by Auto-merge or the owner (2.5). Start the next task if nothing is running, stacked if needed (2.6).
 - Otherwise advance as usual.
-- If a PR waits for the owner's merge, send one short message with the link.
+- If a ready PR is blocked from auto-merge, send one short message with the link and the reason.
 - Write a short EVENING journal entry.
 NIGHT:
 - Advance only (2.1 to 2.4, 2.6).

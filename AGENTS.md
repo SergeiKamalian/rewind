@@ -124,5 +124,5 @@ Do not create new top level folders without a reason written in the PR.
 - Do not add new dependencies without saying why in the PR. Prefer small, well known libraries.
 - Do not change CI to make a failing check pass.
 - Do not delete or skip tests to make them pass.
-- Do not change `.agentflow/`, `.github/workflows/qa.yml`, `.github/workflows/status-labels.yml`, `.github/workflows/agent-log.yml` or `qa/scenarios/`. They run the process, not the product.
+- Do not change `.agentflow/`, `.github/workflows/qa.yml`, `.github/workflows/status-labels.yml`, `.github/workflows/agent-log.yml`, `.github/workflows/auto-merge.yml` or `qa/scenarios/`. A PR that touches the process, CI or agent rules is never merged automatically. They run the process, not the product.
 - Do not commit secrets, `.env` files, or large binary files.

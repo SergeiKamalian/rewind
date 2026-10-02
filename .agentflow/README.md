@@ -41,6 +41,7 @@ Generic (copy as is):
 | `.github/workflows/qa.yml` | Runs QA on label `qa: requested`, weekly, or by hand. |
 | `.github/workflows/status-labels.yml` | Keeps task and bug status labels in sync with events. |
 | `.github/workflows/agent-log.yml` | Logs every event (comments, labels, pushes, reviews, CI, QA, deploys) to the `agentflow-log` branch. |
+| `.github/workflows/auto-merge.yml`, `.agentflow/scripts/auto-merge.js` | Merges finished task PRs every evening when all gates pass (QA, CI, grace period, no hold, no protected files). |
 | `.agentflow/scripts/log-event.js` | Turns one GitHub event into one log file with the actor's role. |
 | `.github/ISSUE_TEMPLATE/day-task.md` | Task template with Parts and QA scenarios. |
 | `.github/pull_request_template.md` | PR template. |
@@ -61,7 +62,7 @@ Project-specific (write for each project):
 
 1. Copy the generic files. Write the project-specific ones.
 2. Create an empty orphan branch `agentflow-log` for the agent log.
-3. Labels: `task`, `priority`, `week-N`, `day-XX`, the five `status: ...` labels, `bug`, `qa`, `bug: new|fixing|fixed|verified|not-a-bug`, `severity: critical|major|minor`, `qa: requested|passed|failed|error`, `regression`.
+3. Labels: `task`, `priority`, `week-N`, `day-XX`, the five `status: ...` labels, `bug`, `qa`, `bug: new|fixing|fixed|verified|not-a-bug`, `severity: critical|major|minor`, `qa: requested|passed|failed|error`, `regression`, `hold`.
 4. Connect the repo to Cursor (GitHub app) so `@cursor` comments start agents.
 5. Connect the repo to a preview host (Vercel) so every PR gets a preview URL. Turn off login protection for previews, or QA cannot open them.
 6. Add the repository secret `CURSOR_API_KEY` (a Cursor API key) for the QA workflow.
