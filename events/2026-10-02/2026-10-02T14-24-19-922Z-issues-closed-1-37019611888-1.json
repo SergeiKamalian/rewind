@@ -1,0 +1,20 @@
+{
+  "ts": "2026-10-02T14:24:19.922Z",
+  "event": "issues",
+  "action": "closed",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37019611888,
+  "number": 1,
+  "kind": "issue",
+  "title": "[Day 01] Monorepo setup: pnpm, TypeScript, Biome, Vitest, CI",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/1",
+  "labels": [
+    "task",
+    "week-1",
+    "status: ready-to-merge",
+    "day-01"
+  ],
+  "state": "closed",
+  "stateReason": "completed"
+}
