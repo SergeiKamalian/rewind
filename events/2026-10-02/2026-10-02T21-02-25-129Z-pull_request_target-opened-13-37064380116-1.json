@@ -1,0 +1,20 @@
+{
+  "ts": "2026-10-02T21:02:25.129Z",
+  "event": "pull_request_target",
+  "action": "opened",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37064380116,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13",
+  "branch": "day-03/dom-snapshot",
+  "head": "b48b291136923193a9c6dc4f411c650837dc7cad",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 251,
+  "deletions": 1,
+  "changedFiles": 6
+}
