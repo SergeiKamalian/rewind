@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-02T20:57:51.926Z",
+  "event": "issues",
+  "action": "labeled",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37063899038,
+  "number": 2,
+  "kind": "issue",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/2",
+  "label": "status: ready-to-merge",
+  "labels": [
+    "task",
+    "week-1",
+    "status: ready-to-merge",
+    "day-02"
+  ],
+  "state": "open",
+  "stateReason": null
+}
