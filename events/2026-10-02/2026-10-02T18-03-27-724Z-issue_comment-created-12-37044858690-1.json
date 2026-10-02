@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T18:03:27.724Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37044858690,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5958310338",
+  "text": "Part 4 of 5 is in. `createEvent(type, data, clock)` fills `seq` and `timestamp`. `isEventOfType` narrows on the kind. `FORMAT_VERSION` is `1`, and `version()` returns it.\n\n`seq` starts at 1 and increases per clock instance, including when 1000 events share one millisecond. A second clock starts again at 1. The counter is a `WeakMap` on the factory, so a test clock is only `{ now: () => 0 }`. That choice is ADR 0008.\n\nChecks on `5dbd132`: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` all passed. Part 5 is still open, so this PR stays a draft.",
+  "mentionsCursor": false
+}
