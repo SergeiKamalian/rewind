@@ -1,0 +1,20 @@
+{
+  "ts": "2026-10-02T19:00:48.199Z",
+  "event": "pull_request_target",
+  "action": "ready_for_review",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37051271185,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12",
+  "branch": "day-02/session-format",
+  "head": "09f0a796206d3ac7d5d1605c7f228f4959b31fe0",
+  "labels": [],
+  "draft": false,
+  "merged": false,
+  "additions": 3617,
+  "deletions": 4,
+  "changedFiles": 22
+}
