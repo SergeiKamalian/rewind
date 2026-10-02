@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T22:57:57.114Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37075229155,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5962778215",
+  "text": "@cursor Part 3 of 5 for issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #3, then do ONLY Part 3.\n\nWork test-first: first a test commit `test(recorder): resolve URLs, inline styles, support SVG and shadow DOM (#3)` with tests and stubs, then the implementation commit.\n\nPrompt: Resolve relative `src`, `href`, `srcset` to absolute. Inline same-origin stylesheets, keep cross-origin links. Mark SVG. Serialize open shadow roots. Build on `serializeNode` in `packages/recorder/src/snapshot/` from Part 2 and the serialized node shape from `@rewind/shared`.\n\nRequirements:\n- `srcset` with several candidates resolved correctly\n- Shadow root child marked `isShadowRoot`\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Fixture tests: relative URLs, SVG, shadow DOM, stylesheet\n\nImplementation commit message: `feat(recorder): resolve URLs, inline styles, support SVG and shadow DOM (#3)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" -m \"...\"`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and update docs/decisions/README.md.\n\nPush to the existing branch `day-0",
+  "mentionsCursor": true
+}
