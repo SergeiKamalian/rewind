@@ -1,0 +1,22 @@
+{
+  "summary": "Ran the product smoke check and day-01 regression scenarios on desktop (1280x800) and mobile (390x844). Add, trim, empty/spaces rejection, toggle done, delete, keyboard-only use, long titles, and rapid adds all behaved as specified with no console errors. No bugs found; known-bugs list was empty.",
+  "scenarios": [
+    { "id": "S1", "title": "Page loads with Todos heading and empty state", "result": "pass", "notes": "Heading, New todo field, Add, No todos yet, Format version 1; no console errors." },
+    { "id": "S2", "title": "Add todo with Add button", "result": "pass", "notes": "Walk the dog appeared; field cleared." },
+    { "id": "S3", "title": "Add todo with Enter", "result": "pass", "notes": "Buy milk added via Enter." },
+    { "id": "S4", "title": "Reject empty and spaces-only titles", "result": "pass", "notes": "Neither empty nor spaces-only added a todo." },
+    { "id": "S5", "title": "Trim surrounding spaces", "result": "pass", "notes": "  Buy milk   /   Trimmed   appeared trimmed." },
+    { "id": "S6", "title": "500-character title stays usable", "result": "pass", "notes": "Todo added; no horizontal overflow on desktop or mobile." },
+    { "id": "S7", "title": "Add 20 todos quickly in order", "result": "pass", "notes": "All 20 appeared as Todo 1..Todo 20." },
+    { "id": "S8", "title": "Toggle todo done and undo", "result": "pass", "notes": "Checkbox checked then unchecked; no console errors." },
+    { "id": "S9", "title": "Delete middle todo", "result": "pass", "notes": "Todo 10 removed; neighbors remained." },
+    { "id": "S10", "title": "Delete all shows empty state", "result": "pass", "notes": "No todos yet. returned after clearing list." },
+    { "id": "S11", "title": "Footer shows Format version 1", "result": "pass", "notes": "Visible on load and after interactions." },
+    { "id": "S12", "title": "Keyboard-only add, toggle, delete", "result": "pass", "notes": "Tab/Enter/Space path works on both viewports." },
+    { "id": "S13", "title": "Mobile smoke and regression", "result": "pass", "notes": "S2–S10 equivalent on 390x844; no overflow." },
+    { "id": "SMOKE", "title": "Product smoke check (desktop + mobile)", "result": "pass", "notes": "Two todos, toggle, delete, footer, keyboard; no console errors." }
+  ],
+  "bugs": [],
+  "fixed": [],
+  "still_open": []
+}
