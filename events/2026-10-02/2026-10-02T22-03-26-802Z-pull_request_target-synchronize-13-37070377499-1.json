@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-02T22:03:26.802Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37070377499,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13",
+  "branch": "day-03/dom-snapshot",
+  "head": "3b83085f496e40aa9cd8c7d3f4a975d8180af156",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 880,
+  "deletions": 2,
+  "changedFiles": 11,
+  "commits": [
+    {
+      "sha": "de5e502",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): serialize DOM nodes with script stripping (#3)",
+      "date": "2026-10-02T22:01:57Z"
+    },
+    {
+      "sha": "3b83085",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "feat(recorder): serialize DOM nodes with script stripping (#3)",
+      "date": "2026-10-02T22:03:14Z"
+    }
+  ],
+  "forced": false
+}
