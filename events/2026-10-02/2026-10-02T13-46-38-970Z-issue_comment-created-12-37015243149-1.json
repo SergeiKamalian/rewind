@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T13:46:38.970Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "vercel[bot]",
+  "role": "preview",
+  "run": 37015243149,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5953784985",
+  "text": "[vc]: #qfbGj0/YabF7e6TDBvmHj+i1y8KThIpAG8rsQHyqQfE=:eyJpc01vbm9yZXBvIjp0cnVlLCJ0eXBlIjoiZ2l0aHViIiwicHJvamVjdHMiOlt7Im5hbWUiOiJyZXdpbmQiLCJwcm9qZWN0SWQiOiJwcmpfc3lhQnRvWG9zeHBSUGtNRVdxZWRYdkphQjV1ZiIsImluc3BlY3RvclVybCI6Imh0dHBzOi8vdmVyY2VsLmNvbS9zZXJnZWlrYW1hbGlhbi9yZXdpbmQvRlZTSGhuS1BrZDZBNWNFQndZckxDUHJmRW1FMiIsInByZXZpZXdVcmwiOiJyZXdpbmQtZ2l0LWRheS0wMi1zZXNzaW9uLWZvcm1hdC1zZXJnZWlrYW1hbGlhbi52ZXJjZWwuYXBwIiwibmV4dENvbW1pdFN0YXR1cyI6IlBFTkRJTkciLCJsaXZlRmVlZGJhY2siOnsicmVzb2x2ZWQiOjAsInVucmVzb2x2ZWQiOjAsInRvdGFsIjowLCJsaW5rIjoicmV3aW5kLWdpdC1kYXktMDItc2Vzc2lvbi1mb3JtYXQtc2VyZ2Vpa2FtYWxpYW4udmVyY2VsLmFwcCJ9fV19\nThe latest updates on your projects. Learn more about [Vercel for GitHub](https://vercel.link/github-learn-more).\n\n| Project | Deployment | Actions | Updated |\n| :--- | :----- | :------ | :------ |\n| <a href=\"https://vercel.com/sergeikamalian/rewind\"><sup><img src=\"https://vercel.com/api/www/avatar?projectId=prj_syaBtoXosxpRPkMEWqedXvJaB5uf&teamId=team_pQVOr3HNsR7ohoy2vne6qbgu&s=32\" width=\"16\" height=\"16\" align=\"middle\" alt=\"\" /></sup></a> [rewind](https://vercel.com/sergeikamalian/rewind) | ![Building](https://vercel.com/static/status/building.svg) [Building](https://vercel.com/sergeikamalian/rewind/FVSHhnKPkd6A5cEBwYrLCPrfEmE2) | [Preview](https://rewind-git-day-02-session-format-sergeikamalian.vercel.app) | <relative-time datetime=\"2026-10-02T13:46:28.178Z\">Oct 2, 2026 1:46pm UTC</relative-time> |",
+  "mentionsCursor": false
+}
