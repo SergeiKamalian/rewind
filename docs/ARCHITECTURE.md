@@ -55,7 +55,7 @@ If a PR changes the design, it updates this file.
 
 | Decision | Choice | Why |
 |---|---|---|
-| Node identity | Numeric id per node, stored in a `WeakMap<Node, number>` | Stable across mutations, no memory leaks |
+| Node identity | Numeric id in a `Mirror`. `WeakMap` from node to id, `WeakRef` from id to node. Ids start at 1 and are never reused | Stable across mutations. The mirror does not keep a detached node alive |
 | Time | Milliseconds since session start from `performance.now()` | Monotonic, not affected by clock changes |
 | Compression | fflate (gzip) in batches | Small, fast, works in browser and Node |
 | Privacy | Mask by default | Safe to drop into any app |
