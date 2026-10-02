@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T19:00:56.833Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37051290432,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12#issuecomment-5959386591",
+  "text": "Part 5 of 5 is in. `docs/ARCHITECTURE.md` now has a Session format section: the 12 event kinds, and an example session (meta, a snapshot, a click, a text mutation, and a network event).\n\n`packages/shared/src/example-session.test.ts` loads that JSON fence and runs every event through `parseEvent`. The fence is the fixture so the doc and the parser stay in step. That choice is ADR 0009.\n\nChecks on `09f0a79`: `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm build` all passed. This PR is ready for review.",
+  "mentionsCursor": false
+}
