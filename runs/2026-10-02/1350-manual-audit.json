@@ -1,0 +1,27 @@
+{
+  "startedAt": "2026-10-02T13:38:00Z",
+  "finishedAt": "2026-10-02T13:52:00Z",
+  "runType": "manual",
+  "note": "Owner asked for a health check in the setup chat.",
+  "observed": [
+    "No merges since 2026-09-30. PR #8 ready since then. Issues #2-#7 queued.",
+    "Every scheduled run since 2026-09-30 17:05Z tried or wanted to merge PR #8; merge and force-push were denied by the scheduled task's permission check.",
+    "Night runs wrote the same stuck entry to the journal every hour.",
+    "Status labels, agent log, CI, QA workflows and the journal all worked. No GitHub activity simply because the chain was blocked."
+  ],
+  "decisions": [
+    { "what": "Conductor stops merging and rewriting history; the owner merges", "why": "Unattended runs are not allowed to merge or force-push without a human. Working around that is not acceptable." },
+    { "what": "Stacked tasks, up to 2 waiting for merge", "why": "So agent work continues while the owner has not merged yet" },
+    { "what": "Cursor authors commits as the owner with a Co-authored-by trailer", "why": "Co-author trailers do not count on the contribution graph; authorship does. This removes the need for force-push rewrites." },
+    { "what": "Started Day 02 Part 1 stacked on day-01/monorepo-setup", "why": "Unblock the chain now" }
+  ],
+  "problems": [
+    "Playbook assumed the conductor could merge and force-push unattended. It cannot.",
+    "The owner was not reached effectively: two days of journal 'stuck' entries without a reply."
+  ],
+  "processNotes": [
+    "Template rule: merges are always a human step. Design the flow so work continues without them (stacking).",
+    "Template rule: get commit authorship right at commit time, never by rewriting history later.",
+    "Escalation needs to be loud but rare: one message per evening, not hourly entries."
+  ]
+}
