@@ -10,7 +10,7 @@ alwaysApply: true
 - One issue = one branch = one PR. Branch name `day-XX/short-name`. PR title `[Day XX] ...`. PR body has `Closes #N`.
 - Test-first inside every part: a `test(...)` commit with tests and stubs, then the implementation commit. Never weaken tests from the test commit.
 - Also read `.cursor/rules/90-lessons.mdc` before you start.
-- Run `pnpm lint && pnpm typecheck && pnpm test` before pushing. All must pass.
+- Run `pnpm lint && pnpm typecheck && pnpm test && pnpm build` before pushing. All must pass.
 - Never skip or delete tests. Never weaken CI.
 - The recorder must never throw into the host app. Wrap risky code.
 - Mask sensitive input by default.

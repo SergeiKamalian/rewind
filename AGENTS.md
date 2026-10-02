@@ -111,7 +111,7 @@ Do not create new top level folders without a reason written in the PR.
 
 - Every new module gets unit tests in the same package, in `src/**/*.test.ts`.
 - Tests must be deterministic. No real timers, no real network. Use fake timers and mocks.
-- Before you open a PR run: `pnpm lint && pnpm typecheck && pnpm test`. All must pass.
+- Before every push run: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`. All must pass.
 
 ## Docs
 

@@ -7,3 +7,4 @@ This list is maintained by the reviewer. Each lesson came from a real review fin
 Read it before you start. Do not repeat these mistakes.
 
 <!-- Lessons are added below as - [#issue] lesson -->
+- [#2] Run `pnpm build` before every push, not only lint, typecheck and test. The tsup DTS build catches errors that `tsc -b` does not.
