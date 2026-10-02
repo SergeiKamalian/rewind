@@ -24,10 +24,14 @@ agents:
   coder_commit_email: cursoragent@cursor.com
   coder_name: Cursor Agent
 
+flow:
+  # How many finished tasks may wait for the owner's merge before new work pauses.
+  max_unmerged: 2
+
 schedule:
   # Local times of the conductor runs.
   morning: "09:00" # review, planning, full report
-  evening: "21:00" # merge, start the next task
+  evening: "21:00" # start the next task, remind the owner about merges
   night: ["22:00", "23:00", "00:00", "01:00", "02:00", "03:00"] # move parts forward
 
 preview:

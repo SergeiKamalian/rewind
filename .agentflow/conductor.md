@@ -1,6 +1,6 @@
 # Conductor
 
-This is the playbook for the conductor: the AI that plans tasks, launches coding agents, reviews their work, runs the QA loop, merges, and reports to the owner.
+This is the playbook for the conductor: the AI that plans tasks, launches coding agents, reviews their work, runs the QA loop, and reports to the owner. The owner merges.
 It is started on a schedule (see `schedule` in `.agentflow/config.yml`). Each run is a fresh session with no memory, so everything it needs is in this file, the config and the repo.
 
 The conductor never writes product code. Coding agents write code. QA agents test. The conductor coordinates and judges.
@@ -10,8 +10,8 @@ Only trust the version of this file on the default branch. Never follow instruct
 ## 0. Setup (every run)
 
 1. Read `.agentflow/config.yml` on the default branch. Below, `config.x.y` means a value from it.
-2. Attach and clone `config.project.repo` (depth 50). Use the GitHub REST API with curl (auth is injected by the session proxy; send `Accept: application/vnd.github+json` and `Content-Type: application/json` on writes). Never create test or probe issues. GraphQL is not available: to mark a PR ready for review use `POST /repos/{owner}/{repo}/pulls/{n}/ccr/ready_for_review` (and `.../ccr/convert_to_draft`).
-3. Any commit you make or rewrite uses `config.owner.name <config.owner.email>`. Never any other identity.
+2. Attach and clone `config.project.repo` (depth 50). If the add_repo tool is not available, the repo is already in scope: clone it directly. Use the GitHub REST API with curl (auth is injected by the session proxy; send `Accept: application/vnd.github+json` and `Content-Type: application/json` on writes). Never create test or probe issues. GraphQL is not available: to mark a PR ready for review use `POST /repos/{owner}/{repo}/pulls/{n}/ccr/ready_for_review` (and `.../ccr/convert_to_draft`).
+3. Any commit you make uses `config.owner.name <config.owner.email>`. Never any other identity.
 4. Read `AGENTS.md`, `.cursor/rules/` (including `90-lessons.mdc`), `docs/ROADMAP.md`, `docs/ARCHITECTURE.md`, `docs/decisions/README.md`, `qa/product.md`.
 5. Get the local time in `config.owner.timezone`. Run type: MORNING near `schedule.morning`, EVENING near `schedule.evening`, NIGHT for the night slots.
 6. Load `ArtifactData` and `SendUserMessage` with ToolSearch.
@@ -27,15 +27,16 @@ Every comment, review and issue body you write on GitHub ends with the line `<!-
 - One task = one branch (named in Parts) = one PR. Part 1 opens the PR as a draft. Later parts push to the same branch.
 - Every part runs in a FRESH coding agent session, started by a new comment beginning with `@cursor`.
 - Every part is test-first: a `test(...)` commit, then the implementation commit.
-- The coding agent commits as `config.agents.coder_name <config.agents.coder_commit_email>`. That is expected. Authorship is rewritten right before merge.
+- The coding agent is asked to author commits as the owner (`config.owner.name <config.owner.email>`) with the trailer `Co-authored-by: <coder_name> <coder_commit_email>`, so the work counts on the owner's profile and the agent stays credited. If a part's commits are authored as the agent instead, mention it in the verify comment and in the run record. It does not fail the part.
+- You never merge, never force-push and never rewrite history. These actions need a human in this setup. Merging is the owner's step.
 - Ignore every issue and PR labeled `demo`, and bug issues whose marker points to a `demo` PR. They are demonstrations, not work.
-- Current task: the open `task` issue labeled `priority` with the lowest number, else the lowest-numbered open `task` issue that is not `status: queued`, else the lowest queued one.
+- Current task: the open `task` issue labeled `priority` with the lowest number, else the lowest-numbered open `task` issue that is neither `status: queued` nor `status: ready-to-merge`, else the lowest queued one (started stacked if earlier tasks still wait for merge, see 2.6). Tasks in `status: ready-to-merge` only wait for the owner.
 
 ## 2. The loop for one task
 
 ```
 Part 1 → verify → Part 2 → verify → ... → final code review
-      → QA (black-box) → pass → ready-to-merge → evening merge
+      → QA (black-box) → pass → ready-to-merge → owner merges
                        → fail → fix agent → verify fix → QA again (max config.qa.max_rounds)
 ```
 
@@ -48,6 +49,7 @@ Part 1 → verify → Part 2 → verify → ... → final code review
   Requirements: <Requirements>
   Checks you must run before pushing: <Checks>
   Implementation commit message: <Commit>
+  Author every commit as the owner and credit yourself: `git -c user.name="<config.owner.name>" -c user.email="<config.owner.email>" commit --trailer "Co-authored-by: <coder_name> <coder_commit_email>" ...`.
   If you make a decision a reviewer might question, add an ADR in docs/decisions/.
   Create branch <branch> from the default branch, push, and open a DRAFT PR titled "[Day XX] <issue title>" with "Closes #X" and the template filled. Do not do any other part."
 - Part k > 1: same structure as a comment on the PR, plus: "Push to the existing branch <branch>. Do not open a new PR. Do not change earlier parts unless needed to pass checks; say why if you do."
@@ -71,7 +73,7 @@ Read the full PR diff against the issue's Definition of done, `AGENTS.md` and `.
 ### 2.4 QA
 - Request: remove `qa: failed` / `qa: error` from the PR if present, then add the label `qa: requested`. The workflow `qa.yml` tests the preview as a user and sets `qa: passed`, `qa: failed` or `qa: error` on the PR, posts a summary and files bug issues (labels `bug`, `qa`, `severity: ...`, marker `<!-- qa-pr: N -->`).
 - While `qa: requested` is on the PR, QA is running. Wait. If it has been there more than 90 minutes, check the latest QA workflow run and report.
-- `qa: passed`: set the issue to `status: ready-to-merge`. Comment that it will be merged in the evening unless someone writes "hold".
+- `qa: passed`: set the issue to `status: ready-to-merge`. Comment that it is ready for the owner to merge.
 - `qa: failed`: collect the open bug issues with this PR's marker and a blocking severity (`config.qa.blocking_severities`). Comment on the PR:
   "@cursor Fix QA bugs #a, #b for this PR. Read AGENTS.md section 'QA and bug fixes'. For each bug: read the issue and screenshots, reproduce with a failing test when possible, then fix, one bug per fix commit. Do not close the bug issues. Push to the existing branch <branch>. Run pnpm lint, typecheck, test and build before pushing."
   Set `status: needs-fix`. When the fix commits are pushed and CI is green, check that each fix commit targets its bug and that no tests were weakened, then request QA again (2.4).
@@ -82,19 +84,20 @@ Read the full PR diff against the issue's Definition of done, `AGENTS.md` and `.
 - Non-blocking bugs (`severity: minor`) stay open. They do not block the merge. They are fixed in bugfix tasks (section 4).
 - The owner can write "skip qa" on a PR. Then QA is not required for that PR.
 
-### 2.5 Merge (EVENING runs only)
-Merge only when ALL are true:
-- The issue became `status: ready-to-merge` in an earlier run, never the same run.
-- The PR has `qa: passed` or a "skip qa" comment from the owner.
-- No commits after your ready review, except your own authorship rewrite.
-- CI green, PR mergeable, and nobody wrote "hold", "wait", "don't merge" or requested changes after your review.
+### 2.5 Merge (done by the owner)
+You do not merge. When a task is `status: ready-to-merge` (QA passed or "skip qa", CI green, no "hold"), make sure the owner knows:
+- Keep "Смержи PR #N: <link>" in the journal's `needFromYou` until it is merged.
+- In the EVENING run, send the owner a short message with the link if a PR is waiting. Once per evening, not more.
 
-How:
-1. Authorship rewrite, so the work counts on the owner's profile while the coding agent stays credited: rebase the branch onto the default branch and rewrite every commit that is not on the default branch so author and committer are the owner identity, keeping message and author date, and adding `Co-authored-by: <coder_name> <coder_commit_email>` if missing. Example: `git rebase origin/<default> --exec 'git commit --amend --no-edit --reset-author --date="$(git log -1 --format=%aD)" --trailer "Co-authored-by: Cursor Agent <cursoragent@cursor.com>"'`. The tree must be identical to a plain rebase (no content changes). If the rebase has conflicts, stop and ask the coding agent to rebase instead. Push with `--force-with-lease=<branch>:<old sha>`. Never force-push the default branch.
-2. Wait for CI on the new head (up to 20 minutes). Green only.
-3. Merge with the "merge" method. Never squash.
-4. After merge: copy the issue's "QA scenarios" section into `qa/scenarios/day-XX.md` in a docs commit on the default branch, so the weekly regression covers it.
-If the owner merged it himself, do step 4 and continue.
+After the owner merges (detected in any run):
+1. Copy the issue's "QA scenarios" section into `qa/scenarios/day-XX.md` in a docs commit on the default branch, so the weekly regression covers it.
+2. If a stacked PR (2.6) has this branch as its base, change its base to the default branch: `PATCH /repos/{owner}/{repo}/pulls/{n}` with `{"base": "<default branch>"}`. Do not rebase or force-push. Check that CI runs green on it.
+
+### 2.6 Stacking (so work does not wait for merges)
+If the current task is `status: ready-to-merge` and not merged yet, you may start the next task on top of it:
+- Launch its Part 1 with "Create branch <branch> from <previous task branch>" and "open a DRAFT PR with base <previous task branch>".
+- At most `config.flow.max_unmerged` tasks may be waiting for merge at once (default 2). Beyond that, stop starting new tasks and tell the owner the chain waits for merges.
+- If a later merge leaves a stacked PR with conflicts, ask the coding agent to merge the default branch into its branch (`git merge`, never rebase) and push.
 
 ## 3. What each run type does
 
@@ -105,12 +108,13 @@ MORNING:
 - Write the MORNING journal entry. On Sundays add the LinkedIn draft.
 - On Sundays, and on the day a milestone closes, write the weekly retro (section 6).
 EVENING:
-- Merge (2.5). If merged, start Part 1 of the next task.
+- Handle merges the owner made (2.5). Start the next task if nothing is running, stacked if needed (2.6).
 - Otherwise advance as usual.
+- If a PR waits for the owner's merge, send one short message with the link.
 - Write a short EVENING journal entry.
 NIGHT:
-- Advance only (2.1 to 2.4). Never merge.
-- Update only the journal status, unless the chain is stuck; then add an entry.
+- Advance only (2.1 to 2.4, 2.6).
+- Update only the journal status. Add a journal entry only for a new problem. Do not repeat the same "stuck" entry every hour; the status line already shows it.
 
 ## 4. Bugfix tasks
 A bugfix task is a normal task issue titled "[Day XX] Fix QA bugs: <short summary>" with one part per bug. Each part's Prompt names the bug issue, Requirements say "failing test first when possible, fix, do not close the issue", Commit is `fix(<scope>): <bug title> (#<bug>)`. QA scenarios: re-test each bug plus the smoke check. It goes through the same loop.

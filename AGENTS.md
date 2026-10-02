@@ -66,6 +66,9 @@ When you are asked to do a part:
 ## Commits
 
 - Conventional commits with the issue number: `feat(recorder): add mirror registry (#3)`.
+- Author every commit as the repo owner and credit yourself with a trailer, so the work shows on the owner's profile:
+  `git -c user.name="Sergei Kamalian" -c user.email="106472907+SergeiKamalian@users.noreply.github.com" commit --trailer "Co-authored-by: Cursor Agent <cursoragent@cursor.com>" -m "..."`
+- Never force-push and never rewrite pushed history. To catch up with `main`, merge it into your branch.
 - One part = a test commit plus an implementation commit. Never squash parts together.
 - Small commits with clear messages. No "wip" or "update" messages.
 - Every commit must pass lint and typecheck on its own.
