@@ -1,0 +1,30 @@
+{
+  "ts": "2026-10-02T17:03:31.564Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37038111521,
+  "number": 12,
+  "kind": "pr",
+  "title": "[Day 02] Session format and event types",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/12",
+  "branch": "day-02/session-format",
+  "head": "9dba20bcdac80b70dfcefa56795d28782c19fe3d",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 1895,
+  "deletions": 3,
+  "changedFiles": 14,
+  "commits": [
+    {
+      "sha": "9dba20b",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(shared): add runtime event validation (#2)",
+      "date": "2026-10-02T17:03:18Z"
+    }
+  ],
+  "forced": false
+}
