@@ -1,0 +1,22 @@
+{
+  "ts": "2026-10-02T14:24:18.759Z",
+  "event": "pull_request_target",
+  "action": "closed",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37019611082,
+  "number": 8,
+  "kind": "pr",
+  "title": "[Day 01] Monorepo setup",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/8",
+  "branch": "day-01/monorepo-setup",
+  "head": "54aff0fcb6b6ce2b3673b3b944845b9ed41b6c26",
+  "labels": [
+    "qa: passed"
+  ],
+  "draft": false,
+  "merged": true,
+  "additions": 2750,
+  "deletions": 1,
+  "changedFiles": 43
+}
