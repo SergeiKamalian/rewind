@@ -47,3 +47,5 @@ What gets easier. What gets harder. What we will watch.
 | 0008 | [Count sequence numbers per clock](0008-sequence-per-clock.md) | Accepted |
 | 0009 | [Test the example session inside the architecture doc](0009-example-session-in-architecture.md) | Accepted |
 | 0010 | [Look up node ids with WeakRef](0010-mirror-id-lookup.md) | Accepted |
+| 0011 | [Lowercase HTML tag names in snapshots](0011-html-tag-name-case.md) | Accepted |
+| 0012 | [Store canonical boolean attributes as true](0012-boolean-attribute-values.md) | Accepted |
