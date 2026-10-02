@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-02T21:02:33.950Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "vercel[bot]",
+  "role": "preview",
+  "run": 37064396857,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5961425125",
+  "text": "[vc]: #5vQpbvkV586mIoxnjY2f2xcV34yqoYRCPsgozKPbJQM=:eyJpc01vbm9yZXBvIjp0cnVlLCJ0eXBlIjoiZ2l0aHViIiwicHJvamVjdHMiOlt7Im5hbWUiOiJyZXdpbmQiLCJwcm9qZWN0SWQiOiJwcmpfc3lhQnRvWG9zeHBSUGtNRVdxZWRYdkphQjV1ZiIsImluc3BlY3RvclVybCI6Imh0dHBzOi8vdmVyY2VsLmNvbS9zZXJnZWlrYW1hbGlhbi9yZXdpbmQvNUw2Y0Q1SkRXQ2t5VThGRWVRUllyR2FrbnRpWCIsInByZXZpZXdVcmwiOiJyZXdpbmQtZ2l0LWRheS0wMy1kb20tc25hcHNob3Qtc2VyZ2Vpa2FtYWxpYW4udmVyY2VsLmFwcCIsIm5leHRDb21taXRTdGF0dXMiOiJQRU5ESU5HIiwibGl2ZUZlZWRiYWNrIjp7InJlc29sdmVkIjowLCJ1bnJlc29sdmVkIjowLCJ0b3RhbCI6MCwibGluayI6InJld2luZC1naXQtZGF5LTAzLWRvbS1zbmFwc2hvdC1zZXJnZWlrYW1hbGlhbi52ZXJjZWwuYXBwIn19XX0=\nThe latest updates on your projects. Learn more about [Vercel for GitHub](https://vercel.link/github-learn-more).\n\n| Project | Deployment | Actions | Updated |\n| :--- | :----- | :------ | :------ |\n| <a href=\"https://vercel.com/sergeikamalian/rewind\"><sup><img src=\"https://vercel.com/api/www/avatar?projectId=prj_syaBtoXosxpRPkMEWqedXvJaB5uf&teamId=team_pQVOr3HNsR7ohoy2vne6qbgu&s=32\" width=\"16\" height=\"16\" align=\"middle\" alt=\"\" /></sup></a> [rewind](https://vercel.com/sergeikamalian/rewind) | ![Building](https://vercel.com/static/status/building.svg) [Building](https://vercel.com/sergeikamalian/rewind/5L6cD5JDWCkyU8FEeQRYrGakntiX) | [Preview](https://rewind-git-day-03-dom-snapshot-sergeikamalian.vercel.app) | <relative-time datetime=\"2026-10-02T21:02:23.097Z\">Oct 2, 2026 9:02pm UTC</relative-time> |",
+  "mentionsCursor": false
+}
