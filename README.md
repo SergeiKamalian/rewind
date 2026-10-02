@@ -30,7 +30,28 @@ More detail in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Development
 
-Setup instructions will appear here after Day 01.
+### Requirements
+
+- Node.js 22 or newer. The major version is pinned in `.nvmrc`.
+- pnpm 10.34.6. `corepack enable` reads it from the `packageManager` field.
+
+### Install
+
+```sh
+pnpm install
+```
+
+### Scripts
+
+| Command | What it does |
+|---|---|
+| `pnpm dev` | Builds `@rewind/shared`, then starts the demo app. |
+| `pnpm build` | Builds the packages and the demo app. |
+| `pnpm lint` | Checks lint and formatting with Biome. |
+| `pnpm format` | Rewrites formatting with Biome. |
+| `pnpm typecheck` | Typechecks every package with `tsc -b`. |
+| `pnpm test` | Runs unit tests once. |
+| `pnpm test:watch` | Runs unit tests in watch mode. |
 
 ## How this project is built
 

@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".tsbuild/tools",
+    "rootDir": ".",
+    "types": ["node"]
+  },
+  "include": [
+    "vitest.config.ts",
+    "packages/shared/tsup.config.ts",
+    "packages/shared/vitest.config.ts",
+    "packages/recorder/tsup.config.ts",
+    "packages/recorder/vitest.config.ts",
+    "packages/player/tsup.config.ts",
+    "packages/player/vitest.config.ts",
+    "apps/demo/vite.config.ts"
+  ]
+}
