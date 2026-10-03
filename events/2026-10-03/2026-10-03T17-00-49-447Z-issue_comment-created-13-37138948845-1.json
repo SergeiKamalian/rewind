@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T17:00:49.447Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37138948845,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971348633",
+  "text": "Part 4 fix is in. A masked select no longer records which option is selected. `selected` is removed, including a `selected` attribute that was in the HTML. Option labels stay. When `maskAllInputs` is false and the select is not in a masked region, `selected: true` is still recorded. ADR 0017 supersedes only that point of ADR 0015.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: part 5 (`takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
