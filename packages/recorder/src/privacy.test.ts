@@ -182,13 +182,61 @@ describe("privacy", () => {
         { tagName: "option", attributes: { value: "*****" } },
         {
           tagName: "option",
-          attributes: { value: "****", selected: true },
+          attributes: { value: "****" },
         },
       ],
     });
+    if (serialized?.type === "Element") {
+      for (const child of serialized.childNodes) {
+        if (child.type === "Element") {
+          expect(child.attributes.selected).toBeUndefined();
+        }
+      }
+    }
     expect(json(select)).not.toContain("pear");
+    expect(json(select)).not.toContain('"selected"');
     expect("pear".length).toBe(4);
     expect("apple".length).toBe(5);
+  });
+
+  it("drops a selected attribute when the select value is masked", () => {
+    const select = document.createElement("select");
+    const apple = document.createElement("option");
+    apple.value = "apple";
+    apple.textContent = "Apple";
+    const pear = document.createElement("option");
+    pear.value = "pear";
+    pear.setAttribute("selected", "");
+    pear.textContent = "Pear";
+    select.append(apple, pear);
+
+    const serialized = serializeNode(select, context());
+    const output = json(select);
+
+    expect(serialized).toMatchObject({
+      tagName: "select",
+      childNodes: [
+        {
+          tagName: "option",
+          childNodes: [{ type: "Text", textContent: "Apple" }],
+        },
+        {
+          tagName: "option",
+          childNodes: [{ type: "Text", textContent: "Pear" }],
+        },
+      ],
+    });
+    if (serialized?.type === "Element") {
+      for (const child of serialized.childNodes) {
+        if (child.type === "Element") {
+          expect(child.attributes.selected).toBeUndefined();
+        }
+      }
+    }
+    expect(output).toContain("Pear");
+    expect(output).not.toContain('"selected"');
+    expect(output).not.toMatch(/Pear[\s\S]{0,160}"selected"/);
+    expect(output).not.toMatch(/"selected"[\s\S]{0,160}Pear/);
   });
 
   it("records input and select values when maskAllInputs is off", () => {
