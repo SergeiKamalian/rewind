@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T05:06:35.880Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37098744814,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5965800355",
+  "text": "Part 4 is in. Password values are omitted from the snapshot, including when `maskAllInputs` is false. Other input, textarea, and select values, and checkbox or radio checked state, come from the live property. With the default `maskAllInputs`, those values are stars of the same length. Text marked with `data-rewind-mask`, the `rewind-mask` class, or `maskTextSelector` keeps its length as stars. A blocked element is an empty box that keeps its width and height.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: part 5 (`takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
