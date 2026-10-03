@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-10-03T17:56:00Z", "finishedAt": "2026-10-03T17:59:51Z", "runType": "night",
+  "currentTask": 3, "pr": 13,
+  "observed": [
+    "Part 4 fix round 1 landed: test: fix commit 5a1d32d then fix commit e4ea2a6 at 17:00Z, CI green, Vercel success",
+    "selected flag removed from options of a masked select; maskAllInputs false test unchanged; ADR 0017 added, 0015 status updated",
+    "Masked select value is still stars of the same length as the chosen option, and each option value is stars of its own length, so the choice is recoverable by length match (fixture: select **** vs options ***** and ****)",
+    "PR #12 still open with qa: passed; today's scheduled Auto-merge run (cron 16:40Z) has not started by 18:00Z; yesterday's ran at 20:55Z"
+  ],
+  "decisions": [
+    { "what": "Part 4 of #3 failed review (round 2, last allowed)", "why": "masked select value keeps star length equal to one masked option value, so the selected option still leaks; asked to omit the select value when masked, with test: fix commit and ADR 0018", "rule": "2.2.3, 2.2.6" },
+    { "what": "Added a lesson to 90-lessons.mdc", "why": "length-matching leak is a general masking mistake that Day 05 input events (select change) can repeat", "rule": "2.2.7" },
+    { "what": "No action on PR #12", "why": "GitHub schedule delays of several hours are normal; check again next run", "rule": "2.5" }
+  ],
+  "actions": [
+    { "type": "comment", "target": "#13", "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971907875", "summary": "@cursor Fix Part 4 round 2: do not record value of a masked select" },
+    { "type": "label", "target": "#3", "url": "https://github.com/SergeiKamalian/rewind/issues/3", "summary": "status: needs-fix" },
+    { "type": "lesson", "target": "main", "url": "https://github.com/SergeiKamalian/rewind/commit/20e3c42", "summary": "A masked value must not be matchable against other recorded data" },
+    { "type": "journal", "target": "status/current, reports/2026-10-03T2200-night", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "state fix, round 2" }
+  ],
+  "agents": [ { "part": 4, "cursorAgent": "https://cursor.com/agents/bc-e306f715-0d43-4b49-9af6-674b32370f04", "launchedAt": "2026-10-03T17:58:00Z", "committedAt": null } ],
+  "problems": [
+    "Round 1 fix request named only the selected flag; it did not ask to check every other recorded field for the same information, so a second round was needed",
+    "Radio and checkbox checked state is still recorded under maskAllInputs (accepted earlier as intended); a radio group next to its labels can reveal the choice the same way. Not raised, because the issue's Step 4 asks to record checked",
+    "add_repo tool not available; repo was already cloned, used curl as the playbook allows"
+  ],
+  "processNotes": [
+    "Fix requests for privacy leaks should require the agent to list every field that carries the hidden value (attributes, flags, lengths, children) and test each, not only the one the reviewer found",
+    "The issue template should decide up front whether checked state of radios under maskAllInputs is recorded, so the review does not have to"
+  ]
+}
