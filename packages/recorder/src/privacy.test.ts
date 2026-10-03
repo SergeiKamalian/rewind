@@ -177,7 +177,6 @@ describe("privacy", () => {
 
     expect(serialized).toMatchObject({
       tagName: "select",
-      attributes: { value: "****" },
       childNodes: [
         { tagName: "option", attributes: { value: "*****" } },
         {
@@ -187,6 +186,7 @@ describe("privacy", () => {
       ],
     });
     if (serialized?.type === "Element") {
+      expect(serialized.attributes.value).toBeUndefined();
       for (const child of serialized.childNodes) {
         if (child.type === "Element") {
           expect(child.attributes.selected).toBeUndefined();
@@ -237,6 +237,59 @@ describe("privacy", () => {
     expect(output).not.toContain('"selected"');
     expect(output).not.toMatch(/Pear[\s\S]{0,160}"selected"/);
     expect(output).not.toMatch(/"selected"[\s\S]{0,160}Pear/);
+  });
+
+  it("does not record a masked select value that matches one option", () => {
+    const select = document.createElement("select");
+    select.setAttribute("value", "kiwi");
+    const kiwi = document.createElement("option");
+    kiwi.value = "kiwi";
+    kiwi.textContent = "Kiwi";
+    const banana = document.createElement("option");
+    banana.value = "banana";
+    banana.textContent = "Banana";
+    select.append(kiwi, banana);
+    select.value = "kiwi";
+
+    const serialized = serializeNode(select, context());
+
+    expect(serialized).toMatchObject({
+      tagName: "select",
+      childNodes: [
+        {
+          tagName: "option",
+          attributes: { value: "****" },
+          childNodes: [{ type: "Text", textContent: "Kiwi" }],
+        },
+        {
+          tagName: "option",
+          attributes: { value: "******" },
+          childNodes: [{ type: "Text", textContent: "Banana" }],
+        },
+      ],
+    });
+    expect(serialized?.type).toBe("Element");
+    if (serialized?.type !== "Element") {
+      return;
+    }
+    expect(serialized.attributes.value).toBeUndefined();
+    const optionStars: string[] = [];
+    for (const child of serialized.childNodes) {
+      if (child.type !== "Element") {
+        continue;
+      }
+      const value = child.attributes.value;
+      if (typeof value === "string") {
+        optionStars.push(value);
+      }
+    }
+    for (const attribute of Object.values(serialized.attributes)) {
+      if (typeof attribute !== "string" || !/^\*+$/.test(attribute)) {
+        continue;
+      }
+      const matches = optionStars.filter((stars) => stars === attribute);
+      expect(matches).not.toHaveLength(1);
+    }
   });
 
   it("records input and select values when maskAllInputs is off", () => {
