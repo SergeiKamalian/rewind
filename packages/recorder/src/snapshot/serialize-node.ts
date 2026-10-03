@@ -349,18 +349,18 @@ function applyOption(
   node: HTMLOptionElement,
   privacy: ResolvedPrivacy,
 ): void {
+  if (controlValueIsMasked(node, privacy)) {
+    delete element.attributes.selected;
+    if (typeof element.attributes.value === "string") {
+      element.attributes.value = maskText(node.value);
+    }
+    return;
+  }
   if (node.selected) {
     element.attributes.selected = true;
   } else {
     delete element.attributes.selected;
   }
-  if (!controlValueIsMasked(node, privacy)) {
-    return;
-  }
-  if (typeof element.attributes.value !== "string") {
-    return;
-  }
-  element.attributes.value = maskText(node.value);
 }
 
 function writeControlValue(

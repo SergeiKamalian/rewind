@@ -1,6 +1,6 @@
 # 0015. Omit password values and star the rest of form state
 
-- Status: Accepted
+- Status: Superseded by 0017 (selected option only)
 - Date: 2026-10-03
 - Issue: #3
 
