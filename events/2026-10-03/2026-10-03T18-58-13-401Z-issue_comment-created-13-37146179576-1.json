@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T18:58:13.401Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37146179576,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5972446084",
+  "text": "@cursor Part 5 of 5 for issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #3, then do ONLY Part 5.\n\nWork test-first: first a test commit `test(recorder): take full DOM snapshot (#3)` with tests and stubs, then the implementation commit.\n\nPrompt: Add `takeFullSnapshot(document, ctx)` that returns a `full_snapshot` event using `createEvent` from `@rewind/shared`. Put it in `packages/recorder/src/snapshot/`. Build on `serializeNode`, the `Mirror` and the privacy options from Parts 1 to 4; do not duplicate their logic. The event data is `{ node }` where `node` is the serialized Document node. The caller passes the `Clock` for `createEvent` through the context, or as a clearly named parameter; explain the choice in the PR note. Export `takeFullSnapshot` from `packages/recorder/src/index.ts` with a short TSDoc comment.\n\nRequirements:\n- Output passes `parseEvent` from `@rewind/shared`\n- Snapshot of the same document twice, with the same `Mirror`, gives the same ids\n- Every node in the output has a unique id\n- Mark the PR as ready for review is NOT your job in this setup: leave the PR as a draft. The reviewer marks it ready after the final review.\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Integration test on a realistic page fixture (header, form with a passwo",
+  "mentionsCursor": true
+}
