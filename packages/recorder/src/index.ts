@@ -6,6 +6,10 @@ export {
   type SerializeContext,
   serializeNode,
 } from "./snapshot/serialize-node.js";
+export {
+  type SnapshotContext,
+  takeFullSnapshot,
+} from "./snapshot/take-full-snapshot.js";
 
 /**
  * Returns the session format version this recorder writes.
