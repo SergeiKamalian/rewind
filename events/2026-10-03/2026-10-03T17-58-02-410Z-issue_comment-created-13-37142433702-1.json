@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T17:58:02.410Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37142433702,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971907875",
+  "text": "@cursor Fix Part 4 of issue #3 (round 2): Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts and Commits), .cursor/rules (including 90-lessons.mdc) and the whole issue #3 first. Do ONLY this fix. Push to the existing branch `day-03/dom-snapshot`. Do not open a new PR. Do not start Part 5.\n\nWhat I checked and what is fine: CI is green on `e4ea2a6`. The `test: fix` commit comes before the fix commit and only changes the masked select test plus one new test. `selected` is gone from every option of a masked select, also when the HTML had a `selected` attribute. The `maskAllInputs: false` test still expects `selected: true`. ADR 0017 exists, ADR 0015 status and `docs/decisions/README.md` are updated, and so is `docs/ARCHITECTURE.md`. Commit messages match.\n\nWhat is still wrong:\n\n1. `packages/recorder/src/snapshot/serialize-node.ts`, `applySelect`: the choice still leaks through the star length. A masked select records its value as stars of the same length (`****`), and each option value is also stars of its own length (`*****` for apple, `****` for pear). A reader only has to find the option whose stars have the same length as the select value. In the fixture of `records the selected option and masks the select value by default`, exactly one option has 4 stars, so the recording still says \"Pear\". This is the same leak as round 1: the chosen option is recoverable.\n   What to do: when a select's value is masked (`maskAllInputs` on, or the select sits",
+  "mentionsCursor": true
+}
