@@ -1,6 +1,7 @@
 import { version } from "@rewind/shared";
 
 export { Mirror } from "./mirror.js";
+export type { PrivacyOptions } from "./privacy.js";
 export {
   type SerializeContext,
   serializeNode,

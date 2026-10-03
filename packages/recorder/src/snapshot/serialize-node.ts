@@ -7,6 +7,7 @@ import type {
   TextNode,
 } from "@rewind/shared";
 import type { Mirror } from "../mirror.js";
+import type { PrivacyOptions } from "../privacy.js";
 import {
   isEventHandlerAttribute,
   serializeAttributeValue,
@@ -23,6 +24,8 @@ const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 export interface SerializeContext {
   /** Id registry for this recording. */
   readonly mirror: Mirror;
+  /** Masking and blocking rules. Inputs are masked when this is omitted. */
+  readonly privacy?: PrivacyOptions;
 }
 
 /**
