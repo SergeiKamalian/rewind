@@ -61,6 +61,124 @@ If a PR changes the design, it updates this file.
 | Privacy | Mask by default | Safe to drop into any app |
 | Replay | Sandboxed iframe, scripts stripped | Recorded code must never run |
 
+## Session format
+
+A session is a list of events in `seq` order. Every event has the same envelope:
+
+- `type` is one of the kinds below.
+- `seq` is a strictly increasing integer for this recording. It starts at 1.
+- `timestamp` is milliseconds since session start.
+- `data` is the payload for that kind.
+
+The first event is `meta`. `data.version` is the format version (`FORMAT_VERSION`, currently 1).
+
+| Kind | What `data` holds |
+|---|---|
+| `meta` | Format version, session id, epoch start time, url, user agent, viewport |
+| `full_snapshot` | Serialized DOM. The root is a Document node |
+| `mutation` | Adds, removes, attribute changes, and text changes. Each list is always present |
+| `mouse_move` | Batched positions, each with a time offset |
+| `mouse_interaction` | `click`, `dblclick`, `mousedown`, `mouseup`, `focus`, or `blur`, plus a target id and x, y |
+| `scroll` | Node id and scroll offsets |
+| `input` | A text value or a checked state, plus a masked flag |
+| `viewport_resize` | Width and height |
+| `network` | Method, url, status, timing, sizes, and error. Missing values are `null` |
+| `console` | Level, serialized arguments, and a stack (`null` when absent) |
+| `error` | Message, stack, source location, and kind (`error` or `unhandledrejection`) |
+| `custom` | A tag and a JSON payload from the host app |
+
+Node kinds are Document, Doctype, Element, Text, Comment, and CDATA. Each node has a numeric `id`. An element attribute is a string, or `true` for a boolean attribute.
+
+This checkout is the example. It is meta, a snapshot, a click, a text change, and a payment request. `parseEvent` accepts every event. The test in `packages/shared/src/example-session.test.ts` loads the JSON fence below.
+
+```json
+[
+  {
+    "type": "meta",
+    "seq": 1,
+    "timestamp": 0,
+    "data": {
+      "version": 1,
+      "sessionId": "sess_checkout",
+      "startTime": 1700000000000,
+      "url": "https://shop.example/checkout",
+      "userAgent": "Mozilla/5.0 (test)",
+      "viewport": { "width": 1280, "height": 720 }
+    }
+  },
+  {
+    "type": "full_snapshot",
+    "seq": 2,
+    "timestamp": 0,
+    "data": {
+      "node": {
+        "id": 1,
+        "type": "Document",
+        "childNodes": [
+          {
+            "id": 2,
+            "type": "Doctype",
+            "name": "html",
+            "publicId": "",
+            "systemId": ""
+          },
+          {
+            "id": 3,
+            "type": "Element",
+            "tagName": "html",
+            "attributes": { "lang": "en" },
+            "childNodes": [
+              {
+                "id": 4,
+                "type": "Element",
+                "tagName": "button",
+                "attributes": { "type": "submit" },
+                "childNodes": [
+                  { "id": 5, "type": "Text", "textContent": "Pay" }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mouse_interaction",
+    "seq": 3,
+    "timestamp": 120,
+    "data": { "interaction": "click", "id": 4, "x": 640, "y": 400 }
+  },
+  {
+    "type": "mutation",
+    "seq": 4,
+    "timestamp": 140,
+    "data": {
+      "adds": [],
+      "removes": [],
+      "attributes": [],
+      "texts": [{ "id": 5, "value": "Paying..." }]
+    }
+  },
+  {
+    "type": "network",
+    "seq": 5,
+    "timestamp": 180,
+    "data": {
+      "requestId": "req-1",
+      "method": "POST",
+      "url": "https://shop.example/api/pay",
+      "status": 500,
+      "start": 150,
+      "end": 180,
+      "requestSize": 48,
+      "responseSize": 24,
+      "error": null
+    }
+  }
+]
+```
+
 ## Open questions
 
 - Canvas and WebGL recording. Probably out of scope for v1.
