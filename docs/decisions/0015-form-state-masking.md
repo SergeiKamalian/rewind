@@ -1,6 +1,6 @@
 # 0015. Omit password values and star the rest of form state
 
-- Status: Superseded by 0017 (selected option only)
+- Status: Superseded by 0017 (selected option) and 0018 (select value)
 - Date: 2026-10-03
 - Issue: #3
 

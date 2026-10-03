@@ -46,9 +46,10 @@ export interface SerializeContext {
  * element is kept, and its children are not. Attribute names that start
  * with `on` are omitted. Relative `src`, `href`, and `srcset` become
  * absolute. SVG elements set `isSVG`. An open shadow root is a child
- * with `isShadowRoot`. A password value is omitted. Other control
- * values and masked text follow `ctx.privacy`. A blocked element is an
- * empty box that keeps its width and height.
+ * with `isShadowRoot`. A password value is omitted. A masked select
+ * has no value and no selected option. Other control values and
+ * masked text follow `ctx.privacy`. A blocked element is an empty
+ * box that keeps its width and height.
  */
 export function serializeNode(
   node: Node,
@@ -341,7 +342,11 @@ function applySelect(
   node: HTMLSelectElement,
   privacy: ResolvedPrivacy,
 ): void {
-  writeControlValue(element, node.value, controlValueIsMasked(node, privacy));
+  if (controlValueIsMasked(node, privacy)) {
+    delete element.attributes.value;
+    return;
+  }
+  writeControlValue(element, node.value, false);
 }
 
 function applyOption(
