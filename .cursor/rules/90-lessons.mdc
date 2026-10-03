@@ -8,3 +8,4 @@ Read it before you start. Do not repeat these mistakes.
 
 <!-- Lessons are added below as - [#issue] lesson -->
 - [#2] Run `pnpm build` before every push, not only lint, typecheck and test. The tsup DTS build catches errors that `tsc -b` does not.
+- [#3] When a value is masked, mask every copy of it: attributes, child text, and state flags like `selected` or `checked` that point at the real choice.
