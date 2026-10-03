@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T04:57:56.717Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37098266927,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5965744784",
+  "text": "@cursor Part 4 of 5 for issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts, QA and bug fixes, Commits), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #3, then do ONLY Part 4.\n\nWork test-first: first a test commit `test(recorder): mask and block sensitive content, record form state (#3)` with tests and stubs, then the implementation commit.\n\nPrompt: Add `packages/recorder/src/privacy.ts` with the masking and blocking rules from Steps 3 of the issue, and record form state from Steps 4. Wire them into `serializeNode` in `packages/recorder/src/snapshot/` (Parts 2 and 3). Rules: `input[type=password]` value is never recorded. Elements with `data-rewind-mask` or class `rewind-mask`: text replaced by `*` of the same length. Elements with `data-rewind-block`: replaced by an empty placeholder with the same width and height. Options: `maskAllInputs` (default `true`), `maskTextSelector`, `blockSelector`. Record the current `value` of inputs, textareas and selects, and `checked` of checkboxes and radios, masked by the rules above.\n\nRequirements:\n- Password value never appears anywhere in output\n- Masked text keeps its length\n- Blocked element keeps width and height\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Tests: password, masked text, blocked element, checkbox, select, maskAllInputs on and off\n- `grep` of the serialized password fixture ",
+  "mentionsCursor": true
+}
