@@ -351,6 +351,40 @@ describe("parseEvent", () => {
     });
   });
 
+  it("accepts an open shadow root marker", () => {
+    const event = {
+      type: "full_snapshot",
+      seq: 1,
+      timestamp: 0,
+      data: {
+        node: {
+          id: 1,
+          type: "Document",
+          childNodes: [
+            {
+              id: 2,
+              type: "Element",
+              tagName: "div",
+              attributes: {},
+              childNodes: [
+                {
+                  id: 3,
+                  type: "Element",
+                  tagName: "shadow-root",
+                  attributes: {},
+                  isShadowRoot: true,
+                  childNodes: [{ id: 4, type: "Text", textContent: "dark" }],
+                },
+              ],
+            },
+          ],
+        },
+      },
+    } satisfies FullSnapshotEvent;
+
+    expect(parseEvent(event)).toEqual({ ok: true, value: event });
+  });
+
   it.each(MOUSE_INTERACTIONS)("accepts mouse interaction %s", (interaction) => {
     const event = {
       type: "mouse_interaction",

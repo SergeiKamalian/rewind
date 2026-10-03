@@ -143,6 +143,9 @@ describe("serialized DOM nodes", () => {
     >();
     expectTypeOf<ElementNode["childNodes"]>().toEqualTypeOf<SerializedNode[]>();
     expectTypeOf<ElementNode["isSVG"]>().toEqualTypeOf<boolean | undefined>();
+    expectTypeOf<ElementNode["isShadowRoot"]>().toEqualTypeOf<
+      boolean | undefined
+    >();
   });
 
   it("stores text, comments, and CDATA as leaves", () => {

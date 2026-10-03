@@ -964,9 +964,28 @@ function parseElement(
     }
     isSVG = parsed.value;
   }
+  let isShadowRoot: boolean | undefined;
+  if ("isShadowRoot" in record) {
+    const parsed = parseBoolean(
+      record.isShadowRoot,
+      field(path, "isShadowRoot"),
+    );
+    if (!parsed.ok) {
+      return parsed;
+    }
+    isShadowRoot = parsed.value;
+  }
   const extra = unknownFields(
     record,
-    ["id", "type", "tagName", "attributes", "childNodes", "isSVG"],
+    [
+      "id",
+      "type",
+      "tagName",
+      "attributes",
+      "childNodes",
+      "isSVG",
+      "isShadowRoot",
+    ],
     path,
   );
   if (!extra.ok) {
@@ -981,6 +1000,9 @@ function parseElement(
   };
   if (isSVG !== undefined) {
     element.isSVG = isSVG;
+  }
+  if (isShadowRoot !== undefined) {
+    element.isShadowRoot = isShadowRoot;
   }
   return success(element);
 }
