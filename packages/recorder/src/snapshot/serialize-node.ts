@@ -7,7 +7,17 @@ import type {
   TextNode,
 } from "@rewind/shared";
 import type { Mirror } from "../mirror.js";
-import type { PrivacyOptions } from "../privacy.js";
+import {
+  controlValueIsMasked,
+  elementIsBlocked,
+  isPasswordInput,
+  maskText,
+  type PrivacyOptions,
+  placeholderSize,
+  type ResolvedPrivacy,
+  resolvePrivacy,
+  textIsMasked,
+} from "../privacy.js";
 import {
   isEventHandlerAttribute,
   serializeAttributeValue,
@@ -36,7 +46,9 @@ export interface SerializeContext {
  * element is kept, and its children are not. Attribute names that start
  * with `on` are omitted. Relative `src`, `href`, and `srcset` become
  * absolute. SVG elements set `isSVG`. An open shadow root is a child
- * with `isShadowRoot`.
+ * with `isShadowRoot`. A password value is omitted. Other control
+ * values and masked text follow `ctx.privacy`. A blocked element is an
+ * empty box that keeps its width and height.
  */
 export function serializeNode(
   node: Node,
@@ -83,6 +95,11 @@ function serializeDoctype(
 }
 
 function serializeElement(node: Element, ctx: SerializeContext): ElementNode {
+  const privacy = resolvePrivacy(ctx.privacy);
+  if (elementIsBlocked(node, privacy)) {
+    return serializeBlocked(node, ctx);
+  }
+
   const css = stylesheetText(node);
   if (css !== undefined) {
     const inlined: ElementNode = {
@@ -106,14 +123,31 @@ function serializeElement(node: Element, ctx: SerializeContext): ElementNode {
   };
   markSvg(element, node);
   appendShadowRoot(element, node, ctx);
+  applyFormState(element, node, privacy);
+  return element;
+}
+
+function serializeBlocked(node: Element, ctx: SerializeContext): ElementNode {
+  const size = placeholderSize(node);
+  const element: ElementNode = {
+    id: ctx.mirror.getId(node),
+    type: "Element",
+    tagName: tagName(node),
+    attributes: { width: size.width, height: size.height },
+    childNodes: [],
+  };
+  markSvg(element, node);
   return element;
 }
 
 function serializeText(node: Text, ctx: SerializeContext): TextNode {
+  const privacy = resolvePrivacy(ctx.privacy);
+  const masked = textIsMasked(node, privacy);
+  const textContent = masked ? maskText(node.data) : node.data;
   return {
     id: ctx.mirror.getId(node),
     type: "Text",
-    textContent: node.data,
+    textContent,
   };
 }
 
@@ -226,4 +260,116 @@ function attributeValue(attribute: Attr, base: string): string | true {
     return resolveSrcset(stored, base);
   }
   return resolveUrl(stored, base);
+}
+
+function applyFormState(
+  element: ElementNode,
+  node: Element,
+  privacy: ResolvedPrivacy,
+): void {
+  const kind = controlKind(node);
+  if (kind === undefined) {
+    return;
+  }
+  try {
+    if (kind === "input") {
+      applyInput(element, node as HTMLInputElement, privacy);
+      return;
+    }
+    if (kind === "textarea") {
+      applyTextarea(element, node as HTMLTextAreaElement, privacy);
+      return;
+    }
+    if (kind === "select") {
+      applySelect(element, node as HTMLSelectElement, privacy);
+      return;
+    }
+    applyOption(element, node as HTMLOptionElement, privacy);
+  } catch {
+    // Reading a control's live value can throw on a stand-in element.
+    // Keep the attributes already copied so the snapshot still returns.
+  }
+}
+
+function controlKind(
+  node: Element,
+): "input" | "textarea" | "select" | "option" | undefined {
+  const name = node.localName.toLowerCase();
+  if (
+    name === "input" ||
+    name === "textarea" ||
+    name === "select" ||
+    name === "option"
+  ) {
+    return name;
+  }
+  return undefined;
+}
+
+function applyInput(
+  element: ElementNode,
+  node: HTMLInputElement,
+  privacy: ResolvedPrivacy,
+): void {
+  if (isPasswordInput(node)) {
+    delete element.attributes.value;
+    element.childNodes = [];
+    return;
+  }
+  const type = node.type.toLowerCase();
+  if (type === "checkbox" || type === "radio") {
+    if (node.checked) {
+      element.attributes.checked = true;
+    } else {
+      delete element.attributes.checked;
+    }
+  }
+  writeControlValue(element, node.value, controlValueIsMasked(node, privacy));
+}
+
+function applyTextarea(
+  element: ElementNode,
+  node: HTMLTextAreaElement,
+  privacy: ResolvedPrivacy,
+): void {
+  writeControlValue(element, node.value, controlValueIsMasked(node, privacy));
+  element.childNodes = [];
+}
+
+function applySelect(
+  element: ElementNode,
+  node: HTMLSelectElement,
+  privacy: ResolvedPrivacy,
+): void {
+  writeControlValue(element, node.value, controlValueIsMasked(node, privacy));
+}
+
+function applyOption(
+  element: ElementNode,
+  node: HTMLOptionElement,
+  privacy: ResolvedPrivacy,
+): void {
+  if (node.selected) {
+    element.attributes.selected = true;
+  } else {
+    delete element.attributes.selected;
+  }
+  if (!controlValueIsMasked(node, privacy)) {
+    return;
+  }
+  if (typeof element.attributes.value !== "string") {
+    return;
+  }
+  element.attributes.value = maskText(node.value);
+}
+
+function writeControlValue(
+  element: ElementNode,
+  value: string,
+  masked: boolean,
+): void {
+  if (value === "" && element.attributes.value === undefined) {
+    return;
+  }
+  element.attributes.value = masked ? maskText(value) : value;
 }
