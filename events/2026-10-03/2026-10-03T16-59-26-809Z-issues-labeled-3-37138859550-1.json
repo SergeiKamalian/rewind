@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-03T16:59:26.809Z",
+  "event": "issues",
+  "action": "labeled",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37138859550,
+  "number": 3,
+  "kind": "issue",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/3",
+  "label": "status: needs-fix",
+  "labels": [
+    "task",
+    "week-1",
+    "status: needs-fix",
+    "day-03"
+  ],
+  "state": "open",
+  "stateReason": null
+}
