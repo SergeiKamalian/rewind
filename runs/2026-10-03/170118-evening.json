@@ -1,0 +1,32 @@
+{
+  "startedAt": "2026-10-03T16:56:30Z", "finishedAt": "2026-10-03T17:01:18Z", "runType": "evening",
+  "currentTask": 3, "pr": 13,
+  "observed": [
+    "Part 4 of #3 test commit 0e0bb5e and implementation commit cad5c90 landed at 05:06Z, CI green, Vercel deployed",
+    "Implementation commit touches no test file; ADR 0015 and 0016 added and listed",
+    "Masked select: value starred but chosen option keeps selected: true and its label, so the user's choice leaks",
+    "PR #12 (Day 02): qa: passed, issue #2 status: ready-to-merge since 2026-10-02T20:57Z, no protected paths, mergeable clean",
+    "Today's scheduled Auto-merge run (cron 16:40Z) had not started yet at 16:57Z"
+  ],
+  "decisions": [
+    { "what": "Part 4 of #3 failed review (round 1)", "why": "applyOption records selected: true on the option of a masked select, and option labels are kept, so the selected value is recoverable despite maskAllInputs; the test commit asserts this behavior, so a separate test: fix commit is required", "rule": "2.2.3, 2.2.6" },
+    { "what": "Added a lesson to 90-lessons.mdc", "why": "Day 05 input events will record select changes; same leak can repeat", "rule": "2.2.7" },
+    { "what": "No action on PR #12", "why": "All auto-merge gates look met; the scheduled run is just delayed", "rule": "2.5" }
+  ],
+  "actions": [
+    { "type": "comment", "target": "#13", "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971333951", "summary": "@cursor Fix Part 4: do not record selected option of a masked select, test: fix commit, ADR 0017" },
+    { "type": "label", "target": "#3", "url": "https://github.com/SergeiKamalian/rewind/issues/3", "summary": "status: needs-fix" },
+    { "type": "lesson", "target": "main", "url": "https://github.com/SergeiKamalian/rewind/commit/e7996ab", "summary": "Mask every copy of a masked value, including selected flags" },
+    { "type": "journal", "target": "status/current, reports/2026-10-03T2100-evening", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "state fix" }
+  ],
+  "agents": [ { "part": 4, "cursorAgent": "https://cursor.com/agents/bc-e306f715-0d43-4b49-9af6-674b32370f04", "launchedAt": "2026-10-03T16:58:48Z", "committedAt": null } ],
+  "problems": [
+    "Part 4 commit landed at 05:06Z but was not verified until this evening run: there is no run between the morning (09:00) and evening (21:00) slots, so a part finished after the morning run idles ~12 hours",
+    "First lesson wording mentioned checked, which contradicts accepted checkbox behavior; fixed with a second docs commit instead of one clean commit",
+    "add_repo tool not available; repo was already cloned, used curl as the playbook allows"
+  ],
+  "processNotes": [
+    "Add a midday run (e.g. 13:00 and 17:00) or let the morning run wait for a part launched in it, so parts launched in the morning do not idle all day",
+    "The issue template's privacy steps should say explicitly that the selected option of a masked select is not recorded, so agents do not have to infer it"
+  ]
+}
