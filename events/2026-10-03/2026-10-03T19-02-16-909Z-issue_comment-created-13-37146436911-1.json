@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T19:02:16.909Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37146436911,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5972497188",
+  "text": "Part 5 is in. `takeFullSnapshot(document, ctx)` returns a `full_snapshot` event. The node is the document from `serializeNode`. `seq` and `timestamp` come from `createEvent` and the clock on the snapshot context, next to the mirror, so sequence numbers stay with that recording. A second snapshot with the same mirror keeps the same ids. The page fixture passes `parseEvent`, has unique ids, and the JSON has no script content, no `on*` attribute, no password, and no relative URL.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nThe PR stays a draft. CDATA sections are still not serialized; the issue steps do not include them.",
+  "mentionsCursor": false
+}
