@@ -1,16 +1,17 @@
-import type { Clock, FullSnapshotEvent } from "@rewind/shared";
-import type { PrivacyOptions } from "../privacy.js";
-import type { SerializeContext } from "./serialize-node.js";
+import {
+  type Clock,
+  createEvent,
+  type FullSnapshotEvent,
+} from "@rewind/shared";
+import { type SerializeContext, serializeNode } from "./serialize-node.js";
 
 /**
  * Inputs for one full snapshot.
- * `clock` is the recording clock, so sequence numbers stay with that recording.
+ * `clock` belongs with the mirror: both are for one recording.
  */
 export interface SnapshotContext extends SerializeContext {
   /** Time and sequence source for the snapshot event. */
   readonly clock: Clock;
-  /** Masking and blocking rules. Inputs are masked when this is omitted. */
-  readonly privacy?: PrivacyOptions;
 }
 
 /**
@@ -22,7 +23,9 @@ export function takeFullSnapshot(
   document: Document,
   ctx: SnapshotContext,
 ): FullSnapshotEvent {
-  void document;
-  void ctx;
-  throw new Error("not implemented");
+  const node = serializeNode(document, ctx);
+  if (node === undefined || node.type !== "Document") {
+    throw new Error("snapshot root must be a Document");
+  }
+  return createEvent("full_snapshot", { node }, ctx.clock);
 }

@@ -55,3 +55,4 @@ What gets easier. What gets harder. What we will watch.
 | 0016 | [Size a blocked element from layout, then style](0016-blocked-element-size.md) | Accepted |
 | 0017 | [Do not record the selected option of a masked select](0017-masked-select-option.md) | Accepted |
 | 0018 | [Do not record the value of a masked select](0018-masked-select-value.md) | Accepted |
+| 0019 | [Pass the snapshot clock on the context](0019-snapshot-clock-on-context.md) | Accepted |
