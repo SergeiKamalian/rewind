@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-03T17:01:31.289Z",
+  "event": "workflow_run",
+  "action": "completed",
+  "actor": "cursor[bot]",
+  "role": "automation",
+  "run": 37138992795,
+  "workflow": "CI",
+  "status": "completed",
+  "conclusion": "success",
+  "branch": "day-03/dom-snapshot",
+  "head": "e4ea2a6",
+  "url": "https://github.com/SergeiKamalian/rewind/actions/runs/37138950621",
+  "trigger": "pull_request",
+  "startedAt": "2026-10-03T17:00:44Z",
+  "finishedAt": "2026-10-03T17:01:21Z",
+  "seconds": 37,
+  "prs": [
+    13
+  ]
+}
