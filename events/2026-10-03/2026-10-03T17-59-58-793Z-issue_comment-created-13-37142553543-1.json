@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T17:59:58.793Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37142553543,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971923491",
+  "text": "Part 4 fix, round 2, is in. A masked select no longer records a `value` attribute, including one that was in the HTML. Option values stay starred and labels stay as written, and `selected` stays omitted. Stars of the same length on the select would have named the chosen option. Text inputs and textareas still keep stars. When `maskAllInputs` is false and the select is not in a masked region, the select value is recorded as typed. ADR 0018 supersedes only that point of ADR 0015.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nStill open: part 5 (`takeFullSnapshot`). The issue definition of done is not met yet.",
+  "mentionsCursor": false
+}
