@@ -1,0 +1,78 @@
+{
+  "startedAt": "2026-10-03T18:56:49Z",
+  "finishedAt": "2026-10-03T18:58:57Z",
+  "runType": "night",
+  "currentTask": 3,
+  "pr": 13,
+  "observed": [
+    "Part 4 fix round 2 commits landed on day-03/dom-snapshot: test fix 499791c then fix c2f342d, both authored as owner with Cursor co-author trailer",
+    "CI green on c2f342d (lint, typecheck, test, build, Vercel)",
+    "Fix removes the masked select value, ADR 0018 added, 0015 status, decisions README and ARCHITECTURE updated",
+    "PR #12 (Day 02) still open with qa: passed, issue #2 status: ready-to-merge since 2026-10-02T20:57Z, no protected paths",
+    "Auto-merge scheduled run (cron 16:40 UTC) has not run today as of 18:58Z; yesterday's ran 4h late at 20:55Z"
+  ],
+  "decisions": [
+    {
+      "what": "Part 4 of #3 verified after fix round 2",
+      "why": "select value no longer recorded when masked; test fix only removed the buggy expectation and added a stronger test; no test weakened; CI green",
+      "rule": "2.2"
+    },
+    {
+      "what": "Launched Part 5 of #3",
+      "why": "Part 4 verified and NIGHT runs advance parts",
+      "rule": "2.1"
+    },
+    {
+      "what": "Did not trigger auto-merge by hand",
+      "why": "the conductor never merges; GitHub cron delays are common, the next runs will check again",
+      "rule": "2.5"
+    },
+    {
+      "what": "Told Part 5 agent to leave the PR as draft despite the issue's 'Mark the PR as ready for review' requirement",
+      "why": "playbook 2.3 says the conductor marks the PR ready after the final review",
+      "rule": "2.3"
+    }
+  ],
+  "actions": [
+    {
+      "type": "other",
+      "target": "#3",
+      "url": "https://github.com/SergeiKamalian/rewind/issues/3",
+      "summary": "ticked Part 4 in the issue body"
+    },
+    {
+      "type": "comment",
+      "target": "#13",
+      "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5972445922",
+      "summary": "Part 4 verified"
+    },
+    {
+      "type": "launch-part",
+      "target": "#13",
+      "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5972446084",
+      "summary": "Part 5 of 5 launched"
+    },
+    {
+      "type": "journal",
+      "target": "status/current",
+      "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs",
+      "summary": "status: Part 5 with agent"
+    }
+  ],
+  "agents": [
+    {
+      "part": 5,
+      "cursorAgent": null,
+      "launchedAt": "2026-10-03T18:58:04Z",
+      "committedAt": null
+    }
+  ],
+  "problems": [
+    "Auto-merge scheduled run for today is late or skipped; PR #12 waits past its grace period",
+    "Issue #3 Part 5 Requirements say the agent marks the PR ready for review, which conflicts with playbook 2.3 where the conductor does it"
+  ],
+  "processNotes": [
+    "Planner template: do not put 'Mark the PR as ready for review' in part Requirements; the conductor owns that step (2.3)",
+    "Consider letting the conductor dispatch auto-merge.yml when the scheduled run is more than a few hours late, since GitHub cron is unreliable"
+  ]
+}
