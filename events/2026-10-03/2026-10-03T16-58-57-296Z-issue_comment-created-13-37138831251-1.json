@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-03T16:58:57.296Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37138831251,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5971333951",
+  "text": "@cursor Fix Part 4 of issue #3: Full DOM snapshot with stable node ids and masking.\n\nRead AGENTS.md (sections Parts and Commits), .cursor/rules (including 90-lessons.mdc) and the whole issue #3 first. Do ONLY this fix. Push to the existing branch `day-03/dom-snapshot`. Do not open a new PR. Do not start Part 5.\n\nWhat I checked and what is fine: CI is green on `cad5c90`. The test commit comes before the implementation commit, and the implementation commit touches no test file. Password values are omitted, masked text keeps its length, blocked elements keep width and height, `maskAllInputs` on and off are tested, ADR 0015 and 0016 exist and `docs/decisions/README.md` lists them. Commit messages match.\n\nWhat is wrong:\n\n1. `packages/recorder/src/snapshot/serialize-node.ts`, `applyOption`: a masked select still leaks its value. With the default `maskAllInputs: true`, the select `value` becomes `****`, but the chosen option gets `selected: true` and its label text stays as written (`Pear`). Anyone reading the recording knows the user picked \"Pear\". That breaks Step 4 of the issue (\"masked by rules above\") and the privacy-by-default rule in AGENTS.md. Think of a select for country, gender or diagnosis.\n   What to do: when the option's value is masked (`controlValueIsMasked` is true for the option), do not record which option is selected. Remove `selected` from the attributes in that case, also a `selected` attribute that was in the HTML. Option labels may stay as written: the list o",
+  "mentionsCursor": true
+}
