@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-03T18:00:00.437Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37142555124,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13",
+  "branch": "day-03/dom-snapshot",
+  "head": "c2f342da47b574a68d6a926a88417511ed15df91",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 2400,
+  "deletions": 3,
+  "changedFiles": 26,
+  "commits": [
+    {
+      "sha": "499791c",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test: fix masked select must not record a value that matches an option (#3)",
+      "date": "2026-10-03T17:59:10Z"
+    },
+    {
+      "sha": "c2f342d",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "fix(recorder): do not record the value of a masked select (#3)",
+      "date": "2026-10-03T17:59:43Z"
+    }
+  ],
+  "forced": false
+}
