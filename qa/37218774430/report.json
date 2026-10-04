@@ -1,0 +1,92 @@
+{
+  "summary": "Ran the PR smoke check and day-01 regression scenarios on desktop (1280x800) and mobile (390x844). Add, trim, empty/spaces rejection, toggle done, delete, keyboard use, long titles, and rapid clicks all behaved as specified with no console errors. No bugs found; known-bugs list was empty.",
+  "scenarios": [
+    {
+      "id": "S1",
+      "title": "Page load shows Todos heading, form, empty state, no console errors",
+      "result": "pass",
+      "notes": "Desktop and mobile: heading, New todo, Add, No todos yet., Format version 1; 0 console errors."
+    },
+    {
+      "id": "S2",
+      "title": "Add a todo with the Add button",
+      "result": "pass",
+      "notes": "Todo appears at end of list; field clears."
+    },
+    {
+      "id": "S3",
+      "title": "Add a todo by pressing Enter",
+      "result": "pass",
+      "notes": "Works on desktop and mobile; second item keeps order."
+    },
+    {
+      "id": "S4",
+      "title": "Reject empty and spaces-only titles",
+      "result": "pass",
+      "notes": "Add click and Enter with empty/spaces leave list unchanged."
+    },
+    {
+      "id": "S5",
+      "title": "Trim surrounding spaces on add",
+      "result": "pass",
+      "notes": "'  Buy milk  ' and '  Trim me  ' stored without padding."
+    },
+    {
+      "id": "S6",
+      "title": "500-character title stays usable",
+      "result": "pass",
+      "notes": "Added on both viewports; no horizontal overflow; layout wraps."
+    },
+    {
+      "id": "S7",
+      "title": "Add many todos quickly in order",
+      "result": "pass",
+      "notes": "20 desktop todos and 10 mobile todos kept insertion order."
+    },
+    {
+      "id": "S8",
+      "title": "Mark done and undo",
+      "result": "pass",
+      "notes": "Checkbox toggles checked state; done styling applies and clears."
+    },
+    {
+      "id": "S9",
+      "title": "Delete a todo in the middle of the list",
+      "result": "pass",
+      "notes": "Only the targeted item is removed; neighbors remain."
+    },
+    {
+      "id": "S10",
+      "title": "Delete all todos shows empty state",
+      "result": "pass",
+      "notes": "'No todos yet.' returns after clearing the list."
+    },
+    {
+      "id": "S11",
+      "title": "Footer shows Format version 1",
+      "result": "pass",
+      "notes": "Visible on load and after interactions on both viewports."
+    },
+    {
+      "id": "S12",
+      "title": "Keyboard-only add, toggle, and delete",
+      "result": "pass",
+      "notes": "Tab to field, Enter to add, Space on checkbox, Enter on Delete all work."
+    },
+    {
+      "id": "S13",
+      "title": "Mobile smoke and regression (390x844)",
+      "result": "pass",
+      "notes": "Full smoke plus edge cases; no horizontal overflow; no console errors."
+    },
+    {
+      "id": "S14",
+      "title": "Reload clears todos (intended)",
+      "result": "pass",
+      "notes": "Reload mid-session returns empty list as documented; not reported as a bug."
+    }
+  ],
+  "bugs": [],
+  "fixed": [],
+  "still_open": []
+}
