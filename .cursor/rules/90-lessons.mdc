@@ -10,3 +10,4 @@ Read it before you start. Do not repeat these mistakes.
 - [#2] Run `pnpm build` before every push, not only lint, typecheck and test. The tsup DTS build catches errors that `tsc -b` does not.
 - [#3] When a value is masked, mask every copy of it: attributes, child text, and flags like an option's `selected` that reveal the hidden value.
 - [#3] A masked value must not be matchable against other recorded data. Stars of the same length as exactly one masked option still reveal the choice.
+- [#3] When you inline content that came from another URL (a stylesheet, an `@import`), resolve the relative URLs inside it against that source URL. Its base changes once it is inlined.
