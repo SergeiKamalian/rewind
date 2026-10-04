@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-04T23:05:36.021Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37242477445,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5985421442",
+  "text": "Part 2 is in. Each observer callback is now resolved as removes, then adds, then attributes, then text.\n\nWhy that order: the callback runs after the whole turn, so the raw records are intermediate steps. Removes go first, using the parent from before the callback, so the player detaches a node before inserting anything at `nextId`. Adds go second, and only the top connected node of a new subtree is serialized, which is why a nested add appears once and a move keeps its old id. Attributes and text go last and keep only the final value on nodes that remain and were not just serialized.\n\nSame-batch cases covered: add-then-remove produces nothing, a move keeps its id, a nested add is serialized once, a repeated attribute keeps the last value. Masking, blocking, `on*` attributes, and script content follow the Day 03 rules. See ADR 0023.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nLeft open: Parts 3–5 (position tests, the rebuild helper, and the seeded fuzz test).",
+  "mentionsCursor": false
+}
