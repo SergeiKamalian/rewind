@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-04T23:05:28.005Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37242468695,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14",
+  "branch": "day-04/dom-mutations",
+  "head": "2d829d72f196714a5d2f1fa92aaa3e5b18aab45e",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 1087,
+  "deletions": 3,
+  "changedFiles": 9,
+  "commits": [
+    {
+      "sha": "1032824",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): order mutations and handle edge cases (#4)",
+      "date": "2026-10-04T23:02:58Z"
+    },
+    {
+      "sha": "2d829d7",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "feat(recorder): order mutations and handle edge cases (#4)",
+      "date": "2026-10-04T23:05:13Z"
+    }
+  ],
+  "forced": false
+}
