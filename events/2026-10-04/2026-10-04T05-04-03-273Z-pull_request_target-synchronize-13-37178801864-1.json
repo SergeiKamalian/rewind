@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-04T05:04:03.273Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37178801864,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13",
+  "branch": "day-03/dom-snapshot",
+  "head": "a156ae7bf5d35cf5846288723ce96f3c14e4cecf",
+  "labels": [],
+  "draft": false,
+  "merged": false,
+  "additions": 2769,
+  "deletions": 4,
+  "changedFiles": 30,
+  "commits": [
+    {
+      "sha": "3e928d6",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): reproduce relative URLs in inlined stylesheets (#3)",
+      "date": "2026-10-04T05:02:06Z"
+    },
+    {
+      "sha": "a156ae7",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "fix(recorder): resolve URLs inside inlined stylesheets (#3)",
+      "date": "2026-10-04T05:03:41Z"
+    }
+  ],
+  "forced": false
+}
