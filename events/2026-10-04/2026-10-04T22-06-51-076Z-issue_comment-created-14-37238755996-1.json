@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-04T22:06:51.076Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37238755996,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5984933568",
+  "text": "Part 1 is in. `observeMutations` records one `mutation` event per observer callback for a simple add, remove, attribute change, or text change, and `stop()` disconnects.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nLeft open: Parts 2–5 (batch ordering and edge cases, privacy on later edits, the rebuild helper, and the seeded fuzz test). The issue definition of done is not met until those land.",
+  "mentionsCursor": false
+}
