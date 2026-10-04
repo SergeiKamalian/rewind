@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-04T05:04:00.462Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37178801164,
+  "number": 13,
+  "kind": "pr",
+  "title": "[Day 03] Full DOM snapshot with stable node ids and masking",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/13#issuecomment-5976784172",
+  "text": "Inlined stylesheets now rewrite relative `url()` and `@import` paths to absolute URLs against the stylesheet URL (`sheet.href`, or the link's absolute `href` when that is missing). `data:` URLs, other absolute URLs, and `url(#id)` stay as written. `<style>` elements and `style` attributes are unchanged. The match is a small scan, explained in ADR 0020.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.",
+  "mentionsCursor": false
+}
