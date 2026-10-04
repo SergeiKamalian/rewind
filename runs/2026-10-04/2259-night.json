@@ -1,0 +1,26 @@
+{
+  "startedAt": "2026-10-04T22:57:00Z", "finishedAt": "2026-10-04T22:59:06Z", "runType": "night",
+  "currentTask": 4, "pr": 14,
+  "observed": [
+    "Local time 02:57 Asia/Yerevan, night slot 03:00.",
+    "#3 / PR #13: status ready-to-merge, qa: passed, waiting for auto-merge.",
+    "#4 / PR #14 (draft, base day-03/dom-snapshot): Part 1 commits 928ae90 (test) and f68270b (feat) landed at 22:04 and 22:06 UTC.",
+    "CI on f68270b green: lint, typecheck, test, build.",
+    "Implementation commit does not touch mutation.test.ts. ADRs 0021 and 0022 added and indexed.",
+    "Commits authored as the owner with Cursor Agent co-author trailer.",
+    "qa/scenarios/day-02.md still missing on main."
+  ],
+  "decisions": [
+    { "what": "Part 1 of #4 passed verification", "why": "CI green, test commit before feat commit, tests unchanged, requirements met (one event per callback, Day 03 serializer for adds, stop test)", "rule": "2.2" },
+    { "what": "Launched Part 2 of #4", "why": "Night runs advance parts", "rule": "2.1, 3 NIGHT" }
+  ],
+  "actions": [
+    { "type": "other", "target": "#4", "url": "https://github.com/SergeiKamalian/rewind/issues/4", "summary": "Ticked Part 1 in issue body" },
+    { "type": "comment", "target": "#14", "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5985370286", "summary": "Part 1 verified" },
+    { "type": "launch-part", "target": "#14", "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5985370364", "summary": "@cursor Part 2 of 5" },
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "partsDone 1, Part 2 with agent" }
+  ],
+  "agents": [ { "part": 2, "cursorAgent": null, "launchedAt": "2026-10-04T22:59:06Z", "committedAt": null } ],
+  "problems": ["add_repo tool not available in this session; repo was already cloned, used it directly as conductor.md 0.2 allows."],
+  "processNotes": ["Recorder has no internal logger yet; mutation observer reports via console.error. AGENTS.md says 'report through the internal logger'. Worth a small task or ADR before Day 07 record()."]
+}
