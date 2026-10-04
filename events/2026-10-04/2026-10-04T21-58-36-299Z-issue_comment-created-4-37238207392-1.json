@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-04T21:58:36.299Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37238207392,
+  "number": 4,
+  "kind": "issue",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/4#issuecomment-5984836148",
+  "text": "@cursor Part 1 of 5 for issue #4: Incremental DOM mutations.\n\nRead AGENTS.md (sections Parts and QA), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #4, then do ONLY Part 1.\n\nWork test-first: first a test commit `test(recorder): observe DOM mutations (#4)` with the tests and the smallest stubs so typecheck passes, then the implementation commit.\n\nPrompt: Create `packages/recorder/src/observers/mutation.ts`. Observe the document, batch one callback into one `mutation` event, handle simple add, remove, attribute and text changes. `stop()` disconnects.\n\nRequirements:\n- One event per observer callback\n- Added subtrees serialized with the Day 03 serializer (`serializeNode`, the `Mirror` and the privacy options). Do not duplicate their logic.\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Tests for each simple change type and for stop()\n- Tests are deterministic: happy-dom, no real timers. Flush MutationObserver callbacks explicitly, do not sleep.\n\nImplementation commit message: `feat(recorder): observe DOM mutations (#4)`\n\nAuthor every commit as the owner and credit yourself:\n`git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" -m \"...\"`\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nT",
+  "mentionsCursor": true
+}
