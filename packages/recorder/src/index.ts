@@ -1,6 +1,10 @@
 import { version } from "@rewind/shared";
 
 export { Mirror } from "./mirror.js";
+export {
+  type MutationObservation,
+  observeMutations,
+} from "./observers/mutation.js";
 export type { PrivacyOptions } from "./privacy.js";
 export {
   type SerializeContext,

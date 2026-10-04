@@ -57,3 +57,5 @@ What gets easier. What gets harder. What we will watch.
 | 0018 | [Do not record the value of a masked select](0018-masked-select-value.md) | Accepted |
 | 0019 | [Pass the snapshot clock on the context](0019-snapshot-clock-on-context.md) | Accepted |
 | 0020 | [Resolve URLs inside inlined stylesheets](0020-inlined-css-urls.md) | Accepted |
+| 0021 | [Emit mutations through a callback](0021-mutation-emit-callback.md) | Accepted |
+| 0022 | [Detached nodes keep their mirror id](0022-detached-nodes-keep-ids.md) | Accepted |

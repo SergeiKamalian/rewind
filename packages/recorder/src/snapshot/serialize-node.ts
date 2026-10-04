@@ -247,12 +247,20 @@ function readAttributes(element: Element): Record<string, string | true> {
     if (attribute === null || isEventHandlerAttribute(attribute.name)) {
       continue;
     }
-    attributes[attribute.name] = attributeValue(attribute, base);
+    attributes[attribute.name] = serializeAttribute(attribute, base);
   }
   return attributes;
 }
 
-function attributeValue(attribute: Attr, base: string): string | true {
+/**
+ * Converts one attribute into the session format.
+ * Boolean attributes become `true`. Relative `src`, `href`, and `srcset`
+ * become absolute against `base`. The caller drops `on*` attributes.
+ */
+export function serializeAttribute(
+  attribute: Attr,
+  base: string,
+): string | true {
   const stored = serializeAttributeValue(attribute.name, attribute.value);
   if (stored === true || !isUrlAttribute(attribute.localName)) {
     return stored;

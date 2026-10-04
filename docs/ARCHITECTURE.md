@@ -37,7 +37,7 @@ If a PR changes the design, it updates this file.
 ### @rewind/recorder
 - `record(options)` starts recording and returns a handle with `stop()`, `flush()` and `addCustomEvent()`.
 - Observers produce events:
-  - **DOM**: `takeFullSnapshot` writes one `full_snapshot` at start, then incremental mutations from `MutationObserver`. The caller passes the recording `Clock` on the snapshot context, next to the `Mirror`, so `seq` stays with that recording.
+  - **DOM**: `takeFullSnapshot` writes one `full_snapshot` at start. `observeMutations` then watches the document and emits one `mutation` event per `MutationObserver` callback. Both take the recording `Clock` on the snapshot context, next to the `Mirror`, so `seq` stays with that recording. The observer hands the event to `emit`. That callback is where the event bus will connect. The observer does not write to a buffer.
   - **Input**: mouse move (throttled), click, scroll, input and change, viewport resize.
   - **Network**: `fetch` and `XMLHttpRequest`. Method, URL, status, timing, sizes. Bodies off by default.
   - **Console**: log, info, warn, error, plus `window.onerror` and `unhandledrejection`.
