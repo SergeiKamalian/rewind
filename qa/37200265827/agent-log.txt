@@ -1,0 +1,5 @@
+Regression complete. Report is at `out/report.json`.
+
+**Result:** All 14 scenarios passed on desktop (1280×800) and mobile (390×844). No bugs; `known-bugs.json` was empty so `fixed` and `still_open` are both `[]`.
+
+Covered: smoke check, add (button/Enter), empty/spaces rejection, trim, 500-char titles, 20 quick adds, toggle done, delete, keyboard-only, reload (empty list, intended), and mobile overflow. No console errors.
