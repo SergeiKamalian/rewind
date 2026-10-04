@@ -347,4 +347,78 @@ describe("serializeNode assets", () => {
       },
     });
   });
+
+  it("resolves relative URLs in an inlined stylesheet", () => {
+    const doc = document.implementation.createHTMLDocument("");
+    const base = doc.createElement("base");
+    base.href = "https://example.com/page.html";
+    doc.head.append(base);
+    const link = doc.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", "https://example.com/assets/css/main.css");
+    doc.head.append(link);
+    const rules = [
+      ".rel{background:url(../img/bg.png)}",
+      ".root{background:url(/img/logo.png)}",
+      ".quoted{background:url('fonts/a.woff')}",
+      '.dquoted{background:url("fonts/b.woff")}',
+      '@import "theme.css";',
+      "@import url(extra.css);",
+      ".pixel{background:url(data:image/gif;base64,R0lGODlh)}",
+      ".frag{background:url(#sym)}",
+      ".abs{background:url(https://cdn.example/x.png)}",
+    ];
+    const expected = [
+      ".rel{background:url(https://example.com/assets/img/bg.png)}",
+      ".root{background:url(https://example.com/img/logo.png)}",
+      ".quoted{background:url('https://example.com/assets/css/fonts/a.woff')}",
+      '.dquoted{background:url("https://example.com/assets/css/fonts/b.woff")}',
+      '@import "https://example.com/assets/css/theme.css";',
+      "@import url(https://example.com/assets/css/extra.css);",
+      ".pixel{background:url(data:image/gif;base64,R0lGODlh)}",
+      ".frag{background:url(#sym)}",
+      ".abs{background:url(https://cdn.example/x.png)}",
+    ].join("\n");
+    installSheets(doc, [
+      {
+        href: "https://example.com/assets/css/main.css",
+        ownerNode: link,
+        rules,
+      },
+    ]);
+
+    expect(serializeNode(link, context())).toMatchObject({
+      tagName: "style",
+      childNodes: [{ type: "Text", textContent: expected }],
+    });
+  });
+
+  it("resolves inlined CSS against the link when the sheet href is missing", () => {
+    const doc = document.implementation.createHTMLDocument("");
+    const base = doc.createElement("base");
+    base.href = "https://example.com/page.html";
+    doc.head.append(base);
+    const link = doc.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", "assets/css/main.css");
+    doc.head.append(link);
+    installSheets(doc, [
+      {
+        href: null,
+        ownerNode: link,
+        rules: [".rel{background:url(../img/bg.png)}"],
+      },
+    ]);
+
+    expect(serializeNode(link, context())).toMatchObject({
+      tagName: "style",
+      childNodes: [
+        {
+          type: "Text",
+          textContent:
+            ".rel{background:url(https://example.com/assets/img/bg.png)}",
+        },
+      ],
+    });
+  });
 });
