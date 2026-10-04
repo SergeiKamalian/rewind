@@ -43,6 +43,13 @@ function begin(): Session {
   };
 }
 
+function textNode(node: ChildNode | null): Text {
+  if (node === null || node.nodeType !== Node.TEXT_NODE) {
+    throw new Error("expected a text node");
+  }
+  return node as Text;
+}
+
 function onlyEvent(events: readonly MutationEvent[]): MutationEvent {
   expect(events).toHaveLength(1);
   const event = events[0];
@@ -235,6 +242,263 @@ describe("observeMutations", () => {
       document.body.append(document.createElement("em"));
       await flushMutations();
       expect(session.events).toHaveLength(1);
+    } finally {
+      session.stop();
+    }
+  });
+});
+
+describe("mutation batch ordering", () => {
+  afterEach(() => {
+    document.head.replaceChildren();
+    document.body.replaceChildren();
+  });
+
+  it("drops a node added and removed in the same batch", async () => {
+    const session = begin();
+    try {
+      const temp = document.createElement("div");
+      temp.textContent = "nope";
+      document.body.append(temp);
+      temp.setAttribute("class", "x");
+      textNode(temp.firstChild).data = "still-nope";
+      temp.remove();
+      await flushMutations();
+
+      expect(session.events).toEqual([]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("keeps the id when a node is moved in the same batch", async () => {
+    const host = document.createElement("section");
+    const item = document.createElement("p");
+    item.textContent = "move-me";
+    document.body.append(host, item);
+    const session = begin();
+    try {
+      const id = session.ctx.mirror.getId(item);
+      const oldParent = session.ctx.mirror.getId(document.body);
+      const newParent = session.ctx.mirror.getId(host);
+      host.append(item);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.removes).toEqual([{ parentId: oldParent, id }]);
+      expect(event.data.adds).toEqual([
+        {
+          parentId: newParent,
+          nextId: null,
+          node: serializeNode(item, session.ctx),
+        },
+      ]);
+      expect(event.data.adds[0]?.node.id).toBe(id);
+      expect(session.ctx.mirror.getId(item)).toBe(id);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("serializes a nested add once", async () => {
+    const session = begin();
+    try {
+      const parent = document.createElement("div");
+      document.body.append(parent);
+      const child = document.createElement("span");
+      parent.append(child);
+      const grandchild = document.createElement("em");
+      grandchild.textContent = "nested";
+      child.append(grandchild);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds).toEqual([
+        {
+          parentId: session.ctx.mirror.getId(document.body),
+          nextId: null,
+          node: serializeNode(parent, session.ctx),
+        },
+      ]);
+      expect(event.data.removes).toEqual([]);
+      expect(event.data.attributes).toEqual([]);
+      expect(event.data.texts).toEqual([]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("keeps the last value of a repeated attribute", async () => {
+    const button = document.createElement("button");
+    document.body.append(button);
+    const session = begin();
+    try {
+      button.setAttribute("class", "a");
+      button.setAttribute("title", "x");
+      button.setAttribute("class", "final");
+      button.removeAttribute("title");
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.attributes).toEqual([
+        {
+          id: session.ctx.mirror.getId(button),
+          name: "class",
+          value: "final",
+        },
+        {
+          id: session.ctx.mirror.getId(button),
+          name: "title",
+          value: null,
+        },
+      ]);
+      expect(event.data.adds).toEqual([]);
+      expect(event.data.removes).toEqual([]);
+      expect(event.data.texts).toEqual([]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("applies masking and blocking to mutations", async () => {
+    const masked = document.createElement("p");
+    masked.setAttribute("data-rewind-mask", "");
+    masked.textContent = "open";
+    const input = document.createElement("input");
+    input.type = "text";
+    const password = document.createElement("input");
+    password.type = "password";
+    const blocked = document.createElement("div");
+    blocked.setAttribute("data-rewind-block", "");
+    blocked.textContent = "inside";
+    const select = document.createElement("select");
+    const option = document.createElement("option");
+    option.textContent = "Pear";
+    option.value = "pear";
+    select.append(option);
+    document.body.append(masked, input, password, blocked, select);
+    const session = begin();
+    try {
+      const secret = "secret-mask";
+      const inputSecret = "secret-input";
+      const passwordSecret = "secret-password";
+      const titleSecret = "secret-title";
+      const choice = "pear";
+      const text = textNode(masked.firstChild);
+      text.data = secret;
+      input.setAttribute("value", inputSecret);
+      password.setAttribute("value", passwordSecret);
+      blocked.setAttribute("title", titleSecret);
+      select.setAttribute("value", choice);
+      option.setAttribute("selected", "");
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      const recorded = JSON.stringify(event);
+      expect(recorded).not.toContain(secret);
+      expect(recorded).not.toContain(inputSecret);
+      expect(recorded).not.toContain(passwordSecret);
+      expect(recorded).not.toContain(titleSecret);
+      expect(recorded).not.toContain(`"value":"${choice}"`);
+      expect(recorded).not.toContain('"selected"');
+      expect(event.data.texts).toEqual([
+        {
+          id: session.ctx.mirror.getId(text),
+          value: "*".repeat(secret.length),
+        },
+      ]);
+      expect(event.data.attributes).toEqual([
+        {
+          id: session.ctx.mirror.getId(input),
+          name: "value",
+          value: "*".repeat(inputSecret.length),
+        },
+      ]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("strips event handlers and script content from mutations", async () => {
+    const button = document.createElement("button");
+    const script = document.createElement("script");
+    document.body.append(button, script);
+    const session = begin();
+    try {
+      button.setAttribute("onclick", "mutationHack()");
+      script.append(document.createTextNode("window.__mutationSecret = 1;"));
+      const injected = document.createElement("script");
+      injected.textContent = "window.__otherSecret = 2;";
+      injected.setAttribute("onclick", "otherHack()");
+      document.body.append(injected);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      const recorded = JSON.stringify(event);
+      expect(recorded).not.toContain("mutationHack");
+      expect(recorded).not.toContain("__mutationSecret");
+      expect(recorded).not.toContain("__otherSecret");
+      expect(recorded).not.toContain("otherHack");
+      expect(event.data.attributes).toEqual([]);
+      expect(event.data.texts).toEqual([]);
+      expect(event.data.adds).toEqual([
+        {
+          parentId: session.ctx.mirror.getId(document.body),
+          nextId: null,
+          node: serializeNode(injected, session.ctx),
+        },
+      ]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("orders a batch as removes, adds, attributes, then text", async () => {
+    const gone = document.createElement("p");
+    gone.textContent = "old-gone";
+    const stay = document.createElement("span");
+    stay.textContent = "old-stay";
+    document.body.append(gone, stay);
+    const session = begin();
+    try {
+      const bodyId = session.ctx.mirror.getId(document.body);
+      const goneId = session.ctx.mirror.getId(gone);
+      const stayText = textNode(stay.firstChild);
+      const stayTextId = session.ctx.mirror.getId(stayText);
+
+      gone.setAttribute("class", "nope");
+      textNode(gone.firstChild).data = "changed-gone";
+      gone.remove();
+
+      const fresh = document.createElement("div");
+      fresh.textContent = "first";
+      document.body.append(fresh);
+      fresh.setAttribute("class", "new");
+      textNode(fresh.firstChild).data = "second";
+
+      stay.setAttribute("class", "on");
+      stayText.data = "now";
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data).toEqual({
+        removes: [{ parentId: bodyId, id: goneId }],
+        adds: [
+          {
+            parentId: bodyId,
+            nextId: null,
+            node: serializeNode(fresh, session.ctx),
+          },
+        ],
+        attributes: [
+          {
+            id: session.ctx.mirror.getId(stay),
+            name: "class",
+            value: "on",
+          },
+        ],
+        texts: [{ id: stayTextId, value: "now" }],
+      });
     } finally {
       session.stop();
     }
