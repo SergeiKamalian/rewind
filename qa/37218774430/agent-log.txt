@@ -1,0 +1,5 @@
+QA complete. Report written to `out/report.json`.
+
+**Result:** 14 scenarios passed on desktop (1280×800) and mobile (390×844). **0 bugs.**
+
+Covered: smoke flow, empty/spaces rejection, trim, long titles, rapid adds, toggle done, mid-list delete, keyboard-only, reload (empty list, intended), and console checks. `known-bugs.json` was empty, so `fixed` and `still_open` are both `[]`.
