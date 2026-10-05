@@ -191,6 +191,7 @@ function batchAdds(
   const adds: MutationAdd[] = [];
   const roots = new Set<Node>();
   const seen = new Set<Node>();
+  const privacy = resolvePrivacy(ctx.privacy);
 
   const pending: Node[] = [];
   for (let index = 0; index < batch.addedOrder.length; index += 1) {
@@ -199,7 +200,7 @@ function batchAdds(
       continue;
     }
     seen.add(node);
-    if (!emitAdd(node, batch.added)) {
+    if (!emitAdd(node, batch.added, privacy)) {
       continue;
     }
     pending.push(node);
@@ -248,11 +249,22 @@ function laterNodeFirst(left: Node, right: Node): number {
   return 0;
 }
 
-function emitAdd(node: Node, added: Set<Node>): boolean {
+function emitAdd(
+  node: Node,
+  added: Set<Node>,
+  privacy: ResolvedPrivacy,
+): boolean {
   if (!node.isConnected || hasAddedAncestor(node, added)) {
     return false;
   }
-  return !insideScript(node);
+  if (insideScript(node)) {
+    return false;
+  }
+  // The node itself may be a newly blocked element. serializeNode
+  // records that as a placeholder. Only an already blocked ancestor
+  // drops the add, so a secret inserted into it is not recorded.
+  const parent = ancestor(node);
+  return parent === null || !insideBlocked(parent, privacy);
 }
 
 function batchAttributes(
