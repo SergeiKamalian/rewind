@@ -61,3 +61,5 @@ What gets easier. What gets harder. What we will watch.
 | 0022 | [Detached nodes keep their mirror id](0022-detached-nodes-keep-ids.md) | Accepted |
 | 0023 | [Resolve one mutation callback as removes, adds, attributes, then text](0023-mutation-batch-order.md) | Accepted |
 | 0024 | [Emit same-batch adds later in the tree first](0024-add-order-later-sibling-first.md) | Accepted |
+| 0025 | [Drop an add inside an already blocked element](0025-drop-adds-inside-blocked-elements.md) | Accepted |
+| 0026 | [nextId uses only ids the mirror already has](0026-next-id-known-siblings.md) | Accepted |

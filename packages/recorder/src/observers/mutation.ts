@@ -513,11 +513,20 @@ function ancestor(node: Node): Node | null {
   return parent;
 }
 
+/**
+ * Id of the next sibling the recording already knows.
+ * A node kind the serializer skips has no id. Walk past it.
+ * This does not assign an id.
+ */
 function siblingId(next: Node | null, mirror: Mirror): number | null {
-  if (next === null) {
-    return null;
+  let current = next;
+  while (current !== null) {
+    if (mirror.has(current)) {
+      return mirror.getId(current);
+    }
+    current = current.nextSibling;
   }
-  return mirror.getId(next);
+  return null;
 }
 
 function hasChanges(data: MutationEventData): boolean {
