@@ -1,0 +1,20 @@
+{
+  "summary": "Ran the product smoke check and day-01 regression scenarios on desktop (1280x800) and mobile (390x844), including empty/spaces input, trimming, long titles, rapid adds, keyboard-only use, reload, and back navigation. All flows behaved as described with no console errors. No bugs found; known-bugs list was empty.",
+  "scenarios": [
+    { "id": "S1", "title": "Smoke: page load and chrome", "result": "pass", "notes": "Todos heading, New todo field, Add, empty state, Format version 1; no console errors on desktop and mobile." },
+    { "id": "S2", "title": "Smoke: add two todos in order", "result": "pass", "notes": "Add button and Enter both work; field clears; order preserved." },
+    { "id": "S3", "title": "Smoke: toggle done then undo", "result": "pass", "notes": "Checkbox marks done and unticks correctly on both viewports." },
+    { "id": "S4", "title": "Smoke: delete a todo", "result": "pass", "notes": "Deleting the second todo leaves the first; empty message returns when list cleared." },
+    { "id": "S5", "title": "Smoke: keyboard-only flows", "result": "pass", "notes": "Tab/Enter/Space can add, toggle, and delete on desktop and mobile." },
+    { "id": "S6", "title": "Empty and spaces-only titles rejected", "result": "pass", "notes": "Neither empty nor whitespace-only titles create todos." },
+    { "id": "S7", "title": "Titles are trimmed", "result": "pass", "notes": "'  Buy milk  ' appears as 'Buy milk'." },
+    { "id": "S8", "title": "500-character title stays usable", "result": "pass", "notes": "Long title adds without horizontal overflow on desktop or mobile." },
+    { "id": "S9", "title": "Add 20 todos quickly in order", "result": "pass", "notes": "All 20 appear as Todo 1..Todo 20." },
+    { "id": "S10", "title": "Delete middle todo", "result": "pass", "notes": "Only the targeted item is removed; neighbors remain." },
+    { "id": "S11", "title": "Reload and back button", "result": "pass", "notes": "Reload clears list as intended; back leaves the page usable with no console errors." },
+    { "id": "S12", "title": "Mobile regression / no overflow", "result": "pass", "notes": "Day-01 mobile repeat of core flows; no horizontal overflow." }
+  ],
+  "bugs": [],
+  "fixed": [],
+  "still_open": []
+}
