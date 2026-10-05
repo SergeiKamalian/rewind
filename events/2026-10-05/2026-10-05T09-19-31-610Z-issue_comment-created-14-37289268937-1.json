@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T09:19:31.610Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37289268937,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5991610030",
+  "text": "@cursor Part 4 of 5 for issue #4: Incremental DOM mutations.\n\nRead AGENTS.md (sections Parts and QA), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #4, then do ONLY Part 4.\n\nWork test-first. This part's deliverable is itself a test, so: first a test commit `test(recorder): add rebuild equivalence test (#4)` with the key equivalence test and a `rebuild(events)` stub that throws `new Error(\"not implemented\")`, then the commit below that implements the helper.\n\nPrompt: Create a test-only helper `rebuild(events)` in `packages/recorder/test-utils/` that applies a snapshot plus mutations to an empty document.\n\nRequirements:\n- Helper is not exported from the package\n- Key test: live DOM equals rebuilt DOM after a scripted scenario\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n\nImplementation commit message: `test(recorder): add rebuild helper and equivalence test (#4)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nNotes:\n- Apply the four lists in the order from ADR 0023: removes, adds (at `parentId` before `nextId`), attributes, texts.\n- The scripted scenario should cover a ",
+  "mentionsCursor": true
+}
