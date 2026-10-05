@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T18:05:36.460Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37353323940,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-6000228848",
+  "text": "Review fixes are in.\n\n1. A node added inside an existing blocked element is no longer recorded. The check starts at the parent, so a newly blocked element is still a placeholder. Moving an existing node into a blocked element records only the remove. The secret text is not in the event. ADR 0025.\n2. `nextId` no longer mints an id. It is the first following sibling the mirror already knows, or `null`. ADR 0026.\n\nNo older test expectation changed. Checks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`. All five fuzz seeds still pass, and the suite finishes in about two seconds.",
+  "mentionsCursor": false
+}
