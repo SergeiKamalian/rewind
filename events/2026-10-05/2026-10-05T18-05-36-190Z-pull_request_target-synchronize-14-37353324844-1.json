@@ -1,0 +1,51 @@
+{
+  "ts": "2026-10-05T18:05:36.190Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37353324844,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14",
+  "branch": "day-04/dom-mutations",
+  "head": "abcd274a3a1c820ecf9d2e31a6a093675f184f1a",
+  "labels": [],
+  "draft": false,
+  "merged": false,
+  "additions": 2209,
+  "deletions": 5,
+  "changedFiles": 16,
+  "commits": [
+    {
+      "sha": "58e4984",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): reproduce add inside blocked element (#4)",
+      "date": "2026-10-05T18:03:27Z"
+    },
+    {
+      "sha": "5b2fd3a",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "fix(recorder): skip adds inside blocked elements (#4)",
+      "date": "2026-10-05T18:03:42Z"
+    },
+    {
+      "sha": "6e2c703",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): reproduce nextId for an unknown sibling (#4)",
+      "date": "2026-10-05T18:04:13Z"
+    },
+    {
+      "sha": "abcd274",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "fix(recorder): use only known ids for nextId (#4)",
+      "date": "2026-10-05T18:05:14Z"
+    }
+  ],
+  "forced": false
+}
