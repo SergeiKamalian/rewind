@@ -1,0 +1,37 @@
+{
+  "ts": "2026-10-05T09:26:02.973Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37289979773,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14",
+  "branch": "day-04/dom-mutations",
+  "head": "9993607376aa3a687b3c232e4d4222c6a6dc3279",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 1626,
+  "deletions": 5,
+  "changedFiles": 12,
+  "commits": [
+    {
+      "sha": "0a37aad",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): add rebuild equivalence test (#4)",
+      "date": "2026-10-05T09:24:49Z"
+    },
+    {
+      "sha": "9993607",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): add rebuild helper and equivalence test (#4)",
+      "date": "2026-10-05T09:25:46Z"
+    }
+  ],
+  "forced": false
+}
