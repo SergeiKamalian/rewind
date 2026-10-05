@@ -1,0 +1,28 @@
+{
+  "startedAt": "2026-10-05T20:56:00Z", "finishedAt": "2026-10-05T21:05:00Z", "runType": "night",
+  "currentTask": 4, "pr": 14,
+  "observed": [
+    "PR #14 has 'qa: passed' (QA comment 19:04Z) on head abcd274, CI green, final review of fixes clean",
+    "Issue #4 still 'status: in-review'",
+    "Issue #3 / PR #13 in 'status: ready-to-merge' since 2026-10-04T21:57Z, qa: passed, not merged",
+    "Last Auto-merge run was 2026-10-04T19:46Z; no scheduled run on 2026-10-05",
+    "Two tasks wait for merge (#3, #4) = flow.max_unmerged, so #5 is not started"
+  ],
+  "decisions": [
+    { "what": "Move #4 to status: ready-to-merge", "why": "QA passed after clean final review", "rule": "2.4" },
+    { "what": "Do not start #5", "why": "#3 and #4 both wait for merge, max_unmerged is 2", "rule": "2.6" }
+  ],
+  "actions": [
+    { "type": "label", "target": "#4", "url": "", "summary": "FAILED: label change to ready-to-merge and the PR comment were denied by the session's permission classifier ('ChatOps Trigger Comments'). Nothing was written on GitHub." },
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "state stuck, owner asked to set the label and merge #13" }
+  ],
+  "agents": [],
+  "problems": [
+    "The cloud session's auto-mode classifier blocked setting 'status: ready-to-merge' plus a comment on PR #14. The conductor cannot complete step 2.4 on its own in this environment.",
+    "Auto-merge did not run on 2026-10-05 (GitHub schedule skipped or delayed), so #13 has waited about 23 hours."
+  ],
+  "processNotes": [
+    "Consider letting qa.yml set 'status: ready-to-merge' on the issue itself when QA passes and the final review is marked clean, so the conductor does not need a label write that may be blocked.",
+    "Auto-merge relies only on cron; add a workflow_run or label trigger so a missed schedule does not delay merges by a day."
+  ]
+}
