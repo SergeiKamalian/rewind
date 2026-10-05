@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T17:04:27.715Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37345644959,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5999230176",
+  "text": "Part 5 is in, and this pull request is ready for review.\n\nThe fuzz test runs 200 operations for seeds 1, 7, 42, 99, and 256. The generator is mulberry32 in the test. There is no `Math.random` and no timer. Operations mix append, `insertBefore`, remove, move, nested add, attribute set, attribute remove, and text change, with several operations flushed in one callback. The live document must equal `rebuild(events)`.\n\nOne bug. Same-batch adds were listed in browser order, so an earlier sibling's `nextId` pointed at a later sibling the player had not inserted yet. Replay threw `missing node` for seeds 1, 7, 42, and 99. Adds are now emitted later in the tree first (ADR 0024). Two older assertions expected the previous array order. Their `nextId` links are the same; only the list order changed, so the checks could pass. No other test was removed or loosened.\n\nNo other fuzz failure remained. Checks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`. The fuzz file finishes well under five seconds. The issue definition of done is met.",
+  "mentionsCursor": false
+}
