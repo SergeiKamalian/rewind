@@ -37,7 +37,7 @@ If a PR changes the design, it updates this file.
 ### @rewind/recorder
 - `record(options)` starts recording and returns a handle with `stop()`, `flush()` and `addCustomEvent()`.
 - Observers produce events:
-  - **DOM**: one full snapshot at start, then incremental mutations from `MutationObserver`.
+  - **DOM**: `takeFullSnapshot` writes one `full_snapshot` at start, then incremental mutations from `MutationObserver`. The caller passes the recording `Clock` on the snapshot context, next to the `Mirror`, so `seq` stays with that recording.
   - **Input**: mouse move (throttled), click, scroll, input and change, viewport resize.
   - **Network**: `fetch` and `XMLHttpRequest`. Method, URL, status, timing, sizes. Bodies off by default.
   - **Console**: log, info, warn, error, plus `window.onerror` and `unhandledrejection`.
@@ -55,7 +55,7 @@ If a PR changes the design, it updates this file.
 
 | Decision | Choice | Why |
 |---|---|---|
-| Node identity | Numeric id per node, stored in a `WeakMap<Node, number>` | Stable across mutations, no memory leaks |
+| Node identity | Numeric id in a `Mirror`. `WeakMap` from node to id, `WeakRef` from id to node. Ids start at 1 and are never reused | Stable across mutations. The mirror does not keep a detached node alive |
 | Time | Milliseconds since session start from `performance.now()` | Monotonic, not affected by clock changes |
 | Compression | fflate (gzip) in batches | Small, fast, works in browser and Node |
 | Privacy | Mask by default | Safe to drop into any app |
@@ -87,7 +87,7 @@ The first event is `meta`. `data.version` is the format version (`FORMAT_VERSION
 | `error` | Message, stack, source location, and kind (`error` or `unhandledrejection`) |
 | `custom` | A tag and a JSON payload from the host app |
 
-Node kinds are Document, Doctype, Element, Text, Comment, and CDATA. Each node has a numeric `id`. An element attribute is a string, or `true` for a boolean attribute.
+Node kinds are Document, Doctype, Element, Text, Comment, and CDATA. Each node has a numeric `id`. HTML tag names are lowercase. Other namespaces keep the DOM's case. An element attribute is a string, or `true` for a boolean attribute with no value. A `script` element has no children. Attribute names that start with `on` are omitted. SVG elements set `isSVG`. An open shadow root is the host's last child, with tag name `shadow-root` and `isShadowRoot`. Relative `src`, `href`, and `srcset` are absolute against the document base. A same-document fragment stays as written. A readable same-origin stylesheet link is stored as a `style` element. Relative `url()` and `@import` paths in that CSS become absolute against the stylesheet URL. A password input has no value. Input and textarea values are recorded from the live property, and so is the checked state of a checkbox or radio. Those values are stars of the same length when `maskAllInputs` is on (the default) or the control sits in a masked region. Option values are starred under the same rule. A masked select records neither its value nor which option is selected. When masking is off, the select value is recorded as typed and the selected option sets `selected`. Text in `data-rewind-mask`, the `rewind-mask` class, or `maskTextSelector` is stars of the same length. An element with `data-rewind-block` or `blockSelector` is an empty element whose `width` and `height` keep its box.
 
 This checkout is the example. It is meta, a snapshot, a click, a text change, and a payment request. `parseEvent` accepts every event. The test in `packages/shared/src/example-session.test.ts` loads the JSON fence below.
 
