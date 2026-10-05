@@ -1,0 +1,30 @@
+{
+  "ts": "2026-10-05T05:02:11.551Z",
+  "event": "pull_request_target",
+  "action": "synchronize",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37265989266,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14",
+  "branch": "day-04/dom-mutations",
+  "head": "68eb21c02a7084e941b185f5df60e0b12473cac5",
+  "labels": [],
+  "draft": true,
+  "merged": false,
+  "additions": 1286,
+  "deletions": 3,
+  "changedFiles": 9,
+  "commits": [
+    {
+      "sha": "68eb21c",
+      "author": "106472907+SergeiKamalian@users.noreply.github.com",
+      "role": "owner-or-conductor",
+      "message": "test(recorder): record insert positions and apply privacy to mutations (#4)",
+      "date": "2026-10-05T05:01:40Z"
+    }
+  ],
+  "forced": false
+}
