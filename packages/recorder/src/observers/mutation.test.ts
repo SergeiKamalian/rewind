@@ -788,3 +788,50 @@ describe("mutation positions and privacy", () => {
     }
   });
 });
+
+describe("nextId known siblings", () => {
+  afterEach(() => {
+    document.head.replaceChildren();
+    document.body.replaceChildren();
+  });
+
+  it("skips an unrecorded next sibling and uses the next known id", async () => {
+    const tail = document.createElement("span");
+    tail.textContent = "tail";
+    const skipped = document.createProcessingInstruction("rewind", "skip-me");
+    document.body.append(skipped, tail);
+    const session = begin();
+    try {
+      expect(session.ctx.mirror.has(skipped)).toBe(false);
+      const added = document.createElement("em");
+      added.textContent = "added";
+      document.body.insertBefore(added, skipped);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds).toHaveLength(1);
+      expect(event.data.adds[0]?.nextId).toBe(session.ctx.mirror.getId(tail));
+      expect(session.ctx.mirror.has(skipped)).toBe(false);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("uses null when no following sibling is known", async () => {
+    const skipped = document.createProcessingInstruction("rewind", "skip-me");
+    document.body.append(skipped);
+    const session = begin();
+    try {
+      const added = document.createElement("em");
+      added.textContent = "added";
+      document.body.insertBefore(added, skipped);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds[0]?.nextId).toBeNull();
+      expect(session.ctx.mirror.has(skipped)).toBe(false);
+    } finally {
+      session.stop();
+    }
+  });
+});
