@@ -1,0 +1,3 @@
+QA complete. Smoke check plus day-01 regression on desktop and mobile — **all 12 scenarios passed**, no console errors, no bugs. `known-bugs.json` was empty, so `fixed` and `still_open` are both `[]`.
+
+Report written to `out/report.json`.
