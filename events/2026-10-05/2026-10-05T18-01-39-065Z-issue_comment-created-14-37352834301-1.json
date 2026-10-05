@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T18:01:39.065Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37352834301,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-6000165334",
+  "text": "@cursor Final fixes for issue #4 on this PR (#14). Read AGENTS.md (sections Parts and QA), .cursor/rules (including 90-lessons.mdc) and the final review above first.\n\nPush to the existing branch `day-04/dom-mutations`. Do not open a new PR. Do not change earlier parts except what these fixes need.\n\n1. Privacy leak: a node added inside an existing blocked element (`data-rewind-block`, or any element `elementIsBlocked` matches) is recorded in full.\n   - First a test commit `test(recorder): reproduce add inside blocked element (#4)` in `packages/recorder/src/observers/mutation.test.ts`: snapshot a page with a blocked div, append a span with secret text into it, flush. Expect no add for it and that the secret text appears nowhere in the event (`JSON.stringify(event)` does not contain it). Also cover moving an existing node into the blocked element: only its remove is recorded.\n   - Then `fix(recorder): skip adds inside blocked elements (#4)` in `packages/recorder/src/observers/mutation.ts`: in `emitAdd` also skip nodes whose parent chain (use the existing `ancestor` and `insideBlocked`, starting from the parent) contains a blocked element.\n2. `siblingId` must not create a new id. Use the first following sibling that `ctx.mirror.has()`, else `null`. Add a test (test commit first), then `fix(recorder): use only known ids for nextId (#4)`.\n\nIf a fix changes what an older test expects, put that change in its own `test: fix <what> (#4)` commit with the reason. Do not weaken or delete ",
+  "mentionsCursor": true
+}
