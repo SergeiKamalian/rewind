@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T04:58:51.138Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37265776963,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5988395618",
+  "text": "@cursor Part 3 of 5 for issue #4: Incremental DOM mutations.\n\nRead AGENTS.md (sections Parts and QA), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #4, then do ONLY Part 3.\n\nWork test-first: first a test commit `test(recorder): record insert positions and apply privacy to mutations (#4)` with the tests and the smallest stubs so typecheck passes, then the implementation commit.\n\nPrompt: Record `parentId` and `nextId` for adds. Apply masking, blocking and script stripping to mutations.\n\nRequirements:\n- Password typed into a new input never recorded\n- `nextId` is `null` for last child\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Tests: insertBefore in the middle, append, masked element added later\n\nImplementation commit message: `feat(recorder): record insert positions and apply privacy to mutations (#4)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@users.noreply.github.com\" commit --trailer \"Co-authored-by: Cursor Agent <cursoragent@cursor.com>\" ...`.\n\nIf you make a decision a reviewer might question, add an ADR in docs/decisions/ and list it in docs/decisions/README.md.\n\nNote: Parts 1 and 2 already record `parentId`, `nextId` and part of the privacy rules (ADR 0023). This part must prove them with the listed tests and close any gap they find. If the code already passes a test, the test co",
+  "mentionsCursor": true
+}
