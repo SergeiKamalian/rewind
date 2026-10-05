@@ -543,6 +543,8 @@ const TYPED_PASSWORD = "typed-password-7";
 const MASKED_TEXT = "mask-later-secret";
 const BLOCKED_TEXT = "blocked-later-secret";
 const CHOSEN = "kiwi";
+const LEAK_SECRET = "LEAK-SECRET";
+const MOVED_TEXT = "moved-into-block";
 
 function assertChoiceNotMatchable(node: SerializedNode): void {
   if (node.type !== "Element" && node.type !== "Document") {
@@ -734,6 +736,53 @@ describe("mutation positions and privacy", () => {
       expect(recorded).not.toContain(TYPED_PASSWORD);
       expect(recorded).not.toContain(`${TYPED_PASSWORD}-again`);
       expect(recorded).not.toContain(`${TYPED_PASSWORD}-attr`);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("does not record a node added inside a blocked element", async () => {
+    const blocked = document.createElement("div");
+    blocked.setAttribute("data-rewind-block", "");
+    blocked.id = "b";
+    blocked.textContent = "old";
+    document.body.append(blocked);
+    const session = begin();
+    try {
+      const span = document.createElement("span");
+      span.textContent = LEAK_SECRET;
+      blocked.append(span);
+      await flushMutations();
+
+      const adds = session.events.flatMap((event) => event.data.adds);
+      expect(adds).toEqual([]);
+      expect(JSON.stringify(session.events)).not.toContain(LEAK_SECRET);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("records only a remove when a node moves into a blocked element", async () => {
+    const blocked = document.createElement("div");
+    blocked.setAttribute("data-rewind-block", "");
+    const moved = document.createElement("span");
+    moved.textContent = MOVED_TEXT;
+    document.body.append(blocked, moved);
+    const session = begin();
+    try {
+      const movedId = session.ctx.mirror.getId(moved);
+      const parentId = session.ctx.mirror.getId(document.body);
+      blocked.append(moved);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data).toEqual({
+        adds: [],
+        removes: [{ parentId, id: movedId }],
+        attributes: [],
+        texts: [],
+      });
+      expect(JSON.stringify(event)).not.toContain(MOVED_TEXT);
     } finally {
       session.stop();
     }
