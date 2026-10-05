@@ -1,0 +1,20 @@
+{
+  "ts": "2026-10-05T17:04:22.109Z",
+  "event": "pull_request_target",
+  "action": "ready_for_review",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37345649079,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14",
+  "branch": "day-04/dom-mutations",
+  "head": "3da36b5dba3129a09ac6917058223401a1d5085a",
+  "labels": [],
+  "draft": false,
+  "merged": false,
+  "additions": 2042,
+  "deletions": 5,
+  "changedFiles": 14
+}
