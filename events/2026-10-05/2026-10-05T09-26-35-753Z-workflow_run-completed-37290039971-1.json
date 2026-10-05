@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-05T09:26:35.753Z",
+  "event": "workflow_run",
+  "action": "completed",
+  "actor": "cursor[bot]",
+  "role": "automation",
+  "run": 37290039971,
+  "workflow": "CI",
+  "status": "completed",
+  "conclusion": "success",
+  "branch": "day-04/dom-mutations",
+  "head": "9993607",
+  "url": "https://github.com/SergeiKamalian/rewind/actions/runs/37289985404",
+  "trigger": "pull_request",
+  "startedAt": "2026-10-05T09:25:58Z",
+  "finishedAt": "2026-10-05T09:26:26Z",
+  "seconds": 28,
+  "prs": [
+    14
+  ]
+}
