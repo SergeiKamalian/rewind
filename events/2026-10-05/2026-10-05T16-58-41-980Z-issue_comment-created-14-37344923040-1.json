@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T16:58:41.980Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "SergeiKamalian",
+  "role": "conductor",
+  "run": 37344923040,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5999140553",
+  "text": "@cursor Part 5 of 5 for issue #4: Incremental DOM mutations.\n\nRead AGENTS.md (sections Parts and QA), .cursor/rules (including 90-lessons.mdc) and docs/ARCHITECTURE.md first. Read the whole issue #4, then do ONLY Part 5.\n\nWork test-first: first a test commit `test(recorder): add seeded mutation fuzz test (#4)` with the fuzz test (it may fail if it finds bugs). Then, for every bug it finds, a fix commit `fix(recorder): <short bug title> (#4)`. If the fuzz test passes on the first try, there is nothing to fix; say so in your note.\n\nPrompt: Add a fuzz test with a seeded random generator: 200 random DOM operations, then compare live DOM with `rebuild(events)` from `packages/recorder/test-utils/rebuild.ts`. Fix every bug it finds.\n\nRequirements:\n- Fixed seed, deterministic (a small seeded PRNG in the test, no `Math.random`, no real timers)\n- Run 5 different fixed seeds\n- Operations should mix: append, insertBefore, remove, move an existing node, nested adds, attribute set and remove, text changes, and several operations inside one batch before flushing\n- List any bugs found and fixed in the PR note\n- Mark the PR as ready for review\n\nChecks you must run before pushing:\n- `pnpm lint && pnpm typecheck && pnpm test && pnpm build` pass\n- Fuzz test runs in under 5 seconds\n\nCommit message for the test: `test(recorder): add seeded mutation fuzz test (#4)`\n\nAuthor every commit as the owner and credit yourself: `git -c user.name=\"Sergei Kamalian\" -c user.email=\"106472907+SergeiKamalian@user",
+  "mentionsCursor": true
+}
