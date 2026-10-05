@@ -11,3 +11,5 @@ Read it before you start. Do not repeat these mistakes.
 - [#3] When a value is masked, mask every copy of it: attributes, child text, and flags like an option's `selected` that reveal the hidden value.
 - [#3] A masked value must not be matchable against other recorded data. Stars of the same length as exactly one masked option still reveal the choice.
 - [#3] When you inline content that came from another URL (a stylesheet, an `@import`), resolve the relative URLs inside it against that source URL. Its base changes once it is inlined.
+- [#4] Privacy checks for a new or changed node must look at its ancestors too (blocked, masked), not only at the node itself.
+- [#4] When a fix changes what an older test expects, put that test change in its own `test: fix <what> (#N)` commit with the reason. Never hide it in the fix commit.
