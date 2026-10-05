@@ -1,4 +1,4 @@
-import type { MutationEvent } from "@rewind/shared";
+import type { MutationEvent, SerializedNode } from "@rewind/shared";
 import { parseEvent } from "@rewind/shared";
 import { afterEach, describe, expect, it } from "vitest";
 import { Mirror } from "../mirror.js";
@@ -499,6 +499,205 @@ describe("mutation batch ordering", () => {
         ],
         texts: [{ id: stayTextId, value: "now" }],
       });
+    } finally {
+      session.stop();
+    }
+  });
+});
+
+const TYPED_PASSWORD = "typed-password-7";
+const MASKED_TEXT = "mask-later-secret";
+const BLOCKED_TEXT = "blocked-later-secret";
+const CHOSEN = "kiwi";
+
+function assertChoiceNotMatchable(node: SerializedNode): void {
+  if (node.type !== "Element" && node.type !== "Document") {
+    return;
+  }
+  if (node.type === "Element" && node.tagName === "select") {
+    expect(node.attributes.value).toBeUndefined();
+    const optionStars: string[] = [];
+    for (const child of node.childNodes) {
+      if (child.type !== "Element") {
+        continue;
+      }
+      expect(child.attributes.selected).toBeUndefined();
+      const value = child.attributes.value;
+      if (typeof value === "string") {
+        optionStars.push(value);
+      }
+    }
+    for (const attribute of Object.values(node.attributes)) {
+      if (typeof attribute !== "string" || !/^\*+$/.test(attribute)) {
+        continue;
+      }
+      const matches = optionStars.filter((stars) => stars === attribute);
+      expect(matches).not.toHaveLength(1);
+    }
+  }
+  if (node.type === "Element") {
+    for (const child of node.childNodes) {
+      assertChoiceNotMatchable(child);
+    }
+  }
+}
+
+describe("mutation positions and privacy", () => {
+  afterEach(() => {
+    document.head.replaceChildren();
+    document.body.replaceChildren();
+  });
+
+  it("records insertBefore in the middle with parentId and nextId", async () => {
+    const list = document.createElement("ul");
+    const first = document.createElement("li");
+    first.textContent = "one";
+    const third = document.createElement("li");
+    third.textContent = "three";
+    list.append(first, third);
+    document.body.append(list);
+    const session = begin();
+    try {
+      const parentId = session.ctx.mirror.getId(list);
+      const nextId = session.ctx.mirror.getId(third);
+      const second = document.createElement("li");
+      second.textContent = "two";
+      list.insertBefore(second, third);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds).toEqual([
+        {
+          parentId,
+          nextId,
+          node: serializeNode(second, session.ctx),
+        },
+      ]);
+      expect(nextId).not.toBeNull();
+      expect(event.data.removes).toEqual([]);
+      expect(event.data.attributes).toEqual([]);
+      expect(event.data.texts).toEqual([]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("records an append as the last child with nextId null", async () => {
+    const list = document.createElement("ol");
+    const first = document.createElement("li");
+    first.textContent = "one";
+    list.append(first);
+    document.body.append(list);
+    const session = begin();
+    try {
+      const last = document.createElement("li");
+      last.textContent = "last";
+      list.append(last);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(last.nextSibling).toBeNull();
+      expect(event.data.adds).toEqual([
+        {
+          parentId: session.ctx.mirror.getId(list),
+          nextId: null,
+          node: serializeNode(last, session.ctx),
+        },
+      ]);
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("masks and blocks an element added later", async () => {
+    const session = begin();
+    try {
+      const card = document.createElement("section");
+      card.setAttribute("data-rewind-mask", "");
+      const label = document.createElement("p");
+      label.textContent = MASKED_TEXT;
+      const select = document.createElement("select");
+      const kiwi = document.createElement("option");
+      kiwi.value = CHOSEN;
+      kiwi.textContent = "Kiwi";
+      const banana = document.createElement("option");
+      banana.value = "banana";
+      banana.textContent = "Banana";
+      select.append(kiwi, banana);
+      select.value = CHOSEN;
+      select.setAttribute("value", CHOSEN);
+      kiwi.setAttribute("selected", "");
+      card.append(label, select);
+
+      const blocked = document.createElement("div");
+      blocked.setAttribute("data-rewind-block", "");
+      blocked.setAttribute("title", BLOCKED_TEXT);
+      blocked.textContent = BLOCKED_TEXT;
+
+      document.body.append(card, blocked);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds).toEqual([
+        {
+          parentId: session.ctx.mirror.getId(document.body),
+          nextId: session.ctx.mirror.getId(blocked),
+          node: serializeNode(card, session.ctx),
+        },
+        {
+          parentId: session.ctx.mirror.getId(document.body),
+          nextId: null,
+          node: serializeNode(blocked, session.ctx),
+        },
+      ]);
+      const cardNode = event.data.adds[0]?.node;
+      if (cardNode === undefined) {
+        throw new Error("expected the masked element");
+      }
+      assertChoiceNotMatchable(cardNode);
+      const recorded = JSON.stringify(event);
+      expect(recorded).not.toContain(MASKED_TEXT);
+      expect(recorded).not.toContain(BLOCKED_TEXT);
+      expect(recorded).not.toContain(CHOSEN);
+      expect(recorded).not.toContain('"selected"');
+    } finally {
+      session.stop();
+    }
+  });
+
+  it("does not record a password typed into a new input", async () => {
+    const session = begin();
+    try {
+      const input = document.createElement("input");
+      input.type = "password";
+      input.name = "password";
+      input.value = TYPED_PASSWORD;
+      input.setAttribute("value", TYPED_PASSWORD);
+      input.append(document.createTextNode(TYPED_PASSWORD));
+      document.body.append(input);
+      await flushMutations();
+
+      input.value = `${TYPED_PASSWORD}-again`;
+      await flushMutations();
+      input.setAttribute("value", `${TYPED_PASSWORD}-attr`);
+      await flushMutations();
+
+      expect(session.events).toHaveLength(1);
+      const event = onlyEvent(session.events);
+      const node = event.data.adds[0]?.node;
+      expect(node).toMatchObject({
+        type: "Element",
+        tagName: "input",
+        attributes: { type: "password", name: "password" },
+        childNodes: [],
+      });
+      if (node?.type === "Element") {
+        expect(node.attributes.value).toBeUndefined();
+      }
+      const recorded = JSON.stringify(session.events);
+      expect(recorded).not.toContain(TYPED_PASSWORD);
+      expect(recorded).not.toContain(`${TYPED_PASSWORD}-again`);
+      expect(recorded).not.toContain(`${TYPED_PASSWORD}-attr`);
     } finally {
       session.stop();
     }
