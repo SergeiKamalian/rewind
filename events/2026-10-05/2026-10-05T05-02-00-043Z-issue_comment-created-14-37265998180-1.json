@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T05:02:00.043Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37265998180,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5988423531",
+  "text": "Part 3 is in as tests only. There is no implementation commit: every listed case already passed on the Part 2 code, so nothing in production changed.\n\nWhat the tests prove, with no code changes:\n- `insertBefore` in the middle records `parentId` of the list and `nextId` of the following sibling.\n- An append that becomes the last child records `nextId: null`.\n- A masked element added later does not record its text. A select inside it omits `value` and `selected`, so a starred option value is not matchable to the choice. A blocked element added in that same turn omits its text and title.\n- A password typed into a new input never appears. The value property does not emit a mutation. The value attribute, including one set again later, is dropped. A child text node on that input is dropped too.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nLeft open: Parts 4 and 5 (the rebuild helper and the seeded fuzz test).",
+  "mentionsCursor": false
+}
