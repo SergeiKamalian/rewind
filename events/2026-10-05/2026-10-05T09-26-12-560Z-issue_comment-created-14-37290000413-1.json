@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-05T09:26:12.560Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37290000413,
+  "number": 14,
+  "kind": "pr",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/pull/14#issuecomment-5991713027",
+  "text": "Part 4 is in as a test-only helper. `rebuild(events)` lives in `packages/recorder/test-utils/` and is not exported from the package. The build output does not contain it.\n\nThe helper applies a full snapshot, then each later mutation as removes, adds (at `parentId`, before `nextId`), attributes, and text. The equivalence test records six callbacks: a removal, a move into a new section, a nested add, an `insertBefore` in the middle of a list, a class change, and a text change. The rebuilt document is a new document, and `isEqualNode` matches the live one.\n\nChecks that passed: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`.\n\nLeft open: Part 5 (the seeded fuzz test). The issue definition of done is still open.",
+  "mentionsCursor": false
+}
