@@ -192,6 +192,7 @@ function batchAdds(
   const roots = new Set<Node>();
   const seen = new Set<Node>();
 
+  const pending: Node[] = [];
   for (let index = 0; index < batch.addedOrder.length; index += 1) {
     const node = batch.addedOrder[index];
     if (node === undefined || seen.has(node)) {
@@ -199,6 +200,18 @@ function batchAdds(
     }
     seen.add(node);
     if (!emitAdd(node, batch.added)) {
+      continue;
+    }
+    pending.push(node);
+  }
+
+  // Later nodes first. An earlier sibling's nextId is often a node added
+  // in this same batch, and the player inserts before nextId.
+  pending.sort(laterNodeFirst);
+
+  for (let index = 0; index < pending.length; index += 1) {
+    const node = pending[index];
+    if (node === undefined) {
       continue;
     }
     const serialized = serializeNode(node, ctx);
@@ -215,6 +228,24 @@ function batchAdds(
   }
 
   return { adds, roots };
+}
+
+/**
+ * Sort key so a node comes before a sibling that inserts in front of it.
+ * `compareDocumentPosition` is only used for nodes still in the document.
+ */
+function laterNodeFirst(left: Node, right: Node): number {
+  if (left === right) {
+    return 0;
+  }
+  const position = left.compareDocumentPosition(right);
+  if ((position & Node.DOCUMENT_POSITION_FOLLOWING) !== 0) {
+    return 1;
+  }
+  if ((position & Node.DOCUMENT_POSITION_PRECEDING) !== 0) {
+    return -1;
+  }
+  return 0;
 }
 
 function emitAdd(node: Node, added: Set<Node>): boolean {

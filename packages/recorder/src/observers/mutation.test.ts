@@ -189,13 +189,13 @@ describe("observeMutations", () => {
       expect(event.data.adds).toEqual([
         {
           parentId: session.ctx.mirror.getId(document.body),
-          nextId: session.ctx.mirror.getId(second),
-          node: serializeNode(first, session.ctx),
+          nextId: null,
+          node: serializeNode(second, session.ctx),
         },
         {
           parentId: session.ctx.mirror.getId(document.body),
-          nextId: null,
-          node: serializeNode(second, session.ctx),
+          nextId: session.ctx.mirror.getId(second),
+          node: serializeNode(first, session.ctx),
         },
       ]);
       expect(event.data.removes).toEqual([]);
@@ -503,6 +503,40 @@ describe("mutation batch ordering", () => {
       session.stop();
     }
   });
+
+  it("lists a new later sibling before the add that points at it", async () => {
+    const session = begin();
+    try {
+      const first = document.createElement("span");
+      first.textContent = "one";
+      const second = document.createElement("span");
+      second.textContent = "two";
+      document.body.append(first, second);
+      await flushMutations();
+
+      const event = onlyEvent(session.events);
+      expect(event.data.adds).toHaveLength(2);
+      const later = event.data.adds[0];
+      const earlier = event.data.adds[1];
+      if (later === undefined || earlier === undefined) {
+        throw new Error("expected two adds");
+      }
+      expect(later.nextId).toBeNull();
+      expect(later.node).toMatchObject({
+        type: "Element",
+        tagName: "span",
+        childNodes: [{ type: "Text", textContent: "two" }],
+      });
+      expect(earlier.nextId).toBe(later.node.id);
+      expect(earlier.node).toMatchObject({
+        type: "Element",
+        tagName: "span",
+        childNodes: [{ type: "Text", textContent: "one" }],
+      });
+    } finally {
+      session.stop();
+    }
+  });
 });
 
 const TYPED_PASSWORD = "typed-password-7";
@@ -641,16 +675,18 @@ describe("mutation positions and privacy", () => {
       expect(event.data.adds).toEqual([
         {
           parentId: session.ctx.mirror.getId(document.body),
-          nextId: session.ctx.mirror.getId(blocked),
-          node: serializeNode(card, session.ctx),
-        },
-        {
-          parentId: session.ctx.mirror.getId(document.body),
           nextId: null,
           node: serializeNode(blocked, session.ctx),
         },
+        {
+          parentId: session.ctx.mirror.getId(document.body),
+          nextId: session.ctx.mirror.getId(blocked),
+          node: serializeNode(card, session.ctx),
+        },
       ]);
-      const cardNode = event.data.adds[0]?.node;
+      const cardNode = event.data.adds.find(
+        (add) => add.node.type === "Element" && add.node.tagName === "section",
+      )?.node;
       if (cardNode === undefined) {
         throw new Error("expected the masked element");
       }
