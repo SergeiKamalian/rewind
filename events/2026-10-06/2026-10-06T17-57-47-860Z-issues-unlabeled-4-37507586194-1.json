@@ -1,0 +1,21 @@
+{
+  "ts": "2026-10-06T17:57:47.860Z",
+  "event": "issues",
+  "action": "unlabeled",
+  "actor": "SergeiKamalian",
+  "role": "owner",
+  "run": 37507586194,
+  "number": 4,
+  "kind": "issue",
+  "title": "[Day 04] Incremental DOM mutations",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/4",
+  "label": "status: in-review",
+  "labels": [
+    "task",
+    "week-1",
+    "status: ready-to-merge",
+    "day-04"
+  ],
+  "state": "open",
+  "stateReason": null
+}
