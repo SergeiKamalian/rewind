@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-10-06T19:57:00Z",
+  "finishedAt": "2026-10-06T20:04:00Z",
+  "runType": "night",
+  "currentTask": 5,
+  "pr": null,
+  "observed": [
+    "cursor[bot] replied to the #5 Part 1 launch at 18:57:23Z: spend limit reached, background agents cannot run",
+    "No branch day-05/input-events, no PR for #5",
+    "PR #14 open, head abcd274, all checks green, qa: passed; #4 status: ready-to-merge since 17:57Z",
+    "No Auto-merge run yet on 2026-10-06; last one 2026-10-05T22:53Z failed",
+    "qa/scenarios/day-03.md still missing on main",
+    "add_repo tool not available; repo already cloned in scope"
+  ],
+  "decisions": [
+    { "what": "Did not re-launch #5 Part 1", "why": "Cursor refused for billing; a re-launch fails the same way until the owner raises the spend limit", "rule": "2.2.8" },
+    { "what": "Marked the chain stuck and notified the owner", "why": "Only the owner can fix Cursor billing", "rule": "3 NIGHT, 5" },
+    { "what": "Did not retry the day-03 scenarios push to main", "why": "Push to main was denied in the 18:05 run; it stays in needFromYou", "rule": "2.5.1" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "State stuck: Cursor spend limit" },
+    { "type": "journal", "target": "reports/2026-10-07T0000-night", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "New problem entry: Cursor agent did not start" }
+  ],
+  "agents": [ { "part": 1, "cursorAgent": null, "launchedAt": "2026-10-06T18:57:18Z", "committedAt": null } ],
+  "problems": [
+    "The 19:05 run launched Part 1 but did not read the bot reply, so the billing block was found one hour later"
+  ],
+  "processNotes": [
+    "After every @cursor launch, read the bot reply in the same run; treat a billing or limit reply as stuck at once instead of waiting 2 hours (add to 2.2.8)"
+  ]
+}
