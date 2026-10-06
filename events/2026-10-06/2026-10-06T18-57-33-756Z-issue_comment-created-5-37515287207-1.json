@@ -1,0 +1,14 @@
+{
+  "ts": "2026-10-06T18:57:33.756Z",
+  "event": "issue_comment",
+  "action": "created",
+  "actor": "cursor[bot]",
+  "role": "coder",
+  "run": 37515287207,
+  "number": 5,
+  "kind": "issue",
+  "title": "[Day 05] Input events: mouse, click, scroll, input, resize",
+  "url": "https://github.com/SergeiKamalian/rewind/issues/5#issuecomment-6023312007",
+  "text": "You need to increase your spend limit or enable usage-based billing to run background agents. [Go to Cursor](https://cursor.com/github-bg-connected)",
+  "mentionsCursor": false
+}
