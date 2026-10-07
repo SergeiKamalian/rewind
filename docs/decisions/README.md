@@ -57,3 +57,9 @@ What gets easier. What gets harder. What we will watch.
 | 0018 | [Do not record the value of a masked select](0018-masked-select-value.md) | Accepted |
 | 0019 | [Pass the snapshot clock on the context](0019-snapshot-clock-on-context.md) | Accepted |
 | 0020 | [Resolve URLs inside inlined stylesheets](0020-inlined-css-urls.md) | Accepted |
+| 0021 | [Emit mutations through a callback](0021-mutation-emit-callback.md) | Accepted |
+| 0022 | [Detached nodes keep their mirror id](0022-detached-nodes-keep-ids.md) | Accepted |
+| 0023 | [Resolve one mutation callback as removes, adds, attributes, then text](0023-mutation-batch-order.md) | Accepted |
+| 0024 | [Emit same-batch adds later in the tree first](0024-add-order-later-sibling-first.md) | Accepted |
+| 0025 | [Drop an add inside an already blocked element](0025-drop-adds-inside-blocked-elements.md) | Accepted |
+| 0026 | [nextId uses only ids the mirror already has](0026-next-id-known-siblings.md) | Accepted |
