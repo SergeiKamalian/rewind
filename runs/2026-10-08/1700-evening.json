@@ -1,0 +1,16 @@
+{
+  "startedAt": "2026-10-08T16:56:00Z", "finishedAt": "2026-10-08T17:01:00Z", "runType": "evening",
+  "currentTask": 5, "pr": null,
+  "observed": ["No new merges since PR #14 (2026-10-07T21:31Z)", "Issue #5 still status: agent-working, no branch day-05/input-events, last cursor[bot] reply is the spend-limit message", "No new owner comment on #5 since the morning run", "qa/scenarios/day-03.md and day-04.md still missing on main"],
+  "decisions": [
+    {"what": "Did not re-launch Part 1 of #5", "why": "already re-launched once; Cursor still blocked by spend limit and the owner has not reported a fix", "rule": "2.2.8"},
+    {"what": "Did not start a stacked task", "why": "the coder is blocked; a new launch would hit the same spend limit", "rule": "2.6"}
+  ],
+  "actions": [
+    {"type": "other", "target": "main", "url": "", "summary": "Tried again to push qa/scenarios/day-03.md and day-04.md to main; denied by session permission (CI bypass)"},
+    {"type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "state stuck, evening entry 2026-10-08T2059-evening"}
+  ],
+  "agents": [],
+  "problems": ["Cursor background agents blocked by spend limit since 2026-10-06; chain stalled", "Conductor cannot push to main, so post-merge scenario copy (2.5.1) cannot be done"],
+  "processNotes": ["When Day 05 re-launches, Part 1 must branch from main (Day 04 merged), not from day-04/dom-mutations", "Move the post-merge scenario copy into auto-merge.yml, since the conductor lacks push to main"]
+}
