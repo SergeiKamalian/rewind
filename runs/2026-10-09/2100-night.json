@@ -1,0 +1,23 @@
+{
+  "startedAt": "2026-10-09T20:56:00Z", "finishedAt": "2026-10-09T21:01:00Z", "runType": "night",
+  "currentTask": 5, "pr": null,
+  "observed": [
+    "#5 still status: agent-working, no PR, no branch day-05/input-events",
+    "Last cursor[bot] reply on #5 (2026-10-07T04:59Z) is still the spend-limit error; no owner comment since",
+    "No new merges; main at 95a6bec (Day 03/04 QA scenarios already added)",
+    "Open tasks: #5 (agent-working), #6 and #7 (queued)"
+  ],
+  "decisions": [
+    { "what": "Did not re-launch Part 1 of #5", "why": "already re-launched once and reported stuck; no sign the Cursor billing limit was lifted", "rule": "2.2.8" },
+    { "what": "No new journal entry, no owner message", "why": "night run, same known stuck state", "rule": "3 NIGHT" }
+  ],
+  "actions": [],
+  "agents": [],
+  "problems": [
+    "ArtifactData update of status/current denied again by the session permission classifier; journal still lists the already-done scenarios push in needFromYou and updatedAt is stale",
+    "add_repo tool not available; repo was already in scope and cloned"
+  ],
+  "processNotes": [
+    "Journal writes are repeatedly blocked in scheduled runs; the owner should allow ArtifactData writes for this task or the journal will drift from reality"
+  ]
+}
