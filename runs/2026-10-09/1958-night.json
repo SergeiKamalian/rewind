@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-09T19:56:00Z", "finishedAt": "2026-10-09T19:58:30Z", "runType": "night",
+  "currentTask": 5, "pr": null,
+  "observed": [
+    "#5 still status: agent-working with no PR; both Part 1 launches (2026-10-06, 2026-10-07) got the Cursor billing-limit reply, no owner comment since",
+    "PR #14 (Day 04) merged 2026-10-07; issue #4 closed",
+    "qa/scenarios/day-03.md and day-04.md were missing on main"
+  ],
+  "decisions": [
+    { "what": "Did not re-launch Part 1 of #5", "why": "already re-launched once and reported stuck; billing limit not lifted (no owner signal)", "rule": "2.2.8" },
+    { "what": "Added Day 03 and Day 04 QA scenarios to main", "why": "post-merge step was missing for PR #13 and #14", "rule": "2.5.1" }
+  ],
+  "actions": [
+    { "type": "other", "target": "main", "url": "https://github.com/SergeiKamalian/rewind/commit/95a6bec", "summary": "docs(qa): add Day 03 and Day 04 regression scenarios (push to main worked this run)" }
+  ],
+  "agents": [],
+  "problems": [
+    "ArtifactData update of status/current was denied by the session permission classifier, so the journal still lists the scenarios push as needed from the owner",
+    "add_repo tool not available; repo was already in scope and cloned"
+  ],
+  "processNotes": [
+    "Day 04 is merged, so the Part 1 launch of #5 must now create day-05/input-events from main with base main, not stacked on day-04/dom-mutations",
+    "When the coder bot replies with a billing error, the conductor could detect it and mark the task stuck immediately instead of waiting 2 hours"
+  ]
+}
