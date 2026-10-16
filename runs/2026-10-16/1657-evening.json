@@ -1,0 +1,26 @@
+{
+  "startedAt": "2026-10-16T16:57:00Z", "finishedAt": "2026-10-16T17:02:00Z", "runType": "evening",
+  "currentTask": 5, "pr": null,
+  "observed": [
+    "#5 still status: agent-working, 0/5 parts, no branch, no PR",
+    "Last comments on #5 are the two cursor[bot] spend-limit replies (2026-10-06, 2026-10-07); no owner 'resume'",
+    "No merges since PR #14 (2026-10-07); no open PRs; main at 95a6bec"
+  ],
+  "decisions": [
+    { "what": "Did not re-launch Part 1 of #5", "why": "already re-launched once; both hit the Cursor spend limit; no owner signal", "rule": "2.2.8" },
+    { "what": "Did not start #6 stacked", "why": "#5 is not ready-to-merge, stacking only applies on top of a ready task, and Cursor would refuse anyway", "rule": "2.6" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "still stuck, updatedAt refreshed" },
+    { "type": "journal", "target": "reports/2026-10-16T2057-evening", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "short evening entry" },
+    { "type": "other", "target": "owner", "url": "", "summary": "SendUserMessage evening report" }
+  ],
+  "agents": [],
+  "problems": [
+    "Chain blocked on Cursor spend limit since 2026-10-06 (10 days)",
+    "add_repo tool not available; repo was already in scope and cloned"
+  ],
+  "processNotes": [
+    "Same as earlier runs: define an explicit owner resume signal after 2.2.8 stops the chain"
+  ]
+}
