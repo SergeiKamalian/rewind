@@ -119,3 +119,46 @@ Reusable template:
 - Add an owner signal to resume after a blocker: a comment "resume" or removing a `blocked: ...` label lets the conductor re-launch the part. Evidence: 2.2.8 stopped the chain on 10-07 and every run since could only report.
 - Treat a `cursor[bot]` billing reply as an immediate stop, not a missing reply. It is not a slow agent. Evidence: #5 comments.
 - Planning should also fire when the current milestone's end date has passed, so next week's issues exist when the chain resumes. Evidence: Week 1 planned for 10-01 to 10-07, still 3 open tasks on 10-11.
+
+## Update: Sunday 2026-10-18 (week still open)
+
+Built from `runs/` (2026-10-11 to 2026-10-17), `events/` and GitHub.
+
+### Numbers
+
+| Task | PR | Parts | Fix rounds | QA rounds | Bugs | Status |
+|---|---|---|---|---|---|---|
+| #5 Day 05 Input events | - | 0 of 5 | 0 | 0 | 0 | blocked since 10-06, 12 days |
+| #6, #7 | - | - | - | - | - | queued |
+
+- No commits, PRs, merges, QA runs or bugs in the past 7 days. `events/` has nothing after 2026-10-11.
+- About 45 conductor runs this week. All of them could only report the same blocker.
+- Some scheduled slots did not run: 2026-10-16 after 18:58 UTC and 2026-10-17 morning and evening have no run record.
+
+### Where agents failed, by cause
+
+- Infrastructure (coder billing): unchanged. Cursor refused both launches of #5 Part 1 with a spend-limit reply. No owner signal since.
+
+### What the conductor got wrong or found unclear
+
+- Rule 2.2.8 still has no resume signal. The journal asks the owner to comment "resume" in #5, but that word is not in the playbook.
+- Planning did not fire again: #6 and #7 are queued, so the "fewer than 2 queued" rule blocks it. Week 2 to 5 milestones have no issues, and the Week 2 end date (10-14) has passed.
+- Missing run records on 10-16 and 10-17 are not explained by anything in the log. Probably the schedule did not fire.
+
+### Lessons and repeats
+
+- No tasks ran, so no lessons were tested or added.
+
+### Owner interventions
+
+- None this week. Still needed: lift the Cursor spend limit.
+
+### Proposed changes
+
+This project only:
+- Same as 10-11: label a blocked task `blocked: coder` so the board shows the real state.
+
+Reusable template:
+- Add an explicit resume rule after 2.2.8 (owner comment "resume" or removing a `blocked: ...` label). Evidence: 12 days with no way to restart except the owner reading the journal.
+- When the chain is stuck for more than 3 days with the same reason, cut night runs to one status refresh and send the owner one reminder per day at most. Evidence: about 45 identical runs this week.
+- Log a run record even when a scheduled slot is skipped or fails early, so gaps can be explained.
