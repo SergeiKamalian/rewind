@@ -1,0 +1,24 @@
+{
+  "startedAt": "2026-10-21T17:57:00Z", "finishedAt": "2026-10-21T17:57:50Z", "runType": "night",
+  "currentTask": 5, "pr": null,
+  "observed": [
+    "#5 still status: agent-working, 0/5 parts, no day-05 branch, no PR",
+    "Last comments on #5 are the cursor[bot] spend-limit replies of 2026-10-06 and 2026-10-07; no owner 'resume'",
+    "No open PRs, no new merges; main at 95a6bec; #6 and #7 queued"
+  ],
+  "decisions": [
+    { "what": "No re-launch of Part 1 of #5, #6 not started", "why": "Already re-launched once; both hit the Cursor spend limit; no owner signal", "rule": "2.2.8" },
+    { "what": "Only status updatedAt refreshed, no journal entry, no owner message", "why": "NIGHT run with no new problem", "rule": "3 NIGHT" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "updatedAt refreshed, still stuck" }
+  ],
+  "agents": [],
+  "problems": [
+    "Chain blocked on Cursor spend limit since 2026-10-06 (15 days)",
+    "add_repo tool not available; repo was already in scope and cloned"
+  ],
+  "processNotes": [
+    "Same as previous runs: define an explicit resume signal in 2.2.8 and reduce NIGHT runs when stuck for the same reason over 3 days"
+  ]
+}
