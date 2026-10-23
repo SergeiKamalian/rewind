@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-10-23T18:57:00Z", "finishedAt": "2026-10-23T19:00:00Z", "runType": "night",
+  "currentTask": 5, "pr": null,
+  "observed": [
+    "Local time 22:57 Asia/Yerevan, treated as the 23:00 NIGHT slot",
+    "#5 still status: agent-working, 0/5 parts, no day-05/input-events branch, no PR",
+    "No new comments on #5 since the cursor[bot] spend-limit replies; no owner 'resume'",
+    "main at 95a6bec; no open PRs; #6 and #7 queued"
+  ],
+  "decisions": [
+    { "what": "Did not re-launch Part 1 of #5", "why": "Already re-launched once; both launches hit the Cursor spend limit; no owner signal of a fix", "rule": "2.2.8" },
+    { "what": "Only refreshed journal status, no entry, no message", "why": "NIGHT run with no new problem", "rule": "3 NIGHT" }
+  ],
+  "actions": [
+    { "type": "journal", "target": "status/current", "url": "https://claude.ai/artifact/LuoQxyTim6BMVscjLudThs", "summary": "updatedAt refreshed, state stuck unchanged" }
+  ],
+  "agents": [],
+  "problems": [
+    "Chain blocked on Cursor spend limit since 2026-10-06 (17 days)",
+    "add_repo tool not available; repo was already in scope and cloned"
+  ],
+  "processNotes": [
+    "Pause NIGHT runs when the chain is stuck for the same reason for more than 3 days; they add no value"
+  ]
+}
