@@ -1,0 +1,5 @@
+Regression of the Rewind demo at `https://rewind-5isu1nfhw-sergeikamalian.vercel.app` is done. Results are in `out/report.json`.
+
+**What I ran:** product smoke plus day-01 through day-04, on desktop 1280×800 and mobile 390×844. That covered add (button and Enter), empty/spaces titles, trimming, a 500-character title, 20 quick adds, tick/untick, middle and bulk delete, keyboard-only, reload, back, rapid clicks, and HTML/special-character titles.
+
+**Result:** every scenario passed. No console errors, no overflow, and no new bugs. `known-bugs.json` was empty, so `fixed` and `still_open` are empty too. Reload clearing the list was treated as intended.
