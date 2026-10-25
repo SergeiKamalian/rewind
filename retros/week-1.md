@@ -162,3 +162,45 @@ Reusable template:
 - Add an explicit resume rule after 2.2.8 (owner comment "resume" or removing a `blocked: ...` label). Evidence: 12 days with no way to restart except the owner reading the journal.
 - When the chain is stuck for more than 3 days with the same reason, cut night runs to one status refresh and send the owner one reminder per day at most. Evidence: about 45 identical runs this week.
 - Log a run record even when a scheduled slot is skipped or fails early, so gaps can be explained.
+
+## Update: Sunday 2026-10-25 (week still open)
+
+Built from `runs/` (2026-10-18 to 2026-10-24), `events/` and GitHub.
+
+### Numbers
+
+| Task | PR | Parts | Fix rounds | QA rounds | Bugs | Status |
+|---|---|---|---|---|---|---|
+| #5 Day 05 Input events | - | 0 of 5 | 0 | 0 | 0 | blocked since 10-06, 19 days |
+| #6, #7 | - | - | - | - | - | queued |
+
+- No commits, PRs, merges, task QA runs or bugs in the past 7 days.
+- `events/` has one entry: the scheduled weekly regression QA on `main` (95a6bec) passed on 2026-10-18 10:31 UTC. No regression bugs were filed.
+- 51 conductor run records this week. All of them reported the same blocker.
+- 2026-10-24 has no run record for the morning, evening, 17:57, 18:57 and 19:57 UTC slots. The journal has a 2026-10-24 morning entry, so at least that run happened and only its log push was lost.
+
+### Where agents failed, by cause
+
+- Infrastructure (coder billing): unchanged. Cursor refused both launches of #5 Part 1 (10-06, 10-07) with a spend-limit reply. No owner signal since.
+
+### What the conductor got wrong or found unclear
+
+- A run can write the journal and then fail to push its run record, so the log is not a complete source for counting runs. Evidence: 2026-10-24 morning.
+- The resume signal is still undefined in the playbook (same as 10-11 and 10-18).
+
+### Lessons and repeats
+
+- No tasks ran, so no lessons were tested or added.
+
+### Owner interventions
+
+- None this week. Still needed: lift the Cursor spend limit, then comment "resume" in #5.
+
+### Proposed changes
+
+This project only:
+- Same as before: label a blocked task `blocked: coder`.
+
+Reusable template:
+- Push the run record before the journal write, or retry the push at the end, so a lost push is visible. Evidence: 2026-10-24.
+- Repeated from 10-18: explicit resume rule, and fewer night runs when stuck for more than 3 days with the same reason. Evidence: about 51 identical runs this week.
