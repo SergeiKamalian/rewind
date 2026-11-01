@@ -204,3 +204,35 @@ This project only:
 Reusable template:
 - Push the run record before the journal write, or retry the push at the end, so a lost push is visible. Evidence: 2026-10-24.
 - Repeated from 10-18: explicit resume rule, and fewer night runs when stuck for more than 3 days with the same reason. Evidence: about 51 identical runs this week.
+
+## Update: Sunday 2026-11-01 (week still open)
+
+### Numbers
+
+- No commits, PRs, merges, task QA runs or bugs in the past 7 days. `main` is still at 95a6bec.
+- #5 has 0 of 5 parts done. The chain has been blocked for 26 days (since 2026-10-06).
+- 56 conductor run records from 2026-10-25 to 2026-10-31. All of them reported the same blocker.
+- The daily Auto-merge workflow ran every evening and found nothing to merge.
+- No open `regression` bugs.
+
+### Where agents failed, by cause
+
+- Infrastructure (coder billing): unchanged. Cursor refused both launches of #5 Part 1 (10-06, 10-07) with a spend-limit reply. No owner signal since.
+
+### What the conductor got wrong or found unclear
+
+- Nothing new. The resume signal is still undefined in the playbook.
+
+### Lessons and repeats
+
+- No tasks ran, so no lessons were tested or added.
+
+### Owner interventions
+
+- None this week. Still needed: lift the Cursor spend limit, then comment "resume" in #5.
+
+### Proposed changes
+
+Reusable template (repeated, evidence grows each week):
+- Pause or thin out night runs after 3 days stuck on the same external reason. Evidence: about 56 identical runs this week, about 200 since the block began.
+- Add an explicit resume rule to the playbook.
