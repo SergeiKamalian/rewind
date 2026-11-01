@@ -1,0 +1,110 @@
+{
+  "summary": "Full regression of the Rewind demo todo app on desktop 1280x800 and mobile 390x844, covering day-01 through day-04 scenarios plus the product smoke check. Add, trim, reject empty titles, tick, delete, keyboard use, long and rapid input, reload, and the back button all behaved as specified. No console errors and no new bugs; known-bugs.json was empty so nothing to re-check.",
+  "scenarios": [
+    {
+      "id": "S1",
+      "title": "Open the app empty state",
+      "result": "pass",
+      "notes": "Heading Todos, New todo field, Add button, No todos yet, and Format version 1 all visible. No console errors on desktop or mobile."
+    },
+    {
+      "id": "S2",
+      "title": "Add a todo with the Add button",
+      "result": "pass",
+      "notes": "Walk the dog appears in the list and the field clears. Repeated on mobile."
+    },
+    {
+      "id": "S3",
+      "title": "Add a todo by pressing Enter",
+      "result": "pass",
+      "notes": "Buy groceries is added in order. Repeated on mobile."
+    },
+    {
+      "id": "S4",
+      "title": "Reject empty and spaces-only titles",
+      "result": "pass",
+      "notes": "Empty Add/Enter and spaces-only titles add nothing. Repeated on mobile."
+    },
+    {
+      "id": "S5",
+      "title": "Trim leading and trailing spaces",
+      "result": "pass",
+      "notes": "  Buy milk   appears as Buy milk. Repeated on mobile."
+    },
+    {
+      "id": "S6",
+      "title": "Add a 500-character title",
+      "result": "pass",
+      "notes": "Title wraps, page stays usable, no horizontal overflow on desktop or mobile."
+    },
+    {
+      "id": "S7",
+      "title": "Add 20 todos quickly",
+      "result": "pass",
+      "notes": "All 20 appear in the order they were added. Repeated on mobile."
+    },
+    {
+      "id": "S8",
+      "title": "Tick and untick a todo",
+      "result": "pass",
+      "notes": "Checked todo is struck through; untick restores normal text. Repeated on mobile."
+    },
+    {
+      "id": "S9",
+      "title": "Delete a todo in the middle of the list",
+      "result": "pass",
+      "notes": "Only the deleted item disappears; neighbors stay. Repeated on mobile."
+    },
+    {
+      "id": "S10",
+      "title": "Delete all todos",
+      "result": "pass",
+      "notes": "No todos yet. shows again. Repeated on mobile."
+    },
+    {
+      "id": "S11",
+      "title": "Footer format version",
+      "result": "pass",
+      "notes": "Footer shows Format version 1 on both viewports."
+    },
+    {
+      "id": "S12",
+      "title": "Keyboard-only add, tick, and delete",
+      "result": "pass",
+      "notes": "Tab, typing, Enter, and Space add, toggle, and delete todos."
+    },
+    {
+      "id": "S13",
+      "title": "Repeat S2-S10 on mobile 390x844",
+      "result": "pass",
+      "notes": "Same behaviors work; nothing overflows the screen."
+    },
+    {
+      "id": "SMOKE",
+      "title": "Product smoke check on desktop and mobile",
+      "result": "pass",
+      "notes": "Load, add two todos, toggle done, delete, footer, and keyboard all pass. Day 02-04 have no extra UI."
+    },
+    {
+      "id": "D02",
+      "title": "Day 02 smoke (no user-visible change)",
+      "result": "pass",
+      "notes": "Demo app smoke passed on desktop and mobile."
+    },
+    {
+      "id": "D03",
+      "title": "Day 03 smoke (no user-visible change)",
+      "result": "pass",
+      "notes": "Demo app smoke passed on desktop and mobile."
+    },
+    {
+      "id": "D04",
+      "title": "Day 04 smoke (no user-visible change)",
+      "result": "pass",
+      "notes": "Demo app smoke passed on desktop and mobile."
+    }
+  ],
+  "bugs": [],
+  "fixed": [],
+  "still_open": []
+}
