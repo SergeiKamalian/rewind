@@ -1,0 +1,7 @@
+Regression is done on `https://rewind-5isu1nfhw-sergeikamalian.vercel.app` (desktop 1280x800 and mobile 390x844).
+
+I ran every day-01 scenario (open, add, Enter, empty/spaces, trim, 500-character title, 20 fast adds, tick/untick, delete middle, delete all, footer, keyboard-only), the product smoke check, and the day-02/03/04 smokes. I also tried rapid clicks, HTML/emoji titles, reload, and back.
+
+**Result:** every scenario passed. No console errors. Todos still reset on reload, as specified. `known-bugs.json` was empty, so nothing to re-check.
+
+Report: `out/report.json` (`bugs` is empty).
