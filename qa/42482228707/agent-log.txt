@@ -1,0 +1,3 @@
+Regression finished. Report is at `out/report.json`.
+
+**Result:** all 17 scenarios passed on desktop (1280×800) and mobile (390×844). No bugs found; `known-bugs.json` was empty, so `fixed` and `still_open` are both `[]`. No console errors across the run.
