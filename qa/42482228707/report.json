@@ -1,0 +1,25 @@
+{
+  "summary": "Full regression across day-01 through day-04 plus the product smoke check on desktop (1280x800) and mobile (390x844). Add, trim, empty/spaces rejection, long titles, bulk add, toggle done, delete, keyboard-only use, rapid clicks, reload, and back navigation all behaved as specified. No console errors and no new bugs; known-bugs list was empty.",
+  "scenarios": [
+    { "id": "SMOKE", "title": "Product smoke check (desktop + mobile)", "result": "pass", "notes": "Load, add two, toggle, delete, footer, keyboard OK; no console errors." },
+    { "id": "S1", "title": "Initial empty state", "result": "pass", "notes": "Todos heading, New todo field, Add, No todos yet, no console errors." },
+    { "id": "S2", "title": "Add todo with Add button", "result": "pass", "notes": "Walk the dog appears; field clears." },
+    { "id": "S3", "title": "Add todo with Enter", "result": "pass", "notes": "Todo added via Enter; field clears." },
+    { "id": "S4", "title": "Reject empty and spaces-only titles", "result": "pass", "notes": "Empty and spaces-only add nothing." },
+    { "id": "S5", "title": "Trim surrounding spaces", "result": "pass", "notes": "  Buy milk   stored as Buy milk." },
+    { "id": "S6", "title": "500-character title", "result": "pass", "notes": "Added; layout usable, no horizontal overflow." },
+    { "id": "S7", "title": "Add 20 todos quickly", "result": "pass", "notes": "All 20 appear in order." },
+    { "id": "S8", "title": "Toggle done / undo", "result": "pass", "notes": "Checkbox marks done with strike-through; untick restores." },
+    { "id": "S9", "title": "Delete middle todo", "result": "pass", "notes": "Only the deleted item disappears." },
+    { "id": "S10", "title": "Delete all todos", "result": "pass", "notes": "No todos yet. returns." },
+    { "id": "S11", "title": "Footer format version", "result": "pass", "notes": "Format version 1 visible." },
+    { "id": "S12", "title": "Keyboard-only add, toggle, delete", "result": "pass", "notes": "Tab/Space/Enter fully usable." },
+    { "id": "S13", "title": "Mobile viewport regression (S2–S10)", "result": "pass", "notes": "390x844: same flows pass; nothing overflows." },
+    { "id": "D2", "title": "Day 02 smoke (no UI change)", "result": "pass", "notes": "Smoke passes on desktop and mobile." },
+    { "id": "D3", "title": "Day 03 smoke (no UI change)", "result": "pass", "notes": "Smoke passes on desktop and mobile." },
+    { "id": "D4", "title": "Day 04 smoke (no UI change)", "result": "pass", "notes": "Smoke passes on desktop and mobile." }
+  ],
+  "bugs": [],
+  "fixed": [],
+  "still_open": []
+}
