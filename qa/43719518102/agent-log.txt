@@ -1,0 +1,7 @@
+Regression finished on desktop (1280×800) and mobile (390×844).
+
+Covered day-01 S1–S13, smoke for day-02/03/04, plus empty/spaces input, 500-char titles, 20 quick adds, fast Add clicks, reload (empty list is intended), back navigation, and keyboard-only flows. No console errors; no layout overflow.
+
+**Result:** 0 bugs. `known-bugs.json` was empty, so `fixed` and `still_open` are both `[]`.
+
+Report: `out/report.json`
