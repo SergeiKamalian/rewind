@@ -1,0 +1,47 @@
+{
+  "summary": "Full regression on desktop (1280x800) and mobile (390x844): day-01 scenarios S1–S13, product smoke, and day-02/03/04 smoke. Core add/toggle/delete/trim/empty/long/keyboard flows passed with no console errors. One bug: double-clicking Delete removes two todos because the next row slides under the pointer.",
+  "scenarios": [
+    { "id": "S1", "title": "Initial empty state", "result": "pass", "notes": "Heading, New todo, Add, No todos yet, footer visible; no console errors on both viewports." },
+    { "id": "S2", "title": "Add todo with Add button", "result": "pass", "notes": "Todo appears; field clears." },
+    { "id": "S3", "title": "Add todo with Enter", "result": "pass", "notes": "Todo added via Enter on both viewports." },
+    { "id": "S4", "title": "Reject empty and spaces-only titles", "result": "pass", "notes": "Empty and whitespace-only titles add nothing." },
+    { "id": "S5", "title": "Trim surrounding spaces", "result": "pass", "notes": "\"  Buy milk  \" stored as \"Buy milk\"." },
+    { "id": "S6", "title": "500-character title", "result": "pass", "notes": "Long title wraps; page stays usable; no horizontal overflow." },
+    { "id": "S7", "title": "Add 20 todos quickly", "result": "pass", "notes": "All 20 appear in order on desktop and mobile." },
+    { "id": "S8", "title": "Toggle done / undone", "result": "pass", "notes": "Checkbox and line-through style toggle correctly." },
+    { "id": "S9", "title": "Delete middle todo", "result": "fail", "notes": "Single delete works; double-click Delete also removes the next todo (see bug)." },
+    { "id": "S10", "title": "Delete all shows empty state", "result": "pass", "notes": "\"No todos yet.\" returns after clearing the list." },
+    { "id": "S11", "title": "Footer format version", "result": "pass", "notes": "Footer shows \"Format version 1\"." },
+    { "id": "S12", "title": "Keyboard-only add, toggle, delete", "result": "pass", "notes": "Tab/Space/Enter work for add, checkbox, and Delete." },
+    { "id": "S13", "title": "Mobile viewport regression", "result": "pass", "notes": "S2–S10 on 390x844; no overflow; usable layout." },
+    { "id": "SMOKE", "title": "Product smoke check", "result": "pass", "notes": "Load, add two, toggle, delete second, footer, keyboard — desktop and mobile." },
+    { "id": "D02", "title": "Day 02 smoke (no UI change)", "result": "pass", "notes": "Smoke check passed; no console errors." },
+    { "id": "D03", "title": "Day 03 smoke (no UI change)", "result": "pass", "notes": "Smoke check passed; no console errors." },
+    { "id": "D04", "title": "Day 04 smoke (no UI change)", "result": "pass", "notes": "Smoke check passed; no console errors." }
+  ],
+  "bugs": [
+    {
+      "title": "Double-clicking Delete removes two todos",
+      "severity": "major",
+      "scenario": "S9",
+      "viewport": "desktop",
+      "steps": [
+        "Open the app",
+        "Add todos Alpha, Beta, and Gamma",
+        "Double-click the Delete button on Alpha",
+        "Observe the remaining list",
+        "Reload and repeat the same steps to confirm"
+      ],
+      "expected": "Only Alpha is removed; Beta and Gamma remain.",
+      "actual": "Alpha and Beta are both removed; only Gamma remains. Same result on mobile.",
+      "console": "",
+      "screenshots": [
+        "out/bug-1-desktop-before.png",
+        "out/bug-1-desktop-after.png",
+        "out/bug-1-mobile-after.png"
+      ]
+    }
+  ],
+  "fixed": [],
+  "still_open": []
+}
