@@ -1,0 +1,7 @@
+Regression finished on desktop (1280×800) and mobile (390×844).
+
+**Result:** Day-01 S1–S13, product smoke, and day-02/03/04 smoke mostly passed — no console errors. Known-bugs list was empty (`fixed` / `still_open` both `[]`).
+
+**1 bug reported:** Double-clicking **Delete** removes two todos (next row slides under the pointer). Reproduced on desktop and mobile.
+
+Report: `out/report.json`
